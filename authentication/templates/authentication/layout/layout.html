@@ -7,24 +7,15 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-        {% comment %} <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
-            crossorigin="anonymous"
-        /> {% endcomment %}
         <link
             rel="stylesheet"
             type="text/css"
             href="{% static 'authentication/css/layout.css' %}"
         />
-        {% comment %} <link
-            rel="shortcut icon"
-            href="{% static 'home/ui/chit.png' %}"
-            type="image/x-icon"
-        /> {% endcomment %}
-        {% block head %} {% endblock head %} {% block style %}{% endblock style%}
+        
+        {% block link %} {% endblock link %}
+        {% block head %} {% endblock head %} 
+        {% block style %}{% endblock style%}
 
         <title>{% block title %}{% endblock title %}</title>
         <style>
@@ -34,21 +25,7 @@
         </style>
     </head>
     <body>
-        <div class="navbar">
-            <div class="navbar_left">
-                <span>TesterX</span>
-            </div>
-            <div class="navbar_right">
-                <ul>
-                    <li>Signup</li>
-                    <li>Signin</li>
-                </ul>
-            </div>
-        </div>
-
         {% block body %}{% endblock body %}
-
-        <br />
         {% comment %} <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"

@@ -1,0 +1,35 @@
+{% extends 'authentication/layout/layout.html' %}
+{% load static %}
+
+{% block link %}
+    <link rel="stylesheet" type="text/css" href="{% static 'authentication/css/login.css' %}" />
+{% endblock link %}
+
+{% block body %}
+    <div class="ring">
+        <i style="--clr:#00ff0a;"></i>
+        <i style="--clr:#ff0057;"></i>
+        <i style="--clr:#fffd44;"></i>
+        <div class="login">
+            <h2>Login</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="inputBx">
+                    <input type="text" name="username" placeholder="Username">
+                </div>
+                <br>
+                <div class="inputBx">
+                    <input type="password" name="password" placeholder="Password">
+                </div>
+                <br>
+                <div class="inputBx">
+                    <input type="submit" value="Sign in">
+                </div>
+            </form>
+            <div class="links">
+                <a href="#">Forgot Password</a>
+                <a href="{% url 'signup' %}">Sign up</a>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
