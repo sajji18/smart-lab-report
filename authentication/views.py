@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
 from django.contrib.auth.forms import UserCreationForm
 from .models import User
 from django.contrib import messages
@@ -12,17 +13,14 @@ def home (request):
 
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            email = form.cleaned_data.get('email') 
-            user = User.objects.create_user(username=username, password=password, email=email)
-            login(request, user)
-            return redirect('home') 
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+        user = User.objects.create_user(username=username, password=password, email=email)
+        auth_login(request, user)
+        return redirect('home')
     else:
-        form = UserCreationForm()
-    return render(request, 'authentication/signup.html', {'form': form})
+        return render(request, 'authentication/signup.html')
 
 def login(request):
     if request.method == 'POST':
@@ -30,7 +28,7 @@ def login(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            login(request, user)
+            auth_login(request, user)
             return redirect('home')
         else:
             messages.error(request, 'Invalid username or password.')
