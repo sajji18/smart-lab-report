@@ -112,3 +112,9 @@ body {
   color: #fff;
   text-decoration: none;
 }
+
+.google_oauth_form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

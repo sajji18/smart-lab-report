@@ -153,10 +153,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
-    # "allauth.account.auth_backends.AuthenticationBackend"
+    "allauth.account.auth_backends.AuthenticationBackend"
 )
 
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/login/"
+LOGOUT_REDIRECT_URL = "/logout/"
 
 AUTH_USER_MODEL = 'authentication.User'
+
+GOOGLE_CLIENT_ID = '397515462402-8mbk8510pc5mk8pdrlfv1vie7r0esst1.apps.googleusercontent.com'
+GOOGLE_REDIRECT_URL = 'http://127.0.0.1:8000/accounts/google/login/callback/'
