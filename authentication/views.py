@@ -9,7 +9,7 @@ from django.contrib import messages
 from .decorators import unauthenticated_user
 from google.oauth2 import id_token
 from google.auth.transport import requests
-from backend.settings import GOOGLE_CLIENT_ID
+# from backend.settings import GOOGLE_CLIENT_ID
 
 # Create your views here.
 @unauthenticated_user

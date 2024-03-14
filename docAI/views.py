@@ -14,10 +14,11 @@ def dashboard(request):
             'all_tests': all_tests,
             'applied_tests': tests
         })
+
     else:
         tests = Test.objects.filter(assigned_to=current_user.id)
         context.update({
             'assigned_tests': tests
         })
-    
+
     return render(request, 'docAI/dashboard.html', context)
