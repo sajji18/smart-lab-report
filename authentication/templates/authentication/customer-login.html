@@ -1,8 +1,10 @@
 {% extends 'authentication/layout/layout.html' %}
 {% load static %}
+{% load i18n %}
+{% load socialaccount %}
 
 {% block link %}
-    <link rel="stylesheet" type="text/css" href="{% static 'authentication/css/login.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'authentication/css/customer-login.css' %}" />
 {% endblock link %}
 
 {% block title %}Login{% endblock title %}
@@ -14,7 +16,7 @@
         <i style="--clr:#fffd44;"></i>
         <div class="login">
             <h2>Login</h2>
-            <form id="login-form" method="post" action="{% url 'login' %}">
+            <form id="login-form" method="post" action="{% url 'customer-login' %}">
                 {% csrf_token %}
                 <div class="inputBx">
                     <input type="text" name="username" placeholder="Username">
@@ -28,10 +30,18 @@
                     <input type="submit" value="Sign in">
                 </div>
             </form>
-            <form id="google-oauth-form" class="google_oauth_form">
+            {% comment %} <form id="google-oauth-form" class="google_oauth_form">
                 {% csrf_token %}
                 <button id="google-login-button" type="button">Login with Google</button>
-            </form>
+            </form> {% endcomment %}
+            {% get_providers as socialaccount_providers %}
+
+            {% if socialaccount_providers %}
+                <div class="socialaccount_providers">
+                    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+                </div>
+            {% endif %} 
+
             <div class="links">
                 <a href="#">Forgot Password</a>
                 <a href="{% url 'signup' %}">Sign up</a>

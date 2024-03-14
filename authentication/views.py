@@ -29,11 +29,8 @@ def signup(request):
         return render(request, 'authentication/signup.html')
 
 @unauthenticated_user
-def login(request):
+def customer_login(request):
     if request.method == 'POST':
-        # if request.user.is_authenticated:
-        #     next_url = request.GET.get('next', 'default_redirect_url')
-        #     return redirect(next_url)
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
@@ -42,30 +39,44 @@ def login(request):
             return redirect('dashboard')
         else:
             messages.error(request, 'Invalid username or password.')
-            return redirect('login')
+            return redirect('customer-login')
     else:
-        return render(request, 'authentication/login.html')
-    
+        return render(request, 'authentication/customer-login.html')
 
-def google_callback(request):
-    tkn = request.POST['id_token']
-    print(tkn)
-    if 'id_token' not in request.POST:
-        return redirect('login')
-    
-    token = request.POST['id_token']
-    try:
-        id_info = id_token.verify_oauth2_token(token, requests.Request(), GOOGLE_CLIENT_ID)
-        email = id_info['email']
-        user = User.objects.filter(email=email).first()
-        if not user:
-            user = User.objects.create_user(email=email)
-        login(request, user)
-        return redirect('dashboard')
+@unauthenticated_user
+def doctor_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            auth_login(request, user)
+            return redirect('dashboard')
+        else:
+            messages.error(request, 'Invalid username or password.')
+            return redirect('doctor-login')
+    else:
+        return render(request, 'authentication/doctor-login.html')    
 
-    except Exception as e:
-        print(e)
-        return redirect('login')
+# def google_callback(request):
+#     tkn = request.POST['id_token']
+#     print(tkn)
+#     if 'id_token' not in request.POST:
+#         return redirect('login')
+    
+#     token = request.POST['id_token']
+#     try:
+#         id_info = id_token.verify_oauth2_token(token, requests.Request(), GOOGLE_CLIENT_ID)
+#         email = id_info['email']
+#         user = User.objects.filter(email=email).first()
+#         if not user:
+#             user = User.objects.create_user(email=email)
+#         login(request, user)
+#         return redirect('dashboard')
+
+#     except Exception as e:
+#         print(e)
+#         return redirect('login')
 
 @login_required
 def logout_view(request):

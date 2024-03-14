@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-a2rxqdpf5v%-b#63jyq(ombr&&*r(br%cs$m^e%0hqpf-(2(^n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -55,7 +55,9 @@ SOCIALACCOUNT_PROVIDERS = {
             "profile",
             "email"
         ],
-        "AUTH_PARAMS": {"access_type": "online"}
+        "AUTH_PARAMS": {
+            "access_type": "online"
+        }
     }
 }
 
@@ -146,6 +148,7 @@ STATICFILES_DIRS = [
     os.path.join(APP_DIR_1, 'static'),
     os.path.join(APP_DIR_2, 'static')
 ]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -156,10 +159,10 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend"
 )
 
-LOGIN_REDIRECT_URL = "/login/"
-LOGOUT_REDIRECT_URL = "/logout/"
+LOGIN_REDIRECT_URL = "dashboard"
+LOGOUT_REDIRECT_URL = "home"
 
 AUTH_USER_MODEL = 'authentication.User'
 
 GOOGLE_CLIENT_ID = '397515462402-8mbk8510pc5mk8pdrlfv1vie7r0esst1.apps.googleusercontent.com'
-GOOGLE_REDIRECT_URL = 'http://127.0.0.1:8000/accounts/google/login/callback/'
+GOOGLE_REDIRECT_URL = 'http://localhost:8000/accounts/google/login/callback/'

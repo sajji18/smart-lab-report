@@ -5,5 +5,8 @@
 {% block body %}
     <h1 style="color: white;">Welcome to the Home Page</h1>
     <a href="signup">Signup</a>
-    <a href="login">Login</a>
+    <a href="login-customer">Customer Login</a>
+    <a href="login-doctor">Doctor Login</a>
+    {% if user.is_authenticated %}
+    <h1>Hello</h1>{% endif %}
 {% endblock body %}
