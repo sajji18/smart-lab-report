@@ -290,6 +290,10 @@ button, a {
   flex-direction: column;
 }
 
+.projects-section::-webkit-scrollbar {
+  display: none;
+}
+
 .projects-section-line {
   display: flex;
   justify-content: space-between;
@@ -467,7 +471,12 @@ button, a {
 
 .message-content {
   padding-left: 16px;
+  overflow-y: auto;
   width: 100%;
+}
+
+.message-content::-webkit-scrollbar {
+  display: none;
 }
 
 .star-checkbox input {
@@ -515,6 +524,10 @@ button, a {
 .project-boxes {
   margin: 0 -8px;
   overflow-y: auto;
+}
+
+.project-boxes::-webkit-scrollbar {
+  display: none;
 }
 
 .project-boxes.jsGridView {
@@ -784,6 +797,10 @@ button, a {
   .projects-section {
     overflow: auto;
     overflow-x: hidden;
+  }
+
+  .message_test_div {
+    width: 100%;
   }
   
   .project-boxes {
