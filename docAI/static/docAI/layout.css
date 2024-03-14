@@ -727,6 +727,10 @@ button, a {
 }
 
 @media screen and (max-width: 880px) {
+  .projects-section {
+    width: 100%;
+    overflow: auto;
+  }
   .messages-section {
     transform: translateX(100%);
     position: absolute;

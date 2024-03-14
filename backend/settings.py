@@ -166,3 +166,7 @@ AUTH_USER_MODEL = 'authentication.User'
 
 GOOGLE_CLIENT_ID = '397515462402-8mbk8510pc5mk8pdrlfv1vie7r0esst1.apps.googleusercontent.com'
 GOOGLE_REDIRECT_URL = 'http://localhost:8000/accounts/google/login/callback/'
+
+# Media URL
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

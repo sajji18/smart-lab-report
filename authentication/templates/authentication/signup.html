@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block link %}
-    <link rel="stylesheet" type="text/css" href="{% static 'authentication/css/login.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'authentication/css/customer-login.css' %}" />
 {% endblock link %}
 
 {% block title %}Signup{% endblock title %}
@@ -12,7 +12,7 @@
         <i style="--clr:#00ff0a;"></i>
         <i style="--clr:#ff0057;"></i>
         <i style="--clr:#fffd44;"></i>
-        <div class="login">
+        <div class="login" style="transform: translateY(-10px)">
             <h2>Signup</h2>
             <form method="post" action="{% url 'signup' %}">
                 {% csrf_token %}
@@ -33,8 +33,12 @@
                 </div>
             </form>
             <div class="links">
-                <span style="color: white;">Already Have an Account?</span>
-                <a href="{% url 'login' %}">Log in</a>
+                <span style="color: white;">Already Have Account?</span>
+                <span style="color: white;">Log in as</span>
+            </div>
+            <div class="links">
+                <a href="{% url 'customer-login' %}">Customer</a>
+                <a href="{% url 'doctor-login' %}">Doctor</a>
             </div>
         </div>
     </div>
