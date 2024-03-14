@@ -1,12 +1,12 @@
 {% extends 'authentication/layout/layout.html' %}
 
+{% block title %}Home{% endblock title %}
+
 {% block body %}
-    {% load socialaccount %}
-    <h2>Google Login</h2>
-    <a href="{% provider_login_url 'google' %}?next=/">Login With Google</a>
-    <br>
+    <h1 style="color: white;">Welcome to the Home Page</h1>
+    <a href="signup">Signup</a>
+    <a href="login-customer">Customer Login</a>
+    <a href="login-doctor">Doctor Login</a>
     {% if user.is_authenticated %}
-        <p>Online h bro</p>
-        <a href="logout">Logout</a>
-    {% endif %}   
+    <h1>Hello</h1>{% endif %}
 {% endblock body %}

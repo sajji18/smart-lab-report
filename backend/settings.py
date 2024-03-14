@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,12 +26,12 @@ SECRET_KEY = 'django-insecure-a2rxqdpf5v%-b#63jyq(ombr&&*r(br%cs$m^e%0hqpf-(2(^n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
 
-SIDE_ID = 1
+SITE_ID = 1
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authentication',
+    'docAI',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -53,7 +55,9 @@ SOCIALACCOUNT_PROVIDERS = {
             "profile",
             "email"
         ],
-        "AUTH_PARAMS": {"access_type": "online"}
+        "AUTH_PARAMS": {
+            "access_type": "online"
+        }
     }
 }
 
@@ -136,8 +140,13 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+APP_DIR_1 = os.path.join(BASE_DIR, 'authentication')
+APP_DIR_2 = os.path.join(BASE_DIR, 'docAI')
+
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    os.path.join(APP_DIR_1, 'static'),
+    os.path.join(APP_DIR_2, 'static')
 ]
 
 # Default primary key field type
@@ -150,5 +159,14 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend"
 )
 
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "dashboard"
+LOGOUT_REDIRECT_URL = "home"
+
+AUTH_USER_MODEL = 'authentication.User'
+
+GOOGLE_CLIENT_ID = '397515462402-8mbk8510pc5mk8pdrlfv1vie7r0esst1.apps.googleusercontent.com'
+GOOGLE_REDIRECT_URL = 'http://localhost:8000/accounts/google/login/callback/'
+
+# Media URL
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

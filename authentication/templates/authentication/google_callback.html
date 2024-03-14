@@ -1,0 +1,17 @@
+{% extends 'authentication/layout/layout.html' %}
+
+{% block title %}Google Callback{% endblock title %}
+
+{% block body %}
+    <h1>Google Callback</h1>
+    <p>You have successfully signed in with Google.</p>
+    <p>Redirecting...</p>
+{% endblock body %}
+
+{% block script %}
+    <script>
+        setTimeout(function() {
+            window.location.href = "{% url 'dashboard' %}";
+        }, 2000);
+    </script>
+{% endblock script %}
