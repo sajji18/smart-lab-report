@@ -1,0 +1,7 @@
+{% extends 'docAI/layout/layout.html' %} {% load static %} {% block link %}
+<link rel="stylesheet" type="text/css" href="{% static 'docAI/layout.css' %}" />
+{% endblock link %} {% block title %}Test {{ test.id }}{% endblock title %} 
+
+{% block body %}
+    <h1>Detailed view for a test with name {{ test.name }}</h1>
+{% endblock body %}
