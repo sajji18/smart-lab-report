@@ -15,9 +15,14 @@
         margin-bottom: 20px;
         width: 60%;
     }
+
     .message-container {
         overflow-y: auto;
         height: 95%; /* Adjust as needed */
+    }
+
+    .message-container::-webkit-scrollbar {
+        display: none;
     }
     .message {
         clear: both;
@@ -57,6 +62,9 @@ Chat
         <button type="submit">Send</button>
     </form>
 </div>
+
+
+
 {% endblock body %}
 
 {% block script %}
@@ -88,5 +96,29 @@ Chat
                 });
             });
         });
+
+        const fetchMessages = (test_id) => {
+            $.ajax({
+                type: 'GET',
+                url: window.location.href,
+                success: function(response) {
+                    const $responseContainer = $('<div>').html(response);
+                        const $messageContainer = $responseContainer.find('.message-container');
+                        const $currentMessageContainer = $('.message-container');
+                        
+                        const newMessagesAdded = $currentMessageContainer.html() !== $messageContainer.html();
+                        $currentMessageContainer.html($messageContainer.html());
+                        
+                        if (newMessagesAdded) {
+                            $currentMessageContainer.scrollTop($currentMessageContainer[0].scrollHeight);
+                        }
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                }
+            });
+        };
+
+        setInterval(fetchMessages, 5000);
     </script>
 {% endblock script %}
