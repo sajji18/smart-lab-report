@@ -1,0 +1,92 @@
+{% extends 'docAI/layout/layout.html' %}
+{% load static %}
+
+{% block link %}
+<link rel="stylesheet" type="text/css" href="{% static 'docAI/layout.css' %}" />
+{% endblock link %}
+
+{% block style %}
+<style>
+    #message-area {
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 20px;
+        width: 60%;
+    }
+    .message-container {
+        overflow-y: auto;
+        height: 95%; /* Adjust as needed */
+    }
+    .message {
+        clear: both;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 8px;
+    }
+    .sent {
+        background-color: #DCF8C6; /* Light green */
+        float: right;
+    }
+    .received {
+        background-color: #FFFFFF; /* White */
+        float: left;
+    }
+</style>
+{% endblock style %}
+
+{% block title %}
+Chat
+{% endblock title %}
+
+{% block body %}
+<div id="message-area">
+    <div class="message-container">
+        {% for message in messages %}
+            {% if message.sender == user %}
+                <div class="message sent">{{ message.content }}</div>
+            {% else %}
+                <div class="message received">{{ message.content }}</div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <form id="message-form">
+        {% csrf_token %}
+        <input type="text" id="message-input" name="content" placeholder="Type your message">
+        <button type="submit">Send</button>
+    </form>
+</div>
+{% endblock body %}
+
+{% block script %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#message-form').submit(function(event){
+                event.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: window.location.href,
+                    data: formData,
+                    success: function(response){
+                        if (response && response.content) {
+                            var newMessage = '<div class="message sent">' + response.content + '</div>';
+                            $('.message-container').append(newMessage);
+                            $('#message-input').val(''); // Clear input field
+                            // Scroll to the bottom of the message area
+                            $('.message-container').scrollTop($('.message-container')[0].scrollHeight);
+                        } else {
+                            console.log(response)
+                            console.log('Invalid response from server');
+                        }
+                    },
+                    error: function(xhr, errmsg, err){
+                        console.log(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock script %}
