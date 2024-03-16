@@ -4,6 +4,7 @@
 
 {% block body %}
     {% if user.user_type == 'customer' or user.user_type == 'Customer' %}
+        {% comment %} -------------------CUSTOMER--------------------- {% endcomment %}
         <div class="message_test_div">
             <div class="projects-section">
                 <div class="projects-section-header">
@@ -160,7 +161,10 @@
                 </div>
             </div>
         </div>
+
     {% else %}
+    {% comment %} ---------------------DOCTOR---------------------- {% endcomment %}
+    
         <div class="message_test_div">
             <div class="projects-section">
                 <div class="projects-section-header">

@@ -9,7 +9,6 @@ from django.db.models import Q
 def dashboard(request):
     current_user = request.user
     context = {}
-    
     if current_user.user_type == "customer" or current_user.user_type == "Customer":
         all_tests = Test.objects.all()
         tests = Test.objects.filter(applied_by=current_user.id)
@@ -23,7 +22,6 @@ def dashboard(request):
         context.update({
             'assigned_tests': tests
         })
-
     return render(request, 'docAI/dashboard.html', context)
 
 
@@ -31,24 +29,20 @@ def dashboard(request):
 def chat_view(request, test_id):
     test = get_object_or_404(Test, id=test_id)
     user = request.user
-    
-    # Check if the user is either the customer or the assigned doctor for the test
     if user != test.applied_by and user != test.assigned_to:
         return JsonResponse({'error': 'Unauthorized'}, status=403)
     
     messages = Message.objects.filter(test=test).order_by('timestamp')
-    
     if request.method == 'POST':
         content = request.POST.get('content')
         sender = user
         receiver = test.assigned_to if sender == test.applied_by else test.applied_by
-        
         try:
             message = Message.objects.create(sender=sender, receiver=receiver, test=test, content=content)
             return JsonResponse({'content': message.content})
         except IntegrityError:
             return JsonResponse({'error': 'Failed to create message'}, status=500)
-
+        
     context = {
         'test': test,
         'user': user,
@@ -61,15 +55,9 @@ def chat_view(request, test_id):
 def fetch_messages(request, test_id):
     user = request.user
     test = get_object_or_404(Test, id=test_id)
-    
-    # Check if the user is either the customer or the assigned doctor for the test
     if user != test.applied_by and user != test.assigned_to:
         return JsonResponse({'error': 'Unauthorized'}, status=403)
-    
-    # Retrieve messages where the sender or receiver is the user, and the test is the specified test
     messages = Message.objects.filter(Q(sender=user) | Q(receiver=user), test=test).order_by('timestamp')
-    
-    # Serialize messages data
     messages_data = [{'sender': message.sender.username, 'content': message.content} for message in messages]
     return JsonResponse({'messages': messages_data})
 
