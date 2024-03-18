@@ -38,8 +38,18 @@ class BloodTestReport(models.Model):
         ('evaluation', 'Evaluation'),
         ('completed', 'Completed')
     )
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending') 
     
+    RBC_result=models.DecimalField(max_digits=3, decimal_places=1)
+    PCV_result=models.DecimalField(max_digits=4, decimal_places=1)
+    WBC_result=models.IntegerField(max_digits=6)
+    Neutrophils_result=models.IntegerField(max_digits=4)
+    Lymphocytes_result=models.IntegerField(max_digits=4)
+    Eosinophils_result=models.IntegerField(max_digits=4)
+    Monocytes_result=models.IntegerField(max_digits=4)
+    Basophils_result=models.IntegerField(max_digits=4)
+    Platelet_count=models.IntegerField(max_digits=7)
+    hemoglobin_result=models.DecimalField(max_digits=4, decimal_places=1)
     blood_pressure_result = models.CharField(max_length=20)
     cholesterol_level_result = models.DecimalField(max_digits=5, decimal_places=2)
 
