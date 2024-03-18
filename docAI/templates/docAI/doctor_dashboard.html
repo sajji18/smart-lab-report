@@ -4,7 +4,7 @@
 {% endblock link %} {% block title %}Dashboard{% endblock title %} 
 
 {% block body %}
-  <div style="display: flex; justify-content: space-evenly; width: 100%">
+  {% comment %} <div style="display: flex; justify-content: space-evenly; width: 100%">
     {% for test in assigned_tests %}
       <div style="height: 40px; width: 80px;">
         <a href="{% url 'doctor_test_detail' test.id %}">{{ test.name }}</a>
@@ -12,7 +12,7 @@
         <span>{{ test.description }}</span>
       </div>
     {% endfor %}
-  </div>
+  </div> {% endcomment %}
 {% endblock body %}
 
 {% block script %}

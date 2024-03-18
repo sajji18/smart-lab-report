@@ -1,5 +1,6 @@
 from django.db import models
 from authentication.models import User
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your models here.
 class Test(models.Model):
@@ -47,7 +48,9 @@ class BloodTestReport(models.Model):
         return f"Report for {self.test} by {self.applicant}"
 
     def save(self, *args, **kwargs):
-        if self.applicant not in self.test.applicants.all():
+        try:
+            TestApplication.objects.get(user=self.applicant, test=self.test)
+        except TestApplication.DoesNotExist:
             raise ValueError("The applicant is not associated with this test.")
         super().save(*args, **kwargs)
 
@@ -70,7 +73,9 @@ class DiabetesTestReport(models.Model):
         return f"Report for {self.test} by {self.applicant}"
 
     def save(self, *args, **kwargs):
-        if self.applicant not in self.test.applicants.all():
+        try:
+            TestApplication.objects.get(user=self.applicant, test=self.test)
+        except TestApplication.DoesNotExist:
             raise ValueError("The applicant is not associated with this test.")
         super().save(*args, **kwargs)
 

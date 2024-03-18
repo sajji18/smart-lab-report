@@ -3,34 +3,117 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <link
-            rel="stylesheet"
-            type="text/css"
-            href="{% static 'authentication/css/layout.css' %}"
-        />
-        
-        {% block link %} {% endblock link %}
-        {% block head %} {% endblock head %} 
-        {% block style %}{% endblock style%}
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="{% static 'authentication/css/layout.css' %}"
+    />
+    
+    {% block link %} {% endblock link %}
+    {% block head %} {% endblock head %} 
+    {% block style %}{% endblock style%}
 
-        <title>{% block title %}{% endblock title %}</title>
-        <style>
-            ::placeholder {
-                color: #ffffff;
+    <title>{% block title %}{% endblock title %}</title>
+    <style>
+        ::placeholder {
+            color: #ffffff;
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle.js background -->
+    <canvas id="particles-canvas"></canvas>
+    {% block body %}{% endblock body %}
+    {% comment %} 
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"
+    ></script> 
+    {% endcomment %}
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const canvas = document.getElementById('particles-canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+
+            class Particle {
+                constructor() {
+                    this.radius = Math.random() * 3;
+                    this.x = Math.random() * (canvas.width - this.radius * 2) + this.radius;
+                    this.y = Math.random() * (canvas.height - this.radius * 2) + this.radius;
+                    this.speedX = (Math.random() - 0.5) * 2;
+                    this.speedY = (Math.random() - 0.5) * 2;
+                    this.color = '#ffffff';
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                }
+
+                update() {
+                    this.draw();
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    this.checkBoundaries();
+                }
+
+                checkBoundaries() {
+                    if (this.x - this.radius <= 0 || this.x + this.radius >= canvas.width) {
+                        this.speedX = -this.speedX;
+                    }
+
+                    if (this.y - this.radius <= 0 || this.y + this.radius >= canvas.height) {
+                        this.speedY = -this.speedY;
+                    }
+                }
             }
-        </style>
-    </head>
-    <body>
-        {% block body %}{% endblock body %}
-        {% comment %} <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-            crossorigin="anonymous"
-        ></script> {% endcomment %}
-        {% block script %}{% endblock script %}
-    </body>
+
+            function init() {
+                for (let i = 0; i < 100; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                particles.forEach((particle, index) => {
+                    particle.update();
+
+                    // Remove particles that move out of the screen
+                    if (particle.x + particle.radius < 0 || particle.x - particle.radius > canvas.width ||
+                        particle.y + particle.radius < 0 || particle.y - particle.radius > canvas.height) {
+                        particles.splice(index, 1);
+                        particles.push(new Particle());
+                    }
+                });
+            }
+
+            init();
+            animate();
+        });
+    </script>
+    {% block script %}{% endblock script %}
+</body>
 </html>

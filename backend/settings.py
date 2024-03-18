@@ -159,7 +159,7 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend"
 )
 
-LOGIN_REDIRECT_URL = "dashboard"
+LOGIN_REDIRECT_URL = "customer_dashboard"
 LOGOUT_REDIRECT_URL = "home"
 
 AUTH_USER_MODEL = 'authentication.User'
