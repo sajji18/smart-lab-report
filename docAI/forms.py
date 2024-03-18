@@ -14,7 +14,7 @@ class TestAdminForm(forms.ModelForm):
 class BloodTestReportForm(forms.ModelForm):
     class Meta:
         model = BloodTestReport
-        fields = ['blood_pressure_result', 'cholesterol_level_result']
+        fields = '__all__'
 
 class DiabetesTestReportForm(forms.ModelForm):
     class Meta:
