@@ -1,0 +1,23 @@
+{% extends 'docAI/layout/doctorLayout.html' %}
+{% load static %} {% block link %}
+    <link rel="stylesheet" type="text/css" href="{% static 'docAI/doctor_dashboard.css' %}" />
+{% endblock link %} {% block title %}Dashboard{% endblock title %} 
+
+{% block body %}
+    <div class="parent" style="display: flex; justify-content: space-between;">
+        <div class="left" style="width: 60%; background-color: red;">
+            <span>{{ test.name }}</span>
+            <span>{{ test.description }}</span>
+        </div>
+        <div class="right" style="width: 40%; background-color: grey;">
+            {% for test_applicantion in test_applications %}
+                <div style="background-color: grey; margin: 8px 0;">
+                    <a href="{% url 'doctor_applicant_report' test.id test.type test_applicantion.user.id %}">{{ test_applicantion.user.username }}</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock body %}
+
+{% block script %}
+{% endblock script %}

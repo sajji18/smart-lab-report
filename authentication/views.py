@@ -51,7 +51,7 @@ def doctor_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             auth_login(request, user)
-            return redirect('dashboard')
+            return redirect('doctor-dashboard')
         else:
             messages.error(request, 'Invalid username or password.')
             return redirect('doctor-login')

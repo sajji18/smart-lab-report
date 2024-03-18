@@ -11,9 +11,8 @@
         background-color: #f2f2f2;
         border: 1px solid #ccc;
         border-radius: 8px;
-        padding: 10px;
-        margin-bottom: 20px;
-        width: 60%;
+        padding: 10px 10px;
+        width: 30%;
     }
 
     .message-container {
@@ -46,21 +45,27 @@ Chat
 {% endblock title %}
 
 {% block body %}
-<div id="message-area">
-    <div class="message-container">
-        {% for message in messages %}
-            {% if message.sender == user %}
-                <div class="message sent">{{ message.content }}</div>
-            {% else %}
-                <div class="message received">{{ message.content }}</div>
-            {% endif %}
-        {% endfor %}
+<div style="flex: 1; display: flex;">
+    <div class="report_area" style="padding: 0; background-color: grey; width: 70%; display: flex; flex-direction: column; align-items: center;">
+        <h2>Report</h2>
+        {{ report }}
     </div>
-    <form id="message-form">
-        {% csrf_token %}
-        <input type="text" id="message-input" name="content" placeholder="Type your message">
-        <button type="submit">Send</button>
-    </form>
+    <div id="message-area">
+        <div class="message-container">
+            {% for message in messages %}
+                {% if message.sender == user %}
+                    <div class="message sent">{{ message.content }}</div>
+                {% else %}
+                    <div class="message received">{{ message.content }}</div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <form id="message-form">
+            {% csrf_token %}
+            <input type="text" id="message-input" name="content" placeholder="Type your message">
+            <button type="submit">Send</button>
+        </form>
+    </div>
 </div>
 
 
@@ -82,8 +87,7 @@ Chat
                         if (response && response.content) {
                             var newMessage = '<div class="message sent">' + response.content + '</div>';
                             $('.message-container').append(newMessage);
-                            $('#message-input').val(''); // Clear input field
-                            // Scroll to the bottom of the message area
+                            $('#message-input').val(''); 
                             $('.message-container').scrollTop($('.message-container')[0].scrollHeight);
                         } else {
                             console.log(response)
@@ -97,7 +101,7 @@ Chat
             });
         });
 
-        const fetchMessages = (test_id) => {
+        const fetchMessages = () => {
             $.ajax({
                 type: 'GET',
                 url: window.location.href,

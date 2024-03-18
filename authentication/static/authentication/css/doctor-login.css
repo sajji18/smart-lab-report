@@ -3,7 +3,7 @@
     --theme-signup: #03A9F4;
     --theme-signup-darken: #0288D1;
     --theme-signup-background: #2C3034;
-    --theme-login: #673AB7;
+    --theme-login: #15202e;
     --theme-login-darken: #512DA8;
     --theme-login-background: #f9f9f9;
     --theme-dark: #212121;
@@ -37,7 +37,7 @@
     left: 0;
     width: 50%;
     height: 100%;
-    background: var(--theme-login);
+    background: #15202e !important;
   }
   
   #back {

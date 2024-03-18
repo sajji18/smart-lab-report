@@ -1,91 +1,209 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Test, Message
+from .models import Test, Message, TestApplication, BloodTestReport, DiabetesTestReport
 from django.http import JsonResponse, HttpResponse
 from django.db import IntegrityError
 from django.db.models import Q
+from django.contrib import messages
+from .forms import BloodTestReportForm, DiabetesTestReportForm
+from authentication.models import User
+
 
 @login_required
-def dashboard(request):
+def customer_dashboard(request):
     current_user = request.user
     context = {}
-    if current_user.user_type == "customer" or current_user.user_type == "Customer":
-        all_tests = Test.objects.all()
-        tests = Test.objects.filter(applied_by=current_user.id)
+    if current_user.user_type in ["customer", "Customer"]:
+        unapplied_tests = Test.objects.exclude(testapplication__user=current_user)
+        applied_tests = Test.objects.filter(testapplication__user=current_user)
         context.update({
-            'all_tests': all_tests,
-            'applied_tests': tests
+            'unapplied_tests': unapplied_tests,
+            'applied_tests': applied_tests
         })
-        
+        return render(request, 'docAI/customer_dashboard.html', context)
     else:
-        tests = Test.objects.filter(assigned_to=current_user.id)
-        context.update({
-            'assigned_tests': tests
-        })
-    return render(request, 'docAI/dashboard.html', context)
+        return JsonResponse({ "message": "Unauthorized" })
 
 
 @login_required
-def chat_view(request, test_id):
+def doctor_dashboard(request):
+    current_user = request.user
+    if current_user.user_type not in ["doctor", "Doctor"]:
+        return JsonResponse({ "message": "Unauthorized" })
+    assigned_tests = Test.objects.filter(assigned_to=current_user)
+    context = {'assigned_tests': assigned_tests}
+    return render(request, 'docAI/doctor_dashboard.html', context)
+
+
+def check_application(request, test_id):
+    current_user = request.user
+    test = Test.objects.get(id=test_id)
+    has_applied = TestApplication.objects.filter(user=current_user, test=test).exists()
+    return render(request, 'check_application.html', {'has_applied': has_applied})
+
+
+@login_required
+def apply_to_test(request, test_id):
+    current_user = request.user
+    test = Test.objects.get(id=test_id)
+    if TestApplication.objects.filter(user=current_user, test=test).exists():
+        messages.warning(request, "You have already applied to this test.")
+        return redirect('customer_dashboard')
+    if test.applicants.exists():
+        messages.warning(request, "This test already has an applicant.")
+        return redirect('customer_dashboard')
+    TestApplication.objects.create(user=current_user, test=test)
+    messages.success(request, "You have successfully applied to the test.")
+    return redirect('customer_dashboard')
+
+
+@login_required
+def doctor_test_detail(request, test_id):
+    test = get_object_or_404(Test, id=test_id)
+    test_applications = TestApplication.objects.filter(test=test)
+    context = {
+        'test': test,
+        'test_applications': test_applications
+    }
+    return render(request, 'docAI/doctor_test_detail.html', context)
+
+
+def report_submission(request, report_id):
+    report = None
+    try:
+        report = BloodTestReport.objects.get(id=report_id)
+        form_class = BloodTestReportForm
+    except BloodTestReport.DoesNotExist:
+        pass
+    if not report:
+        try:
+            report = DiabetesTestReport.objects.get(id=report_id)
+            form_class = DiabetesTestReportForm
+        except DiabetesTestReport.DoesNotExist:
+            pass
+    if not report:
+        return render(request, 'report_not_found.html')
+    form = form_class(request.POST or None, instance=report)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        if report.status == 'submission':
+            report.status = 'evaluation'
+        elif report.status == 'evaluation':
+            report.status = 'completed'
+        report.save()
+        if report.status == 'evaluation':
+            return redirect('evaluation_section_url')
+        elif report.status == 'completed':
+            return redirect('completed_section_url')
+    return render(request, 'report_submission.html', {'form': form, 'report': report})
+
+
+@login_required
+def doctor_applicant_report(request, test_id, test_type, receiver_id):
+    report_model = BloodTestReport if test_type == 'blood' else DiabetesTestReport
+    report_exists = report_model.objects.filter(test_id=test_id, applicant=receiver_id).exists()
+    report = None if not report_exists else report_model.objects.get(test_id=test_id)
     test = get_object_or_404(Test, id=test_id)
     user = request.user
-    if user != test.applied_by and user != test.assigned_to:
+    if user != test.assigned_to and user not in test.testapplication_set.values_list('user', flat=True):
         return JsonResponse({'error': 'Unauthorized'}, status=403)
-    
-    messages = Message.objects.filter(test=test).order_by('timestamp')
+    receiver = get_object_or_404(User, id=receiver_id)
+    messages = Message.objects.filter(Q(sender=user, receiver=receiver) | Q(sender=receiver, receiver=user)).order_by('timestamp')
     if request.method == 'POST':
         content = request.POST.get('content')
         sender = user
-        receiver = test.assigned_to if sender == test.applied_by else test.applied_by
         try:
-            message = Message.objects.create(sender=sender, receiver=receiver, test=test, content=content)
+            message = Message.objects.create(sender=sender, receiver=receiver, content=content)
             return JsonResponse({'content': message.content})
         except IntegrityError:
             return JsonResponse({'error': 'Failed to create message'}, status=500)
-        
     context = {
         'test': test,
         'user': user,
-        'messages': messages
+        'receiver': receiver,
+        'messages': messages,
+        'report': report
     }
-    return render(request, 'docAI/chat.html', context)
+    return render(request, 'docAI/doctor_applicant_report.html', context)
+
 
 
 @login_required
-def fetch_messages(request, test_id):
+def fetch_messages(request, receiver_id):
     user = request.user
-    test = get_object_or_404(Test, id=test_id)
-    if user != test.applied_by and user != test.assigned_to:
-        return JsonResponse({'error': 'Unauthorized'}, status=403)
-    messages = Message.objects.filter(Q(sender=user) | Q(receiver=user), test=test).order_by('timestamp')
-    messages_data = [{'sender': message.sender.username, 'content': message.content} for message in messages]
+    receiver = get_object_or_404(User, id=receiver_id)
+    messages = Message.objects.filter(Q(sender=user, receiver=receiver) | Q(sender=receiver, receiver=user)).order_by('timestamp')
+    messages_data = [ {
+            'sender': message.sender.username,
+            'receiver': message.receiver.username,
+            'timestamp': message.timestamp,
+            'content': message.content
+        } for message in messages]
     return JsonResponse({'messages': messages_data})
 
 
 @login_required
-def send_message(request, test_id):
+def send_message(request, receiver_id):
     if request.method == 'POST' and request.is_ajax():
         content = request.POST.get('content')
-        test = get_object_or_404(Test, id=test_id)
+        receiver = get_object_or_404(User, id=receiver_id)
         sender = request.user
-        receiver = test.assigned_to if sender != test.assigned_to else test.applied_by
-        message = Message.objects.create(sender=sender, receiver=receiver, test=test, content=content)
-        return JsonResponse({'content': message.content})
+        message = Message.objects.create(sender=sender, receiver=receiver, content=content)
+        message_data = {'sender': message.sender.username,
+                        'receiver': message.receiver.username,
+                        'timestamp': message.timestamp,
+                        'content': message.content}
+        return JsonResponse({'message': message_data})
     else:
         return JsonResponse({'error': 'Invalid request'})
-    
-    
+
+
+# @login_required
+# def chat_view(request, test_id):
+#     test = get_object_or_404(Test, id=test_id)
+#     user = request.user
+#     if user != test.assigned_to and user not in test.testapplication_set.values_list('user', flat=True):
+#         return JsonResponse({'error': 'Unauthorized'}, status=403)
+#     messages = Message.objects.filter(test=test).order_by('timestamp')
+#     if request.method == 'POST':
+#         content = request.POST.get('content')
+#         sender = user
+#         receiver = test.assigned_to if sender == test.assigned_to else test.testapplication_set.first().user
+#         try:
+#             message = Message.objects.create(sender=sender, receiver=receiver, test=test, content=content)
+#             return JsonResponse({'content': message.content})
+#         except IntegrityError:
+#             return JsonResponse({'error': 'Failed to create message'}, status=500)
+#     context = {
+#         'test': test,
+#         'user': user,
+#         'messages': messages
+#     }
+#     return render(request, 'docAI/chat.html', context)
+
+
+# @login_required
 # def fetch_messages(request, test_id):
 #     user = request.user
-#     test = Test.objects.get(id=test_id)
-#     # Retrieve messages where the current user is either the sender or the receiver and belongs to the specified test
-#     messages_sent = Message.objects.filter(sender=user, test=test)
-#     messages_received = Message.objects.filter(receiver=user, test=test)
-#     # Combine sent and received messages
-#     messages = list(messages_sent) + list(messages_received)
-#     # Serialize messages data
+#     test = get_object_or_404(Test, id=test_id)
+#     if user != test.applied_by and user != test.assigned_to:
+#         return JsonResponse({'error': 'Unauthorized'}, status=403)
+#     messages = Message.objects.filter(Q(sender=user) | Q(receiver=user), test=test).order_by('timestamp')
 #     messages_data = [{'sender': message.sender.username, 'content': message.content} for message in messages]
 #     return JsonResponse({'messages': messages_data})
+
+
+# @login_required
+# def send_message(request, test_id):
+#     if request.method == 'POST' and request.is_ajax():
+#         content = request.POST.get('content')
+#         test = get_object_or_404(Test, id=test_id)
+#         sender = request.user
+#         receiver = test.assigned_to if sender != test.assigned_to else test.applied_by
+#         message = Message.objects.create(sender=sender, receiver=receiver, test=test, content=content)
+#         return JsonResponse({'content': message.content})
+#     else:
+#         return JsonResponse({'error': 'Invalid request'})
 
 
 @login_required
