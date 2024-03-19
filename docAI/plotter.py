@@ -4,6 +4,7 @@ import json
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
+from django_plotly_dash import DjangoDash
 
 from dash_bio.utils.uniprot_database_tools import UniprotQueryBuilder
 from dash_bio.utils.mutation_data_parser import EMPTY_MUT_DATA, \
@@ -1072,7 +1073,3 @@ def callbacks(_app):
 
 
 app = run_standalone_app(layout, callbacks, header_colors, __file__)
-server = app.server
-
-if __name__ == '__main__':
-    app.run_server(debug=True, port=8050)
