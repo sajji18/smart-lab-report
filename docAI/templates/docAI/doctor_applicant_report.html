@@ -3,42 +3,47 @@
 {% load plotly_dash %}
 
 {% block link %}
-<link rel="stylesheet" type="text/css" href="{% static 'docAI/layout.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'docAI/doctor_applicant_report.css' %}" />
 {% endblock link %}
 
 {% block style %}
-<style>
-    #message-area {
-        background-color: #f2f2f2;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        padding: 10px 10px;
-        width: 30%;
-    }
+    <style>
+        .parent_container {
+            display: flex;
+            align-items: center; 
+            flex-direction: column;
+            margin-top: 10px;
+        }
 
-    .message-container {
-        overflow-y: auto;
-        height: 95%; /* Adjust as needed */
-    }
+        .parent_container_top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; 
+            width: 90%;
+            transform: translateY(-40%);
+        }
 
-    .message-container::-webkit-scrollbar {
-        display: none;
-    }
-    .message {
-        clear: both;
-        margin-bottom: 10px;
-        padding: 10px;
-        border-radius: 8px;
-    }
-    .sent {
-        background-color: #DCF8C6; /* Light green */
-        float: right;
-    }
-    .received {
-        background-color: #FFFFFF; /* White */
-        float: left;
-    }
-</style>
+        .report_area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 30px 10px 30px;
+            width: 90%;
+            height: 80vh;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .report_card::-webkit-scrollbar {
+            display: none;
+        }
+
+        .report_submit_buttons {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+        }
+    </style>
 {% endblock style %}
 
 {% block title %}
@@ -46,38 +51,177 @@
 {% endblock title %}
 
 {% block body %}
-<div style="flex: 1; display: flex;">
-    <div class="report_area" style="padding: 0; background-color: grey; width: 70%; display: flex; flex-direction: column; align-items: center;">
-        <h2>Report</h2>
-        <div class="{% plotly_class name='SimpleExample' %} card" style="height: 100%; width: 100%">
-            {% plotly_app name='SimpleExample' ratio=0.45 %}
-        </div>
-        <br>
-        {{ plot1 | safe }}
 
-    </div>
-    <div id="message-area">
-        <div class="message-container">
-            {% for message in messages %}
-                {% if message.sender == user %}
-                    <div class="message sent">{{ message.content }}</div>
-                {% else %}
-                    <div class="message received">{{ message.content }}</div>
-                {% endif %}
-            {% endfor %}
+    <div class="right_container_top">
+        <div class="right_container_top_left">
+            <h1>Report</h1>
         </div>
-        <form id="message-form">
-            {% csrf_token %}
-            <input type="text" id="message-input" name="content" placeholder="Type your message">
-            <button type="submit">Send</button>
-        </form>
+        <div class="right_container_top_right">
+            <a href="{% url 'doctor_chat_view' receiver.id %}" style="text-decoration: none; color: #34495e; border: 1px solid #34495e; margin: 0 10px;">Chat With {{ receiver.username }}</a>
+            <a href="{% url 'logout' %}" style="text-decoration: none; color: #34495e; border: 1px solid #34495e;">Logout</a>
+        </div>
     </div>
-</div>
+    <div class="parent_container">
+        <div class="report_area">
+            <div class="progress-container">
+                <div class="progress" id="progress"></div>
+                <div class="text-wrap active">
+                    <div class="circle">1</div>
+                    <p class="text">Submission</p>
+                </div>
+                <div class="text-wrap">
+                    <div class="circle">2</div>
+                    <p class="text">Evaluation</p>
+                </div>
+                <div class="text-wrap">
+                    <div class="circle">3</div>
+                    <p class="text">Completion</p>
+                </div>
+            </div>
+            {% if report.status == 'submission' or report.status == 'Submission' %}
+                <div class="report_data_table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="report_data_table_head">Parameter</th>
+                                <th class="report_data_table_head">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if test.type == 'blood' %}
+                                <tr>
+                                    <td>RBC Result</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>PCV_result</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>WBC_result</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Neutrophils_result</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Lymphocytes_result</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Eosinophils_result</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Monocytes_result</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Basophils_result</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Platelet_count</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>hemoglobin_result</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>blood_pressure_result</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>cholesterol_level_result</td>
+                                    <td></td>
+                                </tr>
+                            {% else %}
+                                <tr></tr>
+                                <tr></tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            {% elif report.status == 'evaluation' or report.status == 'Evaluation' %}
+                <div>
+
+                </div>
+            {% else %}
+                <div>
+
+                </div>
+            {% endif %}
+            <div class="report_submit_buttons">
+                <button class="btn" id="back" disabled>&larr; Back</button>
+                <button class="btn" id="next">Next &rarr;</button>
+            </div>
+        </div>
+    </div>
 {% endblock body %}
 
 {% block script %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
+        const progress = document.getElementById('progress')
+        const back = document.getElementById('back')
+        const next = document.getElementById('next')
+        const wraps = document.querySelectorAll('.text-wrap')
+        let currentActive = 1
+
+        const reportStatus = "{{ report.status }}";
+
+        if (reportStatus === 'evaluation' || reportStatus === 'Evaluation') {
+            currentActive = 2;
+        } else if (reportStatus === 'completion' || reportStatus === 'Completed') {
+            currentActive = 3;
+        }
+
+        update();
+
+
+        next.addEventListener('click', () => {
+            currentActive++
+            if(currentActive > wraps.length) {
+                currentActive = wraps.length
+            }
+
+            update()
+        })
+
+        back.addEventListener('click', () => {
+            currentActive--
+            if(currentActive < 1) {
+                currentActive = 1
+            }
+
+            update()
+        })
+
+        function update() {
+            wraps.forEach((wrap, index) => {
+                if(index < currentActive) {
+                    wrap.classList.add('active')
+                } else {
+                    wrap.classList.remove('active')
+                }
+            })
+
+            const actives = document.querySelectorAll('.active')
+            progress.style.width = (actives.length - 1) / (wraps.length - 1)* 80 + '%'
+
+            if(currentActive === 1) {
+                back.disabled = true
+            } else if(currentActive === wraps.length) {
+                next.disabled = true
+            } else {
+                back.disabled = false
+                next.disabled = false
+            }
+        }
+    </script>
+    {% comment %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> {% endcomment %}
+    {% comment %} <script>
         $(document).ready(function(){
             $('#message-form').submit(function(event){
                 event.preventDefault();
@@ -127,5 +271,5 @@
         };
 
         setInterval(fetchMessages, 5000);
-    </script>
+    </script> {% endcomment %}
 {% endblock script %}
