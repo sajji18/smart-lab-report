@@ -1,5 +1,6 @@
 {% extends 'docAI/layout/doctorLayout.html' %}
 {% load static %}
+{% load plotly_dash %}
 
 {% block link %}
 <link rel="stylesheet" type="text/css" href="{% static 'docAI/layout.css' %}" />
@@ -48,7 +49,12 @@
 <div style="flex: 1; display: flex;">
     <div class="report_area" style="padding: 0; background-color: grey; width: 70%; display: flex; flex-direction: column; align-items: center;">
         <h2>Report</h2>
-        {{ report }}
+        <div class="{% plotly_class name='SimpleExample' %} card" style="height: 100%; width: 100%">
+            {% plotly_app name='SimpleExample' ratio=0.45 %}
+        </div>
+        <br>
+        {{ plot1 | safe }}
+
     </div>
     <div id="message-area">
         <div class="message-container">

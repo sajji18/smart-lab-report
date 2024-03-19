@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'django_plotly_dash.apps.DjangoPlotlyDashConfig',
-    'channels'
+    'channels',
+    'channels_redis'
 ]
 
 CHANNEL_LAYERS = {
@@ -81,7 +82,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
-    
+
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -167,6 +168,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 APP_DIR_1 = os.path.join(BASE_DIR, 'authentication')
 APP_DIR_2 = os.path.join(BASE_DIR, 'docAI')
 
+STATICFILES_FINDERS=[
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django_plotly_dash.finders.DashAssetFinder',
+    'django_plotly_dash.finders.DashComponentFinder'
+]
+
+STATIC_FILES_LOCATION='static'
+STATIC_ROOT='static'
+
 STATICFILES_DIRS = [
     os.path.join(APP_DIR_1, 'static'),
     os.path.join(APP_DIR_2, 'static')
@@ -182,6 +193,8 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend"
 )
 
+ASGI_APPLICATION = 'backend.routing.application'
+
 LOGIN_REDIRECT_URL = "customer_dashboard"
 LOGOUT_REDIRECT_URL = "home"
 
@@ -196,3 +209,10 @@ MEDIA_URL = '/media/'
 
 # Plotly
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+PLOTLY_COMPONENTS=[
+    'dash_core_components',
+    'dash_html_components',
+    'dash_renderer',
+    'dpd_components'
+]
