@@ -7,12 +7,35 @@
 
 {% block style %}
 <style>
+    .main_right_container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0px 10px 10px 10px;
+    }
+
+    .main_right_container_heading {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        background-color: #f2f2f2;
+        border-radius: 8px;
+    }
+
+    .message_area_top {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 10px;
+    }
+
     #message-area {
         background-color: #f2f2f2;
         border: 1px solid #ccc;
         border-radius: 8px;
-        padding: 10px 10px;
-        width: 30%;
+        padding: 10px 15px 25px 15px;
+        width: 50%;
+        height: 80vh;
     }
 
     .message-container {
@@ -41,12 +64,18 @@
 {% endblock style %}
 
 {% block title %}
-    Chat with {{ customer.username }}
+    Chat View
 {% endblock title %}
 
 {% block body %}
-<div style="flex: 1; display: flex;">
-    <div id="message-area">
+<div class="main_right_container" style="flex: 1; display: flex;">
+    <div class="main_right_container_heading">
+        <h1>Chat View</h1>
+    </div>
+    <div id="message-area" class="messages">
+        <div class="message_area_top">
+            <span style="font-weight: 600px;">Chat with {{ customer.username }}</span>
+        </div>
         <div class="message-container">
             {% for message in messages %}
                 {% if message.sender == user %}
@@ -56,10 +85,10 @@
                 {% endif %}
             {% endfor %}
         </div>
-        <form id="message-form">
+        <form class="message_form" id="message-form" style="display: flex; justify-content: flex-end; align-items: center; transform: translateY(-50px);">
             {% csrf_token %}
-            <input type="text" id="message-input" name="content" placeholder="Type your message">
-            <button type="submit">Send</button>
+            <input type="text" id="message-input" name="content" placeholder="Type your message" style="margin: 0 5px; flex: 1; padding: 8px 0">
+            <button type="submit" style="padding: 10px 16px; border-radius: 4px; border: none; color: white; background-color: #5dbea3">Send</button>
         </form>
     </div>
 </div>

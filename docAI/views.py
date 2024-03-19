@@ -149,7 +149,7 @@ def doctor_chat_view(request, customer_id):
         'customer': customer,
         'messages': messages
     }
-    return render(request, 'docAI/chat.html', context)
+    return render(request, 'docAI/doctor_chat_view.html', context)
 
 
 @login_required

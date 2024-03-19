@@ -13,8 +13,8 @@
         <h1>Chats</h1>
     </div>
     <div class="right_container_top_right">
-      <a href="#" style="text-decoration: none; color: #34495e; border: 1px solid #34495e; margin: 0 10px;">Create Test</a>
-        <a href="{% url 'logout' %}" style="text-decoration: none; color: #34495e; border: 1px solid #34495e;">Logout</a>
+      <a href="{% url 'back' %}?next={{ request.path }}" style="text-decoration: none; color: #34495e; border: 1px solid #34495e; margin: 0 10px;">Back</a>
+      <a href="{% url 'logout' %}" style="text-decoration: none; color: #34495e; border: 1px solid #34495e;">Logout</a>
     </div>
   </div>
   <div class="right_container_bottom">
@@ -30,6 +30,7 @@
                   <tr>
                     <th class="table_headings">S.No</th>
                     <th class="table_headings">Name</th>
+                    <th class="table_headings">Type</th>
                     <th class="table_headings">Actions</th>
                   </tr>
                 </thead>
@@ -37,8 +38,9 @@
                   <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ applicant.username }}</td>
+                    <td>{{ applicant.user_type }}</td>
                     <td>
-                      <a href="#" class="btn btn-primary">Chat</a>
+                      <a href="{% url 'doctor_chat_view' applicant.id %}" class="btn btn-primary">Chat</a>
                     </td>
                   </tr>
                 </tbody>
