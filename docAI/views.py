@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.contrib import messages
 from .forms import BloodTestReportForm, DiabetesTestReportForm
 from authentication.models import User
+from django.urls import reverse
 
 
 @login_required
@@ -27,6 +28,7 @@ def customer_dashboard(request):
 
 @login_required
 def doctor_dashboard(request):
+    request.session['prev_url'] = request.META.get('HTTP_REFERER', '/')
     current_user = request.user
     if current_user.user_type not in ["doctor", "Doctor"]:
         return JsonResponse({ "message": "Unauthorized" })
@@ -59,6 +61,7 @@ def apply_to_test(request, test_id):
 
 @login_required
 def doctor_test_detail(request, test_id):
+    request.session['prev_url'] = request.META.get('HTTP_REFERER', '/')
     test = get_object_or_404(Test, id=test_id)
     test_applications = TestApplication.objects.filter(test=test)
     context = {
@@ -100,6 +103,7 @@ def report_submission(request, report_id):
 
 @login_required
 def doctor_applicant_report(request, test_id, test_type, receiver_id):
+    request.session['prev_url'] = request.META.get('HTTP_REFERER', '/')
     report_model = BloodTestReport if test_type == 'blood' else DiabetesTestReport
     report_exists = report_model.objects.filter(test_id=test_id, applicant=receiver_id).exists()
     report = None if not report_exists else report_model.objects.get(test_id=test_id)
@@ -213,6 +217,11 @@ def test_detail(request, test_id):
         test: test
     }
     return render(request, 'docAI/test_detail.html', context)
+
+
+def back_view(request):
+    prev_url = request.session.get('prev_url', '/')
+    return redirect(prev_url)
 
 
 @login_required
