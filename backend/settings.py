@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google'
+    'allauth.socialaccount.providers.google',
+    'django_plotly_dash.apps.DjangoPlotlyDashConfig'
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -69,7 +70,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware'
+    'allauth.account.middleware.AccountMiddleware',
+    'django_plotly_dash.middleware.BaseMiddleware',
+    
+
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -170,3 +174,6 @@ GOOGLE_REDIRECT_URL = 'http://localhost:8000/accounts/google/login/callback/'
 # Media URL
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+# Plotly
+X_FRAME_OPTIONS = 'SAMEORIGIN'
