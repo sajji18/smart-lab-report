@@ -89,54 +89,54 @@
                         </thead>
                         <tbody>
                             {% if test.type == 'blood' %}
-                                <tr>
-                                    <td>RBC Result</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>PCV_result</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>WBC_result</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Neutrophils_result</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Lymphocytes_result</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Eosinophils_result</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Monocytes_result</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Basophils_result</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Platelet_count</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>hemoglobin_result</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>blood_pressure_result</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>cholesterol_level_result</td>
-                                    <td></td>
-                                </tr>
+                            <tr>
+                                <td>RBC Result</td>
+                                <td><input type="text" name="RBC_result" value="{{ report.RBC_result }}"></td>
+                            </tr>
+                            <tr>
+                                <td>PCV_result</td>
+                                <td><input type="text" name="PCV_result" value="{{ report.PCV_result }}"></td>
+                            </tr>
+                            <tr>
+                                <td>WBC_result</td>
+                                <td><input type="text" name="WBC_result" value="{{ report.WBC_result }}"></td>
+                            </tr>
+                            <tr>
+                                <td>Neutrophils_result</td>
+                                <td><input type="text" name="Neutrophils_result" value="{{ report.Neutrophils_result }}"></td>
+                            </tr>
+                            <tr>
+                                <td>Lymphocytes_result</td>
+                                <td><input type="text" name="Lymphocytes_result" value="{{ report.Lymphocytes_result }}"></td>
+                            </tr>
+                            <tr>
+                                <td>Eosinophils_result</td>
+                                <td><input type="text" name="Eosinophils_result" value="{{ report.Eosinophils_result }}"></td>
+                            </tr>
+                            <tr>
+                                <td>Monocytes_result</td>
+                                <td><input type="text" name="Monocytes_result" value="{{ report.Monocytes_result }}"></td>
+                            </tr>
+                            <tr>
+                                <td>Basophils_result</td>
+                                <td><input type="text" name="Basophils_result" value="{{ report.Basophils_result }}"></td>
+                            </tr>
+                            <tr>
+                                <td>Platelet_count</td>
+                                <td><input type="text" name="Platelet_count" value="{{ report.Platelet_count }}"></td>
+                            </tr>
+                            <tr>
+                                <td>hemoglobin_result</td>
+                                <td><input type="text" name="hemoglobin_result" value="{{ report.hemoglobin_result }}"></td>
+                            </tr>
+                            <tr>
+                                <td>blood_pressure_result</td>
+                                <td><input type="text" name="blood_pressure_result" value="{{ report.blood_pressure_result }}"></td>
+                            </tr>
+                            <tr>
+                                <td>cholesterol_level_result</td>
+                                <td><input type="text" name="cholesterol_level_result" value="{{ report.cholesterol_level_result }}"></td>
+                            </tr>
                             {% else %}
                                 <tr></tr>
                                 <tr></tr>
