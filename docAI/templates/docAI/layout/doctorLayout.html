@@ -8,16 +8,26 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-        <link
+        {% comment %} <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
             rel="stylesheet"
             integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
             crossorigin="anonymous"
-        />
+        /> {% endcomment %}
         <link
             rel="stylesheet"
             type="text/css"
             href="{% static 'docAI/doctorLayout.css' %}"
+        />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="{% static 'docAI/doctor_dashboard.css' %}" 
+        />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="{% static 'docAI/doctor_test_detail.css' %}" 
         />
         {% comment %} <link
             rel="shortcut icon"
@@ -33,148 +43,36 @@
             }
         </style>
     </head>
-    <body class="sidebar-is-reduced">
-      <header class="l-header">
-          <div class="l-header__inner clearfix">
-              <div class="c-header-icon js-hamburger">
-                  <div class="hamburger-toggle">
-                      <span class="bar-top"></span>
-                      <span class="bar-mid"></span>
-                      <span class="bar-bot"></span>
-                  </div>
-              </div>
-              <div class="c-header-icon has-dropdown">
-                  <span class="c-badge c-badge--red c-badge--header-icon animated swing">13</span>
-                  <i class="fa fa-bell"></i>
-                  <div class="c-dropdown c-dropdown--notifications">
-                      <div class="c-dropdown__header"></div>
-                      <div class="c-dropdown__content"></div>
-                  </div>
-              </div>
-              <div class="c-search">
-                  <input class="c-search__input u-input" placeholder="Search..." type="text">
-              </div>
-              <div class="header-icons-group">
-                  <div class="c-header-icon basket">
-                      <span class="c-badge c-badge--blue c-badge--header-icon animated swing">4</span>
-                      <i class="fa fa-shopping-basket"></i>
-                  </div>
-                  <div class="c-header-icon logout">
-                      <i class="fa fa-power-off"></i>
-                  </div>
-              </div>
-          </div>
-      </header>
-      <div class="l-sidebar">
-          <div class="logo">
-              <div class="logo__txt">D</div>
-          </div>
-          <div class="l-sidebar__content">
-              <nav class="c-menu js-menu">
-                  <ul class="u-list">
-                      <li class="c-menu__item is-active" data-toggle="tooltip" title="Flights">
-                          <div class="c-menu__item__inner">
-                              <i class="fa fa-plane"></i>
-                              <div class="c-menu-item__title"><span>Flights</span></div>
-                          </div>
-                      </li>
-                      <li class="c-menu__item has-submenu" data-toggle="tooltip" title="Modules">
-                          <div class="c-menu__item__inner">
-                              <i class="fa fa-puzzle-piece"></i>
-                              <div class="c-menu-item__title"><span>Modules</span></div>
-                              <div class="c-menu-item__expand js-expand-submenu"><i class="fa fa-angle-down"></i></div>
-                          </div>
-                          <ul class="c-menu__submenu u-list">
-                              <li>Payments</li>
-                              <li>Maps</li>
-                              <li>Notifications</li>
-                          </ul>
-                      </li>
-                      <li class="c-menu__item has-submenu" data-toggle="tooltip" title="Statistics">
-                          <div class="c-menu__item__inner">
-                              <i class="far fa-chart-bar"></i>
-                              <div class="c-menu-item__title"><span>Statistics</span></div>
-                          </div>
-                      </li>
-                      <li class="c-menu__item has-submenu" data-toggle="tooltip" title="Gifts">
-                          <div class="c-menu__item__inner">
-                              <i class="fa fa-gift"></i>
-                              <div class="c-menu-item__title"><span>Gifts</span></div>
-                          </div>
-                      </li>
-                      <li class="c-menu__item has-submenu" data-toggle="tooltip" title="Settings">
-                          <div class="c-menu__item__inner">
-                              <i class="fa fa-cogs"></i>
-                              <div class="c-menu-item__title"><span>Settings</span></div>
-                          </div>
-                      </li>
-                  </ul>
-              </nav>
-          </div>
-      </div>
-      <main class="l-main">
-          <div class="content-wrapper content-wrapper--with-bg">
-              <h1 class="page-title">Dashboard</h1>
-              <div class="page-content">Content goes here</div>
-          </div>
-      </main>
-      {% block body %}{% endblock body %}
-      {% comment %} {% block body %}{% endblock body %} {% endcomment %}
-      {% comment %} <script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-          crossorigin="anonymous"
-      ></script> {% endcomment %}
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>  
-      <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
-      <script>
-        let Dashboard = (() => {
-          let global = {
-            tooltipOptions: {
-              placement: "right"
-            },
-            menuClass: ".c-menu"
-          };
-      
-          let menuChangeActive = el => {
-            let hasSubmenu = ($(el).hasClass("has-submenu"));
-            $(global.menuClass + " .is-active").removeClass("is-active");
-            $(el).addClass("is-active");
-      
-            // if (hasSubmenu) {
-            //   $(el).find("ul").slideDown();
-            // }
-          };
-      
-          let sidebarChangeWidth = () => {
-            let $menuItemsTitle = $("li .menu-item__title");
-      
-            $("body").toggleClass("sidebar-is-reduced sidebar-is-expanded");
-            $(".hamburger-toggle").toggleClass("is-opened");
-      
-            if ($("body").hasClass("sidebar-is-expanded")) {
-              $('[data-toggle="tooltip"]').tooltip("destroy");
-            } else {
-              $('[data-toggle="tooltip"]').tooltip(global.tooltipOptions);
-            }
-          };
-      
-          return {
-            init: () => {
-              $(".js-hamburger").on("click", sidebarChangeWidth);
-      
-              $(".js-menu li").on("click", e => {
-                menuChangeActive(e.currentTarget);
-              });
-      
-              $('[data-toggle="tooltip"]').tooltip(global.tooltipOptions);
-            }
-          };
-        })();
-      
-        Dashboard.init();
-      </script>        
-      {% block script %}{% endblock script %}
+    <body>
+        <div class="container">
+
+
+            {% comment %} Left {% endcomment %}
+            <div class="sidebar">
+                <div class="section">
+                    <a class="docai_heading" href="{% url 'doctor_dashboard' %}" style="text-decoration: none; font-weight: bold; font-size: 30px; color: white; margin-bottom: 10px;">Doc.AI</a>
+                    <a class="item" style="text-decoration: none; color: inherit;" href="{% url 'doctor_dashboard' %}">My Tests</a>
+                    <a class="item" style="text-decoration: none; color: inherit;" href="#">Chats</a>
+                    <a class="item" style="text-decoration: none; color: inherit;" href="#">Search</a>
+                </div>
+                <div class="section">
+                    <div class="item">My Profile</div>
+                    <div class="item">Settings</div>
+                </div>
+            </div>
+
+
+            {% comment %} Right {% endcomment %}
+            <div class="right_container">
+                {% block body %}{% endblock body %}
+            </div>
+        </div>
+        {% comment %} {% block body %}{% endblock body %} {% endcomment %}
+        {% comment %} <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+            crossorigin="anonymous"
+        ></script> {% endcomment %}
+        {% block script %}{% endblock script %}
     </body>
 </html>

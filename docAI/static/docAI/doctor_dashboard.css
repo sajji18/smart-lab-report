@@ -1,171 +1,60 @@
-.dataTables_length label {
-    float: left;
-    text-align: left;
-  }
-  
-  .dataTables_length select {
-    width: 75px;
-  }
-  
-  .dataTables_filter label {
-    float: right;
-  }
-  
-  .dataTables_info {
-    padding-top: 26px;
-  }
-  
-  .dataTables_paginate {
-    float: right;
-    margin: 0;
-  }
-  
-  table.table {
-    clear: both;
-    margin-bottom: 6px !important;
-    max-width: none !important;
-  }
-  
-  table.table thead {
-    .sorting,
-    .sorting_asc,
-    .sorting_desc,
-    .sorting_asc_disabled,
-    .sorting_desc_disabled {
-      cursor: pointer;
-    }
-    .sorting {
-      background: url('../images/sort_both.png') no-repeat center right;
-    }
-    .sorting_asc {
-      background: url('../images/sort_asc.png') no-repeat center right;
-    }
-    .sorting_desc {
-      background: url('../images/sort_desc.png') no-repeat center right;
-    }
-    .sorting_asc_disabled {
-      background: url('../images/sort_asc_disabled.png') no-repeat center right;
-    }
-    .sorting_desc_disabled {
-      background: url('../images/sort_desc_disabled.png') no-repeat center right;
-    }
-  }
-  
-  table.dataTable th:active {
-    outline: none;
-  }
-  
-  /* Scrolling */
-  .dataTables_scrollHead table {
-    margin-bottom: 0 !important;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  
-  .dataTables_scrollHead table thead tr:last-child {
-    th:first-child,
-    td:first-child {
-      border-bottom-left-radius: 0 !important;
-      border-bottom-right-radius: 0 !important;
-    }
-  }
-  
-  .dataTables_scrollBody table {
-    border-top: none;
-    margin-bottom: 0 !important;
-  }
-  
-  .dataTables_scrollBody table tbody tr:first-child {
-    th,
-    td {
-      border-top: none;
-    }
-  }
-  
-  .dataTables_scrollFoot table {
-    border-top: none;
-  }
-  
-  /* TableTools styles */
-  .table tbody tr.active {
-    td,
-    th {
-      background-color: #08C;
-      color: white;
-    }
-  }
-  
-  .table-striped tbody tr.active:nth-child(odd) {
-    td,
-    th {
-      background-color: #017ebc;
-    }
-  }
-  
-  table.DTTT_selectable tbody tr {
-    cursor: pointer;
-  }
-  
-  .DTTT .btn {
-    color: #333 !important;
-    font-size: 12px;
-  }
-  
-  ul.DTTT_dropdown.dropdown-menu li:hover a {
-    background-color: #0088cc;
-    color: white !important;
-  }
-  
-  /* TableTools information display */
-  .DTTT_print_info.modal {
-    height: 150px;
-    margin-top: -75px;
-    text-align: center;
-  }
-  
-  .DTTT_print_info.modal h6 {
-    font-weight: normal;
-    font-size: 28px;
-    line-height: 28px;
-    margin: 1em;
-  }
-  
-  .DTTT_print_info.modal p {
-    font-size: 14px;
-    line-height: 20px;
-  }
-  
-  /* FixedColumns styles */
-  div.DTFC_LeftHeadWrapper table,
-  div.DTFC_LeftFootWrapper table,
-  table.DTFC_Cloned tr.even {
-    background-color: white;
-  }
-  
-  div.DTFC_LeftHeadWrapper table {
-    margin-bottom: 0 !important;
-    border-top-right-radius: 0 !important;
-    border-bottom-left-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
-  }
-  
-  div.DTFC_LeftHeadWrapper table thead tr:last-child th:first-child,
-  div.DTFC_LeftHeadWrapper table thead tr:last-child td:first-child {
-    border-bottom-left-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
-  }
-  
-  div.DTFC_LeftBodyWrapper table {
-    border-top: none;
-    margin-bottom: 0 !important;
-  }
-  
-  div.DTFC_LeftBodyWrapper table tbody tr:first-child th,
-  div.DTFC_LeftBodyWrapper table tbody tr:first-child td {
-    border-top: none;
-  }
-  
-  div.DTFC_LeftFootWrapper table {
-    border-top: none;
-  }
-  
+.right_container_top {
+  color: black;;
+  padding: 2px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.right_container_bottom {
+  flex: 1;
+  padding: 12.5px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.right_container_top_right a {
+  text-decoration: none;
+  font-size: 18px;
+  border: 1px solid #34495e;
+  padding: 9px 15px;
+  border-radius: 5px;
+}
+
+.right_container_top_right a:hover {
+  background: #ced0d3;
+  cursor: pointer;
+}
+
+.right_container_bottom {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.right_main_container {
+  flex: 1;
+  padding: 15px;
+  margin: 10px;
+  border: 1px solid grey;
+  border-radius: 8px;
+}
+
+.right_main_container:hover {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.card {
+  height: 100%;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.table_headings {
+  width: 25%;
+}

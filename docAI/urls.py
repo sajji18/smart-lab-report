@@ -18,4 +18,7 @@ urlpatterns = [
     # Chat Routes
     path('send_message/<int:test_id>/', views.send_message, name='send_message'),
     path('fetch_messages/<int:test_id>/', views.fetch_messages, name='fetch_messages'),
+    
+    # Utils
+    path('back/', views.back_view, name='back'),
 ]

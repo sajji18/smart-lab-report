@@ -1,18 +1,58 @@
 {% extends 'docAI/layout/doctorLayout.html' %}
-{% load static %} {% block link %}
+{% load static %} 
+
+{% block link %}
     <link rel="stylesheet" type="text/css" href="{% static 'docAI/doctor_dashboard.css' %}" />
-{% endblock link %} {% block title %}Dashboard{% endblock title %} 
+{% endblock link %} 
+
+{% block title %}Dashboard{% endblock title %} 
 
 {% block body %}
-  {% comment %} <div style="display: flex; justify-content: space-evenly; width: 100%">
+  <div class="right_container_top">
+    <div class="right_container_top_left">
+        <h1>My Tests</h1>
+    </div>
+    <div class="right_container_top_right">
+      <a href="#" style="text-decoration: none; color: #34495e; border: 1px solid #34495e; margin: 0 10px;">Create Test</a>
+        <a href="{% url 'logout' %}" style="text-decoration: none; color: #34495e; border: 1px solid #34495e;">Logout</a>
+    </div>
+  </div>
+  <div class="right_container_bottom">
     {% for test in assigned_tests %}
-      <div style="height: 40px; width: 80px;">
-        <a href="{% url 'doctor_test_detail' test.id %}">{{ test.name }}</a>
-        <br>
-        <span>{{ test.description }}</span>
+    <div class="right_main_container">
+      <div class="row">
+        
+        <div class="col-md-12 mb-3">
+          <div class="card">
+            <div class="card-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th class="table_headings">Test Name</th>
+                    <th class="table_headings">Description</th>
+                    <th class="table_headings">Created At</th>
+                    <th class="table_headings">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{ test.name }}</td>
+                    <td>{{ test.description }}</td>
+                    <td>{{ test.created_at }}</td>
+                    <td>
+                      <a href="{% url 'doctor_test_detail' test.id %}" class="btn btn-primary">View</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
       </div>
+    </div>
     {% endfor %}
-  </div> {% endcomment %}
+  </div>
 {% endblock body %}
 
 {% block script %}
