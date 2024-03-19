@@ -193,6 +193,8 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend"
 )
 
+ASGI_APPLICATION = 'backend.routing.application'
+
 LOGIN_REDIRECT_URL = "customer_dashboard"
 LOGOUT_REDIRECT_URL = "home"
 
@@ -211,6 +213,6 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 PLOTLY_COMPONENTS=[
     'dash_core_components',
     'dash_html_components',
-    'dash_render',
+    'dash_renderer',
     'dpd_components'
 ]

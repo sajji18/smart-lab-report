@@ -48,8 +48,8 @@ class BloodTestReport(models.Model):
     )
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending') 
     
-    RBC_result=models.DecimalField(max_digits=3, decimal_places=1, default=0)
-    PCV_result=models.DecimalField(max_digits=4, decimal_places=1, default=0)
+    RBC_result=models.IntegerField(default=0)
+    PCV_result=models.IntegerField(default=0)
     WBC_result=models.IntegerField(default=0)
     Neutrophils_result=models.IntegerField(default=0)
     Lymphocytes_result=models.IntegerField(default=0)
@@ -57,9 +57,9 @@ class BloodTestReport(models.Model):
     Monocytes_result=models.IntegerField(default=0)
     Basophils_result=models.IntegerField(default=0)
     Platelet_count=models.IntegerField(default=0)
-    hemoglobin_result=models.DecimalField(max_digits=4, decimal_places=1, default=0)
-    blood_pressure_result = models.CharField(max_length=20, default='')
-    cholesterol_level_result = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    hemoglobin_result=models.IntegerField(default=0)
+    blood_pressure_result = models.IntegerField(default=0)
+    cholesterol_level_result = models.IntegerField(default=0)
 
     def __str__(self):
         return f"Report for {self.test} by {self.applicant}"
