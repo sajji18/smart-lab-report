@@ -29,6 +29,13 @@ class TestApplication(models.Model):
     class Meta:
         unique_together = ('user', 'test')
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.test.type == Test.BLOOD_TEST:
+            BloodTestReport.objects.get_or_create(test=self.test, applicant=self.user, defaults={'status': 'submission'})
+        elif self.test.type == Test.DIABETES_TEST:
+            DiabetesTestReport.objects.get_or_create(test=self.test, applicant=self.user, defaults={'status': 'submission'})
+
 
 class BloodTestReport(models.Model):
     test = models.OneToOneField(Test, related_name='blood_test_report', on_delete=models.CASCADE)
@@ -41,8 +48,8 @@ class BloodTestReport(models.Model):
     )
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending') 
     
-    RBC_result=models.DecimalField(max_digits=3, decimal_places=1)
-    PCV_result=models.DecimalField(max_digits=4, decimal_places=1)
+    RBC_result=models.DecimalField(max_digits=3, decimal_places=1, default=0)
+    PCV_result=models.DecimalField(max_digits=4, decimal_places=1, default=0)
     WBC_result=models.IntegerField(default=0)
     Neutrophils_result=models.IntegerField(default=0)
     Lymphocytes_result=models.IntegerField(default=0)
@@ -50,9 +57,9 @@ class BloodTestReport(models.Model):
     Monocytes_result=models.IntegerField(default=0)
     Basophils_result=models.IntegerField(default=0)
     Platelet_count=models.IntegerField(default=0)
-    hemoglobin_result=models.DecimalField(max_digits=4, decimal_places=1)
-    blood_pressure_result = models.CharField(max_length=20)
-    cholesterol_level_result = models.DecimalField(max_digits=5, decimal_places=2)
+    hemoglobin_result=models.DecimalField(max_digits=4, decimal_places=1, default=0)
+    blood_pressure_result = models.CharField(max_length=20, default='')
+    cholesterol_level_result = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
     def __str__(self):
         return f"Report for {self.test} by {self.applicant}"
@@ -76,8 +83,8 @@ class DiabetesTestReport(models.Model):
     )
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     
-    blood_sugar_level_result = models.DecimalField(max_digits=5, decimal_places=2)
-    insulin_level_result = models.DecimalField(max_digits=5, decimal_places=2)
+    blood_sugar_level_result = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    insulin_level_result = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
     def __str__(self):
         return f"Report for {self.test} by {self.applicant}"

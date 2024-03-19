@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.contrib import messages
 from .forms import BloodTestReportForm, DiabetesTestReportForm
 from authentication.models import User
-from django.urls import reverse
+# from django.urls import reverse
 
 
 @login_required
@@ -51,11 +51,12 @@ def apply_to_test(request, test_id):
     if TestApplication.objects.filter(user=current_user, test=test).exists():
         messages.warning(request, "You have already applied to this test.")
         return redirect('customer_dashboard')
-    if test.applicants.exists():
-        messages.warning(request, "This test already has an applicant.")
-        return redirect('customer_dashboard')
     TestApplication.objects.create(user=current_user, test=test)
     messages.success(request, "You have successfully applied to the test.")
+    if test.type == Test.BLOOD_TEST:
+        BloodTestReport.objects.create(test=test, applicant=current_user, status='submission')
+    elif test.type == Test.DIABETES_TEST:
+        DiabetesTestReport.objects.create(test=test, applicant=current_user, status='submission')
     return redirect('customer_dashboard')
 
 
@@ -131,6 +132,25 @@ def doctor_applicant_report(request, test_id, test_type, receiver_id):
     return render(request, 'docAI/doctor_applicant_report.html', context)
 
 
+@login_required
+def doctor_chat_view(request, customer_id):
+    user = request.user
+    customer = User.objects.get(id=customer_id)
+    messages = Message.objects.filter(Q(sender=user, receiver=customer) | Q(sender=customer, receiver=user)).order_by('timestamp')
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        try:
+            message = Message.objects.create(sender=user, receiver=customer, content=content)
+            return JsonResponse({'content': message.content})
+        except IntegrityError:
+            return JsonResponse({'error': 'Failed to create message'}, status=500)
+    context = {
+        'user': user,
+        'customer': customer,
+        'messages': messages
+    }
+    return render(request, 'docAI/chat.html', context)
+
 
 @login_required
 def fetch_messages(request, receiver_id):
@@ -160,7 +180,17 @@ def send_message(request, receiver_id):
         return JsonResponse({'message': message_data})
     else:
         return JsonResponse({'error': 'Invalid request'})
-
+    
+    
+@login_required
+def doctor_chat_applicants(request):
+    unique_applicants = TestApplication.objects.values('user').distinct()
+    applicants = []
+    for applicant_data in unique_applicants:
+        user_id = applicant_data['user']
+        user = User.objects.get(id=user_id)
+        applicants.append(user)
+    return render(request, 'docAI/doctor_chat_applicants.html', {'applicants': applicants})
 
 # @login_required
 # def chat_view(request, test_id):

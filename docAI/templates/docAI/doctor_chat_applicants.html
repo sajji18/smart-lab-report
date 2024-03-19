@@ -1,0 +1,57 @@
+{% extends 'docAI/layout/doctorLayout.html' %}
+{% load static %} 
+
+{% block link %}
+    <link rel="stylesheet" type="text/css" href="{% static 'docAI/doctor_dashboard.css' %}" />
+{% endblock link %} 
+
+{% block title %}Dashboard{% endblock title %} 
+
+{% block body %}
+  <div class="right_container_top">
+    <div class="right_container_top_left">
+        <h1>Chats</h1>
+    </div>
+    <div class="right_container_top_right">
+      <a href="#" style="text-decoration: none; color: #34495e; border: 1px solid #34495e; margin: 0 10px;">Create Test</a>
+        <a href="{% url 'logout' %}" style="text-decoration: none; color: #34495e; border: 1px solid #34495e;">Logout</a>
+    </div>
+  </div>
+  <div class="right_container_bottom">
+    {% for applicant in applicants %}
+    <div class="right_main_container">
+      <div class="row">
+        
+        <div class="col-md-12 mb-3">
+          <div class="card">
+            <div class="card-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th class="table_headings">S.No</th>
+                    <th class="table_headings">Name</th>
+                    <th class="table_headings">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ applicant.username }}</td>
+                    <td>
+                      <a href="#" class="btn btn-primary">Chat</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock body %}
+
+{% block script %}
+{% endblock script %}

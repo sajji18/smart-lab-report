@@ -11,7 +11,7 @@
 {% block body %}
   <div class="right_container_top">
     <div class="right_container_top_left">
-        <h1>Test {{ test.id }} Preview</h1>
+        <h1>{{ test.name }} Preview</h1>
     </div>
     <div class="right_container_top_right">
         <a href="{% url 'back' %}?next={{ request.path }}" style="text-decoration: none; color: #34495e; border: 1px solid #34495e; margin: 0 10px;">Back</a>
@@ -25,14 +25,16 @@
                 <tr>
                     <th class="applications_heading">S.No</th>
                     <th class="applications_heading">Applicant</th>
-                    <th class="applications_heading">View Status</th>
+                    <th class="applications_heading">Report</th>
+                    <th class="applications_heading">Status</th>
                     <th class="applications_heading">Action</th>
                 </tr>
-                {% for test_applicantion in test_applications %}
+                {% for test_application in test_applications %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ test_applicantion.user.username }}</td>
-                        <td><a href="{% url 'doctor_applicant_report' test.id test.type test_applicantion.user.id %}">View</a></td>
+                        <td>{{ test_application.user.username }}</td>
+                        <td><a href="{% url 'doctor_applicant_report' test.id test.type test_application.user.id %}">View</a></td>
+                        <td>{{ test_application.user.username }}</td>
                         <td><a class="applicantion_delete" href="">Delete</a></td>
                     </tr>
                 {% endfor %}
