@@ -1,8 +1,9 @@
 import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+import pandas as pd
 from .models import Test, Message, TestApplication, BloodTestReport, DiabetesTestReport
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, QueryDict
 from django.db import IntegrityError
 from django.db.models import Q
 from django.contrib import messages
@@ -12,8 +13,56 @@ from . import plotter
 from plotly.offline import plot
 from django.views.decorators.csrf import csrf_exempt
 import plotly.graph_objs as go
+import plotly.express as px
 
 # from django.urls import reverse
+
+from django.shortcuts import render
+from django_plotly_dash import DjangoDash
+from dash import dcc, html, Input, Output, clientside_callback, ClientsideFunction
+import dash_mantine_components as dmc
+from docAI.data import tradeData
+
+def dash_view():
+    # Initialize DjangoDash app
+    app = DjangoDash('dash_app', external_scripts=['https://cdn.jsdelivr.net/npm/apexcharts'])
+
+    # Define layout
+    app.layout = html.Div(
+        children=[
+            dcc.Store(id='ApexchartsSampleData', data=tradeData),
+            dmc.Center(
+                dmc.Paper(
+                    shadow="sm",
+                    style={'height':'600px', 'width':'800px', 'marginTop':'100px'},
+                    children=[
+                        html.Div(id='apexAreaChart'),
+                        dmc.Center(
+                            children=[
+                                dmc.SegmentedControl(
+                                    id="selectCountryChip",
+                                    value="Canada",
+                                    data=['Canada', 'USA', 'Australia'],
+                                )
+                            ]
+                        )
+                    ]
+                )
+            )
+        ]
+    )
+
+#     # Define clientside callback
+#     clientside_callback(
+#         ClientsideFunction(
+#             namespace='apexCharts',
+#             function_name='areaChart'
+#         ),
+#         Output("apexAreaChart", "children"),
+#         Input("ApexchartsSampleData", "data"),
+#         Input("selectCountryChip", "value"),
+#     )
+    return app.layout
 
 
 def scatter(test_id, applicant_id):
@@ -59,9 +108,8 @@ def scatter(test_id, applicant_id):
         fig = go.Figure(data=[trace], layout=layout)
         plot_div = plot(fig, output_type='div', include_plotlyjs=False)
         return plot_div
-    
-    
 
+# def Plotter(request):
 
 
 @login_required
@@ -156,13 +204,13 @@ def report_submission(request, report_id):
     return render(request, 'report_submission.html', {'form': form, 'report': report})
 
 
+@csrf_exempt
 @login_required
 def doctor_applicant_report(request, test_id, test_type, receiver_id):
     # PUT Request
     if request.method == 'PUT':
         raw_data = request.body
-        data_string = raw_data.decode('utf-8')
-        data = json.loads(data_string)
+        data = QueryDict(raw_data)  # Parse form-urlencoded data
         content = data.get('content')
         test = get_object_or_404(Test, id=test_id)
         applicant = get_object_or_404(User, id=receiver_id)
@@ -184,6 +232,44 @@ def doctor_applicant_report(request, test_id, test_type, receiver_id):
     report_exists = report_model.objects.filter(test_id=test_id, applicant=receiver_id).exists()
     report = None if not report_exists else report_model.objects.get(test_id=test_id)
     test = get_object_or_404(Test, id=test_id)
+    objs = report_model.objects.all()
+    objs_data = []
+    if report_model == BloodTestReport:
+        objs_data = [
+            {
+                'RBC_result': x.RBC_result,
+                'PCV_result': x.PCV_result,
+                'WBC_result': x.WBC_result,
+                'Neutrophils_result': x.Neutrophils_result,
+                'Lymphocytes_result': x.Lymphocytes_result,
+                'Eosinophils_result': x.Eosinophils_result,
+                'Monocytes_result': x.Monocytes_result,
+                'Basophils_result': x.Basophils_result,
+                'Platelet_count': x.Platelet_count,
+                'hemoglobin_result': x.hemoglobin_result,
+                'blood_pressure_result': x.blood_pressure_result,
+                'cholesterol_level_result': x.cholesterol_level_result,
+            }  for x in objs
+        ]
+    else:
+        objs_data = [
+            {
+                'blood_sugar_level_result': x.blood_sugar_level_result,
+                'insulin_level_result': x.insulin_level_result,
+            }  for x in objs
+        ]
+
+
+    df = pd.DataFrame(objs_data)
+    for index, row in df.iterrows():
+        fig = px.bar(
+            row,  # Using the row as data
+            x=row.index,  # Use index as x values
+            y=row.values  # Use values as y values
+        )
+        fig.update_yaxes(autorange="reversed")
+        gantt_plot = plot(fig, output_type="div")
+
     user = request.user
     if user != test.assigned_to and user not in test.testapplication_set.values_list('user', flat=True):
         return JsonResponse({'error': 'Unauthorized'}, status=403)
@@ -196,6 +282,7 @@ def doctor_applicant_report(request, test_id, test_type, receiver_id):
         test = get_object_or_404(Test, id=test_id)
         applicant = get_object_or_404(User, id=receiver_id)
         report = BloodTestReport.objects.get(test=test, applicant=applicant) if test_type == 'blood' else DiabetesTestReport.objects.get(test=test, applicant=applicant)
+        print(content)
         if report:
             if report.status == 'submission':
                 report.status = 'evaluation'
@@ -203,36 +290,42 @@ def doctor_applicant_report(request, test_id, test_type, receiver_id):
                 report.status = 'completed'
             report.content = content 
             report.save()
-            return JsonResponse({'message': 'Report updated successfully'})
+            return redirect('doctor_applicant_report', test_id=test_id, test_type=test_type, receiver_id=receiver_id)
         else:
             return JsonResponse({'error': 'Report not found'}, status=404)
-        
+    # plot1 = dash_view()
     context = {
         'test': test,
         'user': user,
         'receiver': receiver,
         'messages': messages,
         'report': report,
-        'plot1': scatter(test_id, receiver_id)
+        'plot1': scatter(test_id, receiver_id),
+        'plot_div': gantt_plot
+        # 'plot1': plot1
     }
     return render(request, 'docAI/doctor_applicant_report.html', context)
 
 
+@csrf_exempt
 @login_required
-def doctor_applicant_report_status_update (request, test_id, test_type, receiver_id):
+def doctor_applicant_report_status_update(request, test_id, test_type, receiver_id):
     if request.method == 'PUT':
+        # Get the test, applicant, and report objects
         test = get_object_or_404(Test, id=test_id)
         applicant = get_object_or_404(User, id=receiver_id)
         report = BloodTestReport.objects.get(test=test, applicant=applicant) if test_type == 'blood' else DiabetesTestReport.objects.get(test=test, applicant=applicant)
+
         if report:
             if report.status == 'evaluation':
                 report.status = 'submission'
             elif report.status == 'completed':
                 report.status = 'submission'
             report.save()
-            return JsonResponse({'message': 'Report updated successfully'})
+            return JsonResponse({'message': 'Report status updated successfully'})
         else:
             return JsonResponse({'error': 'Report not found'}, status=404)
+
 
 
 @login_required
@@ -284,6 +377,11 @@ def send_message(request, receiver_id):
     else:
         return JsonResponse({'error': 'Invalid request'})
     
+
+@login_required
+def customer_chatbot_view (request):
+    return render(request, 'docAI/customer_chatbot.html')
+    
     
 @login_required
 def doctor_chat_applicants(request):
@@ -294,6 +392,7 @@ def doctor_chat_applicants(request):
         user = User.objects.get(id=user_id)
         applicants.append(user)
     return render(request, 'docAI/doctor_chat_applicants.html', {'applicants': applicants})
+
 
 # @login_required
 # def chat_view(request, test_id):
@@ -349,6 +448,14 @@ def test_detail(request, test_id):
     sender = request.user
     receiver = test.assigned_to
     messages = Message.objects.filter(Q(sender=sender, receiver=receiver) | Q(sender=receiver, receiver=sender)).order_by('timestamp')
+    # Get the report based on test type and applicant ID
+    if test.type == Test.BLOOD_TEST:
+        report = BloodTestReport.objects.filter(test=test, applicant=request.user).first()
+    elif test.type == Test.DIABETES_TEST:
+        report = DiabetesTestReport.objects.filter(test=test, applicant=request.user).first()
+    else:
+        report = None
+    
     if request.method == 'POST':
         content = request.POST.get('content')
         try:
@@ -356,11 +463,13 @@ def test_detail(request, test_id):
             return JsonResponse({'content': message.content})
         except IntegrityError:
             return JsonResponse({'error': 'Failed to create message'}, status=500)
+    
     context = {
         'test': test,
         'user': sender,
         'receiver': receiver,
-        'messages': messages
+        'messages': messages,
+        'report': report 
     }
     return render(request, 'docAI/test_detail.html', context)
 

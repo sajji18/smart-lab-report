@@ -3,6 +3,13 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.graph_objs as go
 from django_plotly_dash import DjangoDash
+import plotly.express as px
+
+import dash_core_components as dcc
+import dash_html_components as html
+from dash.dependencies import Input, Output
+import plotly.graph_objs as go
+from django_plotly_dash import DjangoDash
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -10,7 +17,7 @@ app = DjangoDash('SimpleExample', external_stylesheets=external_stylesheets)
 
 
 app.layout = html.Div([
-    html.H1('Square Root Slider Graph'),
+    # html.H1('Square Root Slider Graph'),
     dcc.Graph(id='slider-graph', animate=True, style={"backgroundColor": "#1a2d46", 'color': '#ffffff'}),
     dcc.Slider(
         id='slider-updatemode',
@@ -51,3 +58,55 @@ def display_value(value):
 
     )
     return {'data': [graph], 'layout': layout}
+
+# # from dash import dcc, html, Input, Output, clientside_callback, ClientsideFunction
+# # import dash_mantine_components as dmc
+# # from data import tradeData
+# # from django_plotly_dash import DjangoDash
+
+
+# # app = DjangoDash(__name__, external_scripts=['https://cdn.jsdelivr.net/npm/apexcharts'])
+# # app.layout = html.Div(
+# #     children=[
+# #         dcc.Store(id='ApexchartsSampleData', data=tradeData),
+# #         html.H1("Javascript Charts inside a Dash App"),
+# #         dmc.Center(
+# #             dmc.Paper(
+# #                 shadow="sm",
+# #                 style={'height':'600px', 'width':'800px', 'marginTop':'100px'},
+# #                 children=[
+# #                     html.Div(id='apexAreaChart'),
+# #                     dmc.Center(
+# #                         children=[
+# #                             dmc.SegmentedControl(
+# #                                 id="selectCountryChip",
+# #                                 value="Canada",
+# #                                 data=['Canada', 'USA', 'Australia'],
+# #                             )
+# #                         ]
+# #                     )
+# #                 ]
+# #             )
+# #         )
+# #     ]
+# # )
+
+
+# # clientside_callback(
+# #     ClientsideFunction(
+# #         namespace='apexCharts',
+# #         function_name='areaChart'
+# #     ),
+# #     Output("apexAreaChart", "children"),
+# #     Input("ApexchartsSampleData", "data"),
+# #     Input("selectCountryChip", "value"),
+# # )
+
+# # @app.callback(
+# #     ClientsideFunction(
+# #         namespace='apexCharts',
+# #         function_name='areaChart'
+# #     ),
+# #             Output("apexAreaChart", "children"),
+# #             [Input("ApexchartsSampleData", "data"),
+# #             Input("selectCountryChip", "value")])

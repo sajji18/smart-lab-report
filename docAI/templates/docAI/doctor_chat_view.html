@@ -40,7 +40,7 @@
 
     .message-container {
         overflow-y: auto;
-        height: 95%; /* Adjust as needed */
+        height: 85%; /* Adjust as needed */
     }
 
     .message-container::-webkit-scrollbar {
@@ -85,12 +85,12 @@
                 {% endif %}
             {% endfor %}
         </div>
-        <form class="message_form" id="message-form" style="display: flex; justify-content: flex-end; align-items: center; transform: translateY(-50px);">
-            {% csrf_token %}
-            <input type="text" id="message-input" name="content" placeholder="Type your message" style="margin: 0 5px; flex: 1; padding: 8px 0">
-            <button type="submit" style="padding: 10px 16px; border-radius: 4px; border: none; color: white; background-color: #5dbea3">Send</button>
-        </form>
     </div>
+    <form class="message_form" id="message-form" style="display: flex; justify-content: flex-end; align-items: center; width: 48.25%; transform: translateY(-50px);">
+        {% csrf_token %}
+        <input type="text" id="message-input" name="content" placeholder="Type your message" style="margin: 0 5px; flex: 1; padding: 8px 0">
+        <button type="submit" style="padding: 10px 16px; border-radius: 4px; border: none; color: white; background-color: #5dbea3">Send</button>
+    </form>
 </div>
 {% endblock body %}
 
