@@ -66,8 +66,8 @@ Install
 
 ## 🛠️ Tech Stack
 
-**Client/FrontEnd:** Django, Ajax, Sqllite3 , Google Oauth3 , 
-**ML/Data:** Dash , Django all-auth , Plotly , Plotly.express , torch , ntlk , 
+-**Client/FrontEnd:** Django, Ajax, Sqllite3 , Google Oauth3 , 
+-**ML/Data:** Dash , Django all-auth , Plotly , Plotly.express , torch , ntlk , 
 
 
 
