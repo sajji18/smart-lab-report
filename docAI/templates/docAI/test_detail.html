@@ -59,8 +59,8 @@
     {% if user.user_type == 'customer' or user.user_type == 'Customer' %}
         {% comment %} -------------------CUSTOMER--------------------- {% endcomment %}
         <div class="message_test_div">
-            <div class="projects-section">
-                <div class="projects-section-header">
+            <div class="projects-section" style="display: flex; justify-content: space-between; flex-direction: column; align-items: center; height: 85vh; padding: 20px;">
+                <div class="projects-section-header" style="display: flex; justify-content: space-between; width: 100%; column; align-items: center;">
                     <p>Test {{ test.id }}</p>
                     <p class="time">Date</p>
                 </div>
@@ -79,8 +79,20 @@
                         <p class="text">Completion</p>
                     </div>
                 </div>
-                <button class="btn" id="back" disabled>&larr; Back</button>
-                <button class="btn" id="next">Next &rarr;</button>
+                <div style="display: flex; justify-content: center; width: 100%; column; align-items: center; transform: translateY(-50px)">
+                    {% if report.status == 'submission' or report.status == 'Submission' %}
+                        <h2>Report is Yet to be Prepared</h2>
+                    {% elif report.status == 'evaluation' or report.status == 'Evaluation' %}
+                        <h2>Report is Under Evaluation</h2>
+                    {% elif report.status == 'completion' or report.status == 'Completion' %}
+                        <h2>Report is Completed</h2>
+                    {% endif %}
+
+                </div>
+                <div style="display: flex; justify-content: space-between; width: 100%; column; align-items: center;">
+                    <button class="btn" id="back" disabled>&larr; Back</button>
+                    <button class="btn" id="next">Next &rarr;</button>
+                </div>
             </div>
 
 

@@ -280,11 +280,14 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="{% plotly_class name='dash_app' %} card" style="height: 100%; width: 100%">
-                        {% plotly_app name='dash_app' ratio=0.45 %}
+                    <div style="display: flex; justify-content: center; align-items: center; width: 100%; border-bottom: 1px solid black;">
+                        <h1>Graph</h1>
+                    </div>
+                    <div class="{% plotly_class name='SimpleExample' %} card" style="height: 100%; width: 100%">
+                        {% plotly_app name='SimpleExample' ratio=0.45 %}
                         </div>
                     <br>
-                        {{ plot1 | safe }} {% endcomment %}
+                        {{ plot1 | safe }}
                     <div class="report_submit_buttons">
                         <button class="btn" id="back" disabled>&larr; Back</button>
                         <button class="btn" id="next">Next &rarr;</button>
