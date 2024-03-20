@@ -1,5 +1,6 @@
 {% extends 'docAI/layout/layout.html' %} {% load static %} {% block link %}
 <link rel="stylesheet" type="text/css" href="{% static 'docAI/layout.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'docAI/test_detail.css' %}" />
 {% endblock link %} {% block title %}Test {{ test.id }}{% endblock title %} 
 
 {% block style %}
@@ -7,15 +8,26 @@
     #message-area {
         background-color: #f2f2f2;
         border: 1px solid #ccc;
-        border-radius: 8px;
+        border-radius: 16px;
         padding: 10px;
         height: 100%;
         width: 95%;
     }
 
+    .message_area_top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+
     .message-container {
         overflow-y: auto;
-        height: 95%; /* Adjust as needed */
+        height: 82.5%;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #ccc;
     }
 
     .message-container::-webkit-scrollbar {
@@ -49,11 +61,30 @@
         <div class="message_test_div">
             <div class="projects-section">
                 <div class="projects-section-header">
-                    <p>Available Tests</p>
+                    <p>Test {{ test.id }}</p>
                     <p class="time">Date</p>
                 </div>
+                <div class="progress-container">
+                    <div class="progress" id="progress"></div>
+                    <div class="text-wrap active">
+                        <div class="circle">1</div>
+                        <p class="text">Submission</p>
+                    </div>
+                    <div class="text-wrap">
+                        <div class="circle">2</div>
+                        <p class="text">Evaluation</p>
+                    </div>
+                    <div class="text-wrap">
+                        <div class="circle">3</div>
+                        <p class="text">Completion</p>
+                    </div>
+                </div>
+                <button class="btn" id="back" disabled>&larr; Back</button>
+                <button class="btn" id="next">Next &rarr;</button>
             </div>
-            <div class="messages-section">
+
+
+            <div class="messages-section" style="padding: 15px 0 15px 0">
                 <button class="messages-close">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -72,10 +103,10 @@
                         <line x1="9" y1="9" x2="15" y2="15" />
                     </svg>
                 </button>
-                <div class="projects-section-header" style="height: 7.5%;">
-                    <p>Messages</p>
-                </div>
                 <div id="message-area" class="messages">
+                    <div class="message_area_top">
+                        <span style="font-weight: 600px; font-size: 18px"><b>Chat with {{ test.assigned_to.username }}</b></span>
+                    </div>
                     <div class="message-container">
                         {% for message in messages %}
                             {% if message.sender == user %}
@@ -85,20 +116,111 @@
                             {% endif %}
                         {% endfor %}
                     </div>
-                    <form class="message_form" id="message-form" style="display: flex; justify-content: flex-end; align-items: center;">
-                        {% csrf_token %}
-                        <input type="text" id="message-input" name="content" placeholder="Type your message" style="margin: 0 5px; flex: 1; padding: 4px 0">
-                        <button type="submit" style="padding: 6px 16px; border-radius: 4px; border: none; color: white; background-color: #5dbea3">Send</button>
-                    </form>
+                    
                 </div>
+                <form class="message_form" id="message-form" style="display: flex; justify-content: space-between; align-items: center; transform: translateY(-52.5px); width: 87.5%;">
+                    {% csrf_token %}
+                    <input type="text" id="message-input" name="content" placeholder="Type your message" style="margin: 0 5px; flex: 1; padding: 8px 5px">
+                    <button type="submit" style="padding: 10px 16px; border-radius: 4px; border: none; color: white; background-color: #5dbea3">Send</button>
+                </form>
             </div>
         </div>
     {% endif %}
 {% endblock body %}
 
 
-{% comment %} {% block script %}
+{% block script %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $('#next').click(function(event) {
+            const formData = $('#reportForm').serialize();
+            $.ajax({
+                type: 'PUT',
+                url: window.location.href,
+                data: formData,
+                success: function(data) {
+                    console.log('Form submitted successfully:', data);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error submitting form:', error);
+                }
+            });
+        });
+
+        $('#back').click(function(event) {
+            const formData = $('#reportForm').serialize();
+            $.ajax({
+                type: 'PUT',
+                url: window.location.href,
+                data: formData,
+                success: function(data) {
+                    console.log('Form submitted successfully:', data);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error submitting form:', error);
+                }
+            });
+        });
+    </script>
+
+    <script>
+        const progress = document.getElementById('progress')
+        const back = document.getElementById('back')
+        const next = document.getElementById('next')
+        const wraps = document.querySelectorAll('.text-wrap')
+        let currentActive = 1
+
+        const reportStatus = "{{ report.status }}";
+
+        if (reportStatus === 'evaluation' || reportStatus === 'Evaluation') {
+            currentActive = 2;
+        } else if (reportStatus === 'completion' || reportStatus === 'Completed') {
+            currentActive = 3;
+        }
+
+        update();
+
+
+        next.addEventListener('click', () => {
+            currentActive++
+            if(currentActive > wraps.length) {
+                currentActive = wraps.length
+            }
+
+            update()
+        })
+
+        back.addEventListener('click', () => {
+            currentActive--
+            if(currentActive < 1) {
+                currentActive = 1
+            }
+
+            update()
+        })
+
+        function update() {
+            wraps.forEach((wrap, index) => {
+                if(index < currentActive) {
+                    wrap.classList.add('active')
+                } else {
+                    wrap.classList.remove('active')
+                }
+            })
+
+            const actives = document.querySelectorAll('.active')
+            progress.style.width = (actives.length - 1) / (wraps.length - 1)* 80 + '%'
+
+            if(currentActive === 1) {
+                back.disabled = true
+            } else if(currentActive === wraps.length) {
+                next.disabled = true
+            } else {
+                back.disabled = false
+                next.disabled = false
+            }
+        }
+    </script>
     <script>
         $(document).ready(function(){
             $('#message-form').submit(function(event){
@@ -151,4 +273,4 @@
 
         setInterval(fetchMessages, 5000);
     </script>
-{% endblock script %} {% endcomment %}
+{% endblock script %}
