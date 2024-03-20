@@ -73,15 +73,31 @@ To use DocAI, follow these steps:
 
 ## 🛠️ Challenges Faced
 
-## Problem Solution and Approach
+## Problem and Approach
 
 
-| Problems  | Solution | Approach                   |
+| Problems  | Approach | Status                   | 
 | :-------- | :------- | :------------------------- |
-| Database Design| `string` | **Required**. Your API key |
-| Parameter | Type     | Description                |
+| Database Design| Hit and Trial | Decent |
+| Ajax Dynamic Updates | Planned    | Good               |
 | :-------- | :------- | :------------------------- |
-| Parameter | Type     | Description                |
+| Chatbot Integration | Research     | Good               |
+| :-------- | :------- | :------------------------- |
+| Chart Integration | Research     | Decent              |
+| :-------- | :------- | :------------------------- |
+| Database and Chart Compatibility | Hit and Trial     | Poor                |
+| :-------- | :------- | :------------------------- |
+| Route Protection | Planned     |    Decent      |
+| :-------- | :------- | :------------------------- |
+| Chat Utility | Planned     | Good              |
+| :-------- | :------- | :------------------------- |
+| Dark Mode Theme | Unplanned     | Could be Better               |
+| :-------- | :------- | :------------------------- |
+| NLP/bot optimization | Research     | Could be Better               |
+| :-------- | :------- | :------------------------- |
+| Bearable Value Visualisation | Unplanned     | Didnt Apply             |
+| :-------- | :------- | :------------------------- |
+| Report Generation and export | Planned     | Didnt apply              |
 | :-------- | :------- | :------------------------- |
 
 ## 📃 Future Strategic Objectives
