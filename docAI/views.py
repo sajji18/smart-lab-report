@@ -61,7 +61,7 @@ def dash_view():
 #         Input("ApexchartsSampleData", "data"),
 #         Input("selectCountryChip", "value"),
 #     )
-#     return 
+    return app.layout
 
 
 def scatter(test_id, applicant_id):
@@ -408,6 +408,14 @@ def test_detail(request, test_id):
     sender = request.user
     receiver = test.assigned_to
     messages = Message.objects.filter(Q(sender=sender, receiver=receiver) | Q(sender=receiver, receiver=sender)).order_by('timestamp')
+    # Get the report based on test type and applicant ID
+    if test.type == Test.BLOOD_TEST:
+        report = BloodTestReport.objects.filter(test=test, applicant=request.user).first()
+    elif test.type == Test.DIABETES_TEST:
+        report = DiabetesTestReport.objects.filter(test=test, applicant=request.user).first()
+    else:
+        report = None
+    
     if request.method == 'POST':
         content = request.POST.get('content')
         try:
@@ -415,11 +423,13 @@ def test_detail(request, test_id):
             return JsonResponse({'content': message.content})
         except IntegrityError:
             return JsonResponse({'error': 'Failed to create message'}, status=500)
+    
     context = {
         'test': test,
         'user': sender,
         'receiver': receiver,
-        'messages': messages
+        'messages': messages,
+        'report': report 
     }
     return render(request, 'docAI/test_detail.html', context)
 
