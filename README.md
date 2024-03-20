@@ -1,12 +1,10 @@
 ![logo](https://github.com/sajji18/TinkerQuest-24/blob/main/media/logo.jpeg)
 
-#
-
 <div align="center">
 
 </div>
 
-# DocAI
+# ⛑️ DocAI
 
 <br>
 
@@ -42,8 +40,8 @@ To use DocAI, follow these steps:
 
 ## 📖 Video Demonstration and Presentation
 
--[Presentation]()
--[Video Presentation]()
+-[Presentation](https://docs.google.com/presentation/d/17KsKaxRCzVPJdcxRNS669vafY8-4H6o8kgXtJ7Dvdbg/edit?usp=sharing)
+-[Video Presentation](https://drive.google.com/drive/folders/1tt6ddJLIdU-V4CypO0hqysUdEBw2kHub?usp=drive_link)
 
 
 ## 🛠️ Tech Stack
@@ -76,8 +74,19 @@ To use DocAI, follow these steps:
 
 ## 🛠️ Challenges Faced
 
+## API Reference
+
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `api_key` | `string` | **Required**. Your API key |
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
 
 ## 📃 Future Strategic Objectives
+
 
 
 ## ✨ Contributors-
