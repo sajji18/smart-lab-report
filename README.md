@@ -50,28 +50,28 @@ To use DocAI, follow these steps:
 
 **Client/FrontEnd:**
 
--Django: Our web application framework of choice for building the frontend.
+- Django: Our web application framework of choice for building the frontend.
 
--Ajax: Used for asynchronous communication between the client and server, enhancing the user experience.
+- Ajax: Used for asynchronous communication between the client and server, enhancing the user experience.
 
--Sqllite3: The lightweight database engine, suitable for development and testing purposes.
+- Sqllite3: The lightweight database engine, suitable for development and testing purposes.
 
--Google OAuth3: For secure authentication and authorization of users.
+- Google OAuth3: For secure authentication and authorization of users.
 
 
 **ML/Data:**
 
--Dash: Utilized for creating interactive, web-based data visualizations to enhance report readability.
+- Dash: Utilized for creating interactive, web-based data visualizations to enhance report readability.
 
--Django all-auth: Provides authentication and authorization features, ensuring secure access to the application.
+- Django all-auth: Provides authentication and authorization features, ensuring secure access to the application.
 
--Plotly: A powerful visualization library used for creating dynamic and engaging charts within the reports.
+- Plotly: A powerful visualization library used for creating dynamic and engaging charts within the reports.
 
--Plotly Express: Simplifies the creation of complex visualizations, further enhancing the report's clarity.
+- Plotly Express: Simplifies the creation of complex visualizations, further enhancing the report's clarity.
 
--torch: PyTorch is employed for machine learning tasks, aiding in the automation of report generation.
+- torch: PyTorch is employed for machine learning tasks, aiding in the automation of report generation.
 
--nltk: Natural Language Toolkit used for processing natural language, facilitating the integration of text-based features like the chatbot.
+- nltk: Natural Language Toolkit used for processing natural language, facilitating the integration of text-based features like the chatbot.
 
 
 ## 🛠️ Challenges Faced
