@@ -1,6 +1,7 @@
 import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+import pandas as pd
 from .models import Test, Message, TestApplication, BloodTestReport, DiabetesTestReport
 from django.http import JsonResponse, HttpResponse, QueryDict
 from django.db import IntegrityError
@@ -231,6 +232,44 @@ def doctor_applicant_report(request, test_id, test_type, receiver_id):
     report_exists = report_model.objects.filter(test_id=test_id, applicant=receiver_id).exists()
     report = None if not report_exists else report_model.objects.get(test_id=test_id)
     test = get_object_or_404(Test, id=test_id)
+    objs = report_model.objects.all()
+    objs_data = []
+    if report_model == BloodTestReport:
+        objs_data = [
+            {
+                'RBC_result': x.RBC_result,
+                'PCV_result': x.PCV_result,
+                'WBC_result': x.WBC_result,
+                'Neutrophils_result': x.Neutrophils_result,
+                'Lymphocytes_result': x.Lymphocytes_result,
+                'Eosinophils_result': x.Eosinophils_result,
+                'Monocytes_result': x.Monocytes_result,
+                'Basophils_result': x.Basophils_result,
+                'Platelet_count': x.Platelet_count,
+                'hemoglobin_result': x.hemoglobin_result,
+                'blood_pressure_result': x.blood_pressure_result,
+                'cholesterol_level_result': x.cholesterol_level_result,
+            }  for x in objs
+        ]
+    else:
+        objs_data = [
+            {
+                'blood_sugar_level_result': x.blood_sugar_level_result,
+                'insulin_level_result': x.insulin_level_result,
+            }  for x in objs
+        ]
+
+
+    df = pd.DataFrame(objs_data)
+    for index, row in df.iterrows():
+        fig = px.bar(
+            row,  # Using the row as data
+            x=row.index,  # Use index as x values
+            y=row.values  # Use values as y values
+        )
+        fig.update_yaxes(autorange="reversed")
+        gantt_plot = plot(fig, output_type="div")
+
     user = request.user
     if user != test.assigned_to and user not in test.testapplication_set.values_list('user', flat=True):
         return JsonResponse({'error': 'Unauthorized'}, status=403)
@@ -261,7 +300,8 @@ def doctor_applicant_report(request, test_id, test_type, receiver_id):
         'receiver': receiver,
         'messages': messages,
         'report': report,
-        'plot1': scatter(test_id, receiver_id)
+        'plot1': scatter(test_id, receiver_id),
+        'plot_div': gantt_plot
         # 'plot1': plot1
     }
     return render(request, 'docAI/doctor_applicant_report.html', context)
