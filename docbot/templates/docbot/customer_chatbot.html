@@ -1,0 +1,204 @@
+{% extends 'docAI/layout/layout.html' %}
+{% load static %}
+
+{% block link %}
+<link rel="stylesheet" type="text/css" href="{% static 'docAI/layout.css' %}" />
+{% endblock link %}
+
+{% block style %}
+<style>
+    .main_right_container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0px 10px 10px 10px;
+    }
+
+    .main_right_container_heading {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        background-color: #f2f2f2;
+        border-radius: 8px;
+    }
+
+    .message_area_top {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #message-area {
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 10px 15px 25px 15px;
+        width: 55%;
+        height: 80vh;
+    }
+
+    .message-container {
+        overflow-y: auto;
+        height: 82.5%; /* Adjust as needed */
+    }
+
+    .message-container::-webkit-scrollbar {
+        display: none;
+    }
+    .message {
+        clear: both;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 8px;
+    }
+    .sent {
+        background-color: #DCF8C6; /* Light green */
+        float: right;
+    }
+    .received {
+        background-color: #FFFFFF; /* White */
+        float: left;
+    }
+    .clear_chat_a {
+        text-decoration: none;
+        font-size: 18px;
+        color: rgb(236, 113, 113);
+        border: 1px solid rgb(236, 113, 113);
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+</style>
+{% endblock style %}
+
+{% block title %}
+    Chat View
+{% endblock title %}
+
+{% block body %}
+<div class="main_right_container" style="flex: 1; display: flex; margin-top: 20px;">
+    <div class="main_right_container_heading" style="background-color: transparent;">
+        <h1>DOCBOT</h1>
+    </div>
+    <div id="message-area" class="messages">
+        <div class="message_area_top">
+            <span style="font-weight: 600px;"><b>Chat with Chatbot</b></span>
+            <a class="clear_chat_a" id="clear-chat-btn">Clear Chat</a>
+        </div>
+        <div class="message-container">
+            {% for message in messages %}
+                {% if message.sender == user %}
+                    <div class="message sent">{{ message.content }}</div>
+                {% else %}
+                    <div class="message received">{{ message.content }}</div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <form class="message_form" id="message-form" style="display: flex; justify-content: space-between; align-items: center; transform: translateY(-52.5px); width: 52.5%;">
+        {% csrf_token %}
+        <input type="text" id="message-input" name="content" placeholder="Type your message" style="margin: 0 5px; flex: 1; padding: 8px 5px">
+        <button type="submit" style="padding: 10px 16px; border-radius: 4px; border: none; color: white; background-color: #5dbea3">Send</button>
+    </form>
+</div>
+{% endblock body %}
+
+{% block script %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        function parseInputString(inputString) {
+            // Split the input string by '&'
+            var keyValuePairs = inputString.split('&');
+            var content = '';
+        
+            // Iterate through key-value pairs to find the 'content' value
+            keyValuePairs.forEach(function(pair) {
+                var keyValue = pair.split('=');
+                var key = keyValue[0];
+                var value = keyValue[1];
+        
+                // If the key is 'content', decode the URI and assign it to the content variable
+                if (key === 'content') {
+                    content = decodeURIComponent(value.replace(/\+/g, ' '));
+                }
+            });
+            return content;
+        }
+
+        $(document).ready(function(){
+            // Retrieve messages from local storage
+            var storedMessages = JSON.parse(localStorage.getItem('messages')) || [];
+        
+            // Display stored messages
+            storedMessages.forEach(function(message) {
+                var newMessage = '<div class="message sent">' + message.user + '</div>';
+                $('.message-container').append(newMessage);
+                newMessage = '<div class="message received">' + message.bot + '</div>';
+                $('.message-container').append(newMessage);
+            });
+        
+            $('#message-form').submit(function(event){
+                event.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: window.location.href,
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response){
+                        if (response && response.result) {
+                            var newMessage = '<div class="message sent">' + parseInputString(formData) + '</div>';
+                            $('.message-container').append(newMessage);
+                            newMessage = '<div class="message received">' + response.result + '</div>';
+                            $('.message-container').append(newMessage);
+                            // Store message in local storage
+                            storedMessages.push({'user': parseInputString(formData), 'bot': response.result});
+                            localStorage.setItem('messages', JSON.stringify(storedMessages));
+                            $('#message-input').val(''); 
+                            $('.message-container').scrollTop($('.message-container')[0].scrollHeight);
+                        } else {
+                            console.log('Invalid response from server');
+                        }
+                    },
+                    error: function(xhr, errmsg, err){
+                        console.log(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function(){
+            // Function to handle click event for Clear Chat button
+            $('#clear-chat-btn').click(function() {
+                $('.message-container').empty();
+                localStorage.removeItem('messages');
+            });
+        });
+
+        const fetchMessages = () => {
+            $.ajax({
+                type: 'GET',
+                url: '/get_messages/',  // Replace with your server endpoint to get messages
+                success: function(response) {
+                    // Assuming response is a JSON object containing messages
+                    const messages = response.messages;
+                    const $messageContainer = $('.message-container');
+                    const currentMessages = $messageContainer.html();
+        
+                    // Compare the current messages with the received messages
+                    if (currentMessages !== messages) {
+                        $messageContainer.html(messages);
+                        $messageContainer.scrollTop($messageContainer[0].scrollHeight);
+                    }
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                }
+            });
+        };
+        
+    </script>
+{% endblock script %}
