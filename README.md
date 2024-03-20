@@ -32,7 +32,7 @@ ReportGen streamlines the report-making process by automating key tasks while en
 To use DocAI, follow these steps:
 1. Clone this repository.
 ```bash
-  git clone link
+  git clone [link](https://github.com/sajji18/TinkerQuest-24.git)
 ```
 2. Install the required dependencies using `pip install -r requirements.txt`.
 3. Set up your Google OAuth credentials.
