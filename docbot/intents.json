@@ -1,0 +1,436 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi there",
+        "Hii" ,
+        "Hi",
+        "How are you",
+        "Is anyone there?",
+        "Hey","Hola", 
+        "Hello", 
+        "Good day"],
+      "responses": [
+        "Hey :-)",
+        "Hii",
+        "Hello", 
+        "Thanks for asking", 
+        "Good to see you again", 
+        "Hi there, how can I help?"]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Bye", 
+                  "See you later",
+                  "Goodbye",
+                  "Nice chatting to you,bye", 
+                  "Till next time"],
+      "responses": [
+        "See you later, thanks for visiting",
+        "Have a nice day",
+        "Bye! Come back again soon."]
+    },
+    {
+      "tag": "thanks",
+      "patterns": ["Thanks", "Thank you", "That's helpful", "Thank's a lot!"],
+      "responses": ["Happy to help!", "Any time!", "My pleasure"]
+    },
+    {
+      "tag": "noanswer",
+      "patterns": [],
+      "responses": ["Sorry, can't understand you", "Please give me more info", "Not sure I understand"]
+    },
+    {
+      "tag": "initial",
+      "patterns": [
+        "I am not feeling well",
+        "I am not okay.",
+        "I am feeling weak"],
+      "responses": [
+        "Ohho Don't worry. I'll help you.",
+        "Be relax. Tell me Symptoms you are suffering from.", 
+        "Here I am to assist you."
+      ]
+    },
+    {
+      "tag": "options",
+      "patterns": [
+        "How you could help me?", 
+        "What you can do?", 
+        "What help you provide?", 
+        "How you can be helpful?", 
+        "What support is offered",
+        "Will you help me"
+      ],
+      "responses": [
+        "I can guide you through Advise drug list, Hospitals and Pharmacies", "Offering support for Advise drug , Hospitals and Pharmacies", "Be relax. Tell me Symptoms you are suffering from."
+      ]
+    },
+    {
+      "tag": "fever",
+      "patterns": [
+        "I'm having fever",
+        "i am having fever",
+        "i am having hot skin",
+        "Feeling hot",
+        "Feeling sick",
+        "Feels like vomeiting",
+        "I have a fever ",
+        "I have fever",
+        "I am having high temperature",
+        "I am having high temperature more than 38 degree",
+        "feeling like shivering ", 
+        "having weakness "
+      ],
+      "responses": [
+        "It seems like you are having FEVER, Do not worry, have some precautions at home ( 1. Drink Plenty of cool or room-temperature water 2. Have a sponge bath with lukewarm water 3.Wear Lite clothing or pajamas 4.Get Plenty of Rest 5.Drink Fluids like Soups, Juice etc. Still if u do not feel better then you can consider these Medicines => Paracetamol, -Acetaminophen, -Aspirin, -Advil Capsule, -Voltaren, -Dolo, -Prednisone, -Methylprednisolone. or You can connect with Dr. Madhav Bhatiya (internist), C.No: 8078909765, Address: Near Shanivar Wada, Pune"
+      ]
+    },
+    {
+      "tag":"common cold symptoms",
+      "patterns": [
+        "Difficulty in Breathing",
+        "I am having low grade fever",
+        "loss of taste and smell",
+        "Sneezing",
+        "low grade cough",
+        "fatigue in muscles",
+        "Feeling tired"
+      ],
+      "responses":[
+        "It seems like you are suffering from some common cold symptoms, Do not worry, have some most effective common home precautions ( 1. A Salt water Gargle can help your throat ease irritation 2. Drink Plenty of Fluids it keeps you hydrated and relieve congestion 3. Use Vapor rub 4. Get plenty of Rest 5. Have a warm bath that will help ease mild aches and pains that are common with a cold. etc). Still if u do not feel better then you can consider these Medicines => -Acetaminophen, -Ibuprofen, naproxen."
+      ]
+     },
+     {
+      "tag":"Diabetes symptoms",
+      "patterns":[
+      "unusual increase in hunger",
+      "i'm having more infections than usual",
+      "Urinate a lot",
+      "Peeing a lot",
+      "unusual weight loss",
+      "suffering from frequent urination"
+    ],
+      "responses":[
+        "It seems like you are suffering from Diabetes Symtoms, Do not worry, you can have some common home precautions (1. Food's that you have to avoid ['Refined Sugar', 'Whole Grains', 'Alcohol', 'Cow's milk', 'GMO Foods' etc. 2. Consume Aloe Vera, Jamun, Vitamin C 3. Exercise on regular basis 4. Lose weight if you are Overweight. 5. Quit Smoking if you do etc). Still if u do not feel better then you can consider these Medicines => Metformin, Rybelsus, semaglutide, Glucophage. or You can connect with Dr. Madhavi Solanki (endocrinologist), C.No: 80787514090, Address: Near Shantiniketan Chauk, Jalna"
+      ]
+     },
+     {
+      "tag":"Depression symptoms",
+      "patterns":["Hopeless outlook",
+      "Lost interest",
+      "i am having sleep problem",
+      "having sleep problem",
+      "Feeling Hopeless and guilty",
+      "feeling low energetic",
+      "sudden change in appetite",
+      "Anxiety",
+      "unusual change in weight",
+      "Looking at death"],
+      "responses":["It seem like you are suffering from normal depression. Do not worry, you can have some precautions (1. Get in a Routine 2. Set Goals 3. Exercice on daily basis 4. Eat Healthy 5. Get enough Sleep 6. Try to have fun) etc. Still if u do not feel better then you can consider these Medicines => Amitriptyline and Perphenazine, Brexanolone, Brexpiprazole, Desipramine. or You can connect with Dr. Manisha Chaudhari (psychiatrist) C.No: 4332087695,Address: Veer Sawarkar Chauk, Malegaon"]
+     },
+     {
+      "tag":"Asthma symptoms",
+      "patterns":[
+      "tightness in the chest and coughing",
+      "i am having shortness in breath",
+      "shortness in breath",
+      "difficulty while talking",
+      "difficulty in talking",
+      "Unusual Pain in Chest",
+      "Trouble in sleeping"
+      ],
+      "responses":["It seem like you are suffering from Asthma, Do not worry, you can have some precautions (1. Consume caffinated tea or coffee 2. Perform some Breathing Exercise 3. Keep your house clean and Dust Free 4. Quite Smoking 5. Use your inhaler properly) etc. Still if u do not feel better then you can consider these Medicines => Acebrophylline, Bambuterol, Salbutamol, Acetylcysteine, Levalbuterol. or You can connect with Dr. Sanjay Jadhav (immunologists) C.No: 9088875664, Address: Near Maha Nagar Palika, Chandwad"]
+     },
+    {
+      "tag": "ringworm",
+      "patterns": [
+        "I am having ringworm",
+        "A scaly ring-shaped area",
+         "typically on the buttocks",
+          "A clear or scaly area inside the ring" ,
+          "perhaps with a scattering of red bumps" ,
+          "A round",
+          "flat patch of itchy skin"
+      ],
+      "responses": [
+        "It seems like you have ringwarm. Do not worry, you can have some precautions (1. Clean that area thrice a day, 2. Apply Apple Cider Vinegar, 3. Use Coconut oil, 4. Use Aloe Vera, 5. Use Lemongrass oil or Tea) etc. Still if u do not feel better then you can consider these Medicines :-,Griseofulvin (Grifulvin V , Gris-PEG) , Terbinafine , and Itraconazole ,Terbinafine-tablets,You can meet one of the doctor from this list..."
+      ]
+    },
+    
+    {
+      "tag": "Blackheads",
+      "patterns": [
+        "I have dark color",
+        "blackheads are easy to spot on the skin. They are slightly raised",
+        "although they are not painful because they arenâ€™t inflamed like pimples. Pimples form when bacteria invade the blockage in the hair follicle",
+        " causing redness and inflammation"
+      ],
+      "responses": [
+        "It seems like you are having blackheads, Do not worry, you can have some precautions (1. Keep Skin clean all the time, 2. Use Clean Laundry, 3. Apply Baking Soda, 4. Use Clay, 5. Steam your face twice a day, 6. Use Lemon, Salt & Honey) etc. Still if u do not feel better then you can consider these Medicines =>The drugs contain ingredients such as salicylic acid, benzoyl peroxide, and resorcinol,Exfoliating scrubs and masks remove dead skin cells from your face and can help reduce blackheads,You can meet Dr. Prashant Mahajan (dermatologist), C.No: 7020666763, Address: Shivaji Chauk, Jalgaon"
+      ]
+    },
+    {
+      "tag": "psoriasis",
+      "patterns": [
+        "I have a Red patches on skin ",
+        "Skin Dryness",
+        "i am having Crached skin",
+        "i am having Itching on skin",
+        "skin burning or soreness",
+        "i am having cracked skin"    
+      ],
+      "responses": [
+       "It seem like you are suffering from psoriasis, Do not worry, you can have some precautions (1. Consume caffinated tea or coffee 2. Perform some Breathing Exercise 3. Keep your house clean and Dust Free 4. Quite Smoking 5. Use your inhaler properly) etc. Still if u do not feel better then you can consider these Medicines => Acitretin, Soriatane, Apremilast . or You can connect with Dr. Akash Jadhav (dermatologist) C.No: 4546324090, Address: Ram Mandir, Jalna."
+      ]
+    },
+    {
+      "tag": "ulcers",
+      "patterns": [
+        "Pain in Upper chest during eating",
+        "Pain in middle chest during eating",
+        "Heartburn",
+        "Vomiting blood",
+        "Gnawing or burning pain in your middle or upper stomach between meals or at night"
+      ],
+      "responses": [
+        "It seems like you are suffering from ulcers, Do not worry, you can have some precautions (1. Consume food that are rich in Flavonoids, 2. Consume Buttermilk, Yogurt, Honey, Garlic. 3. Have Proper meals (Vegetables, and Whole Grains) 4. Avoid coffee and Caffinated beverages, 5. Avoid Deep-Fried Food Items) etc. or if you still feeling not good then You can connect with Dr. Prajakta Patil (Gastroenterologist) C.No: 9871707070, Address: New S.T. Stop, shivaji chauk, Lavasa"
+      ]
+    },
+    {
+      "tag": "rosacea",
+      "patterns": [
+        "i am having Facial redness",
+        "Swollen",
+        "red bumps",
+        "swollen eyes and red",
+        "swollen eyelids",
+        "Enlarged nose"
+      ],
+      "responses": [
+        "It seems like you have rosacea. Do not worry, have some most effective common home precautions (1. Use Aloe Vera, 2. Use Coconut Oil, 3. Consume Green Tea, 4. Consume Oatmeal, 5. Use Turmeric) etc. Still if u do not feel better then you can consider these Medicines :-,azelaic acid (Azelex, Finacea), metronidazole (Metrogel, Noritate, others) and ivermectin (Soolantra). With azelaic acid and metronidazole,You can meet Dr. Manoj Chaudhari (dermatologists) C.No: 8087415099, Address: Near Kalanka Mata Temple, Jalgaon"
+      ]
+    },
+    {
+      "tag": "CHICKEN POX",
+      "patterns": [
+       "Loss of appetite",
+       "Headache",
+       "Tiredness and a general feeling of being unwell (malaise)"
+      ],
+      "responses": [
+        "It seems like you are having CHIKEN POX disease. Do not worry, have some most effective common home precautions (1. Apply calamine lotion, 2. Wear mittens to prevent scratching, 3. Use chamomile compresses, 4. Take baking soda baths, 5. Give approved pain relievers) etc. Still if u do not feel better then you can consider these Medicines => ,acyclovir (Zovirax, Sitavig),immune globulin intravenous (Privigen),You can meet Dr. Yash Pawar (dermatologist) C.N0: 8087514090 Address: Shivaji Chauk, Lavasa"
+      ]
+    },
+    {
+      "tag": "Acne",
+      "patterns": [
+        "I am Crusting of skin bumps",
+        "Papules (small red bumps)",
+        "Pustules (small red bumps containing white or yellow pus)",
+        "Redness around the skin eruptions","Scarring of the skin",
+        "Whiteheads",
+        "Blackheads"
+      ],
+      "responses": [
+        "It seems like you are having Acne. Do not worry, have some most effective common home precautions (1. Use Aloe Vera Gel, 2. Apple Cider Vinegar, 3. Bleach in the bath, 4. Bath 2 times a day 5. Use Coconut oil) etc. Still if u do not feel better then you can consider these Medicines =>- ,Retinoids and retinoid-like drugs,Antibiotics,Azelaic acid and salicylic acid,Dapsone,You can meet Dr. Sheetal Chaudhari (dermatologist) C.N0: 8087514090 Address: Lonavala, Pune"
+      ]
+    },
+    {
+      "tag": "Eczema",
+      "patterns": [
+        "I am having dry skin",
+        "I am skin itches",
+        "turns red"," burns",
+        "and stings",
+        "itchy bumps called hives may pop up on your skin,over time",
+        " the skin may thicken and feel scaly or leathery",
+        "fluid-filled blisters can form that may ooze and crust over"
+      ],
+      "responses": [
+        "It seems like you are having Eczema disease. Do not worry, have some most effective common home precautions (1. Use Aloe Vera Gel, 2. Apple Cider Vinegar, 3. Bleach in the bath, 4. Bath 2 times a day 5. Use Coconut oil) etc. Still if u do not feel better then you can consider these Medicines => ,Topical corticosteroid creams and ointments,Systemic corticosteroids,Antibiotics,Antiviral and antifungal medications,Antihistamines,Home care-taking lukewarm baths,moisturizing every day,wearing cotton and soft fabrics etc,You can meet Dr Advika Sonawane (Dermatologist) C.No : 9272707070 Address: Near Shanivar Wada, Pune"
+      ]
+    },
+    {
+      "tag": "hives",
+         "patterns": [
+           "I am outbreak of swollen",
+           "pale red bumps or plaques (wheals)"
+        ],
+         "responses": [
+           "It seems like you are having hives disease. Do not worry, have some most effective common home precautions (1. Use Cold Compress, 2. Take a bath with anti itch solution, 3. Keep things cool, 4. Use Alow Vera, 5. Apply Calamine Lotion) etc. Still if u do not feel better then you can consider these Medicines =>Avoid triggers,Use an over-the-counter anti-itch drug, Apply cold washcloth,Take a comfortably cool bath,Wear loose, smooth-textured cotton clothing,Avoid the sun,You can meet Dr Pratik Shengdane (allergist) C.No : 9272707070 Address: Near Sinhgad collage road, Pune"
+      ]
+    },
+    {
+      "tag": "dark circles",
+         "patterns": [
+           "dark coloration of the skin under the eyes"
+        ],
+         "responses": [
+           "It seems like you are having dark circles, Do not worry, have some most effective common home precautions (1. Apply cold milk 2. Use Aloe vera 3. Use almond oil and lemon juice 4. Tomatoes) etc. Still if u do not feel better then you can consider these Medicines => ,Avoid triggers,Use an over-the-counter anti-itch drug,Apply cold washcloth,Take a comfortably cool bath,Wear loose, smooth-textured cotton clothing,Avoid the sun,You can meet Dr Pratik Jogalekar (Dermatologist) C.No : 9272707070 Address: Near Sinhgad collage road, Pune"
+        ]
+    },
+    {
+      "tag": "Sinus Infection",
+         "patterns": [
+           "i am having Pain in the face",
+           " itching, pain in forehead",
+           " pain in sinuses",
+           " loss of smell",
+           " pain in back of the eyes, ear",
+           "I am feeling loss of smell",
+           " pain in forehead",
+           " runny nose",
+           "I am having pain in forehead",
+           " distorted sense of smell"
+          ],
+         "responses": [
+           "It seems like you are having Sinus infection, Do not worry, have some most effective common home precautions (1. Drink Plenty of Water 2. Eat foods with antibacterial properties 3. Have a good sleep 4. Exercise on daily basis) etc. Still if u do not feel better then you can consider these Medicines =>,Flonase and Dymista (fluticasone propionate), Nasonex (mometasone furoate), hydrocortisone, Nasacort AQ (triamcinolone),Use of Nasal sprays,Staying hydrated, Breathing in steam,Raising the head during sleep,You can meet Dr Ashwini Mahajan (Dermatologist) C.No : 9272707070 Address: Near Shanivar Wada, Pune"
+        ]
+    },
+    {
+      "tag": "Allergic Rhinitis",
+         "patterns": [
+           "i am having Pain in the ear",
+           "redness in nose",
+           "i am having stuffy nose" ,
+           "Eyes itchiness",
+           "I am having watery eyes"
+          ],
+         "responses": [
+           "It seems like you are having Allergic Rhinitis,Do not worry, have some most effective common home precautions (1. Stick to low fat diet with complex carbs as priority, 2. Flaxseed oil, zinc, and vitamins A, C, and E are suggested to improve allergy symptoms 3. Acupuncture treatments may help some people to find relief from their symptoms.) etc. Still if u do not feel better then you can consider these Medicines =>,Intranasal corticosteroids are the single most effective drug class for treating allergic rhinitis. They can significantly reduce nasal congestion as well as sneezing, itching and a runny nose,You can meet Dr Rahul Chavhan (Dermatologist) C.No : 9272707070 Address: Near Shanivar Wada, Pune"
+        ]
+    },
+    {
+      "tag": "Food Allergy",
+         "patterns": [
+           "pain in abdomen",
+           "i am having Pain in the abdomen",
+           "i am having diarrhoea",
+           "i am suffering from diarrhoea",
+           "indigestion of food",
+           "passing excessive amounts of gas",
+           "continous vomiting",
+           "flatulence",
+           "I am having flatulence",
+           "nausea "
+          ],
+         "responses": [
+           "It seems like you are having Food Allergy, Do not worry, have some most effective common home precautions (1. Stop Eating junk food 2. Consume Carrot Juice, Ginger 3. Green Tea consumption is must 4. Lemon juice 5. Vitamin C Food) etc. Still if u do not feel better then you can consider these Medicines =>,OTC or prescribed antihistamines such as diphenhydramine (Benadryl) may help reduce symptoms, Clean out your nose, Try an over-the-counter allergy medicine, Consider a prescription nasal spray or eye drops,Decongestants may also help relieve nasal congestion,Close your windows, and turn on the air conditioning, Or You can connect with Dr Roshni Patil (immunologist) C.No: 9272707070 Address: Near Shivaji Nagar, Pune"
+        ]
+    },
+    {
+      "tag": "Anaphylaxis",
+         "patterns": [
+           "I am feeling Whole body fainting",
+           "low blood pressure",
+           " difficulty breathing",
+           " rapid breathing",
+           " shortness of breath",
+           "I am having rapid breathing ",
+           " Whole body fainting ",
+           "I am having Whole body fainting "
+          ],
+         "responses": [
+           "It seems like you are having Anaphylaxis, Do not worry, have some most effective common home precautions (1. Stick to low fat diet with complex carbs as priority, 2. Flaxseed oil, zinc, and vitamins A, C, and E are suggested to improve allergy symptoms 3. Acupuncture treatments may help some people to find relief from their symptoms.) etc. Still if u do not feel better then you can consider these Medicines =>,Epinephrine (adrenaline) ","Intravenous,  antihistamines and cortisone ","Oxygen,etc.., Or You can connect with Dr Akash Jadhav (immunologist) C.No: 9272707070 Address: Ashok Nagar, Pune"
+        ]
+    },
+    {
+      "tag": "Contact Dermatitis",
+         "patterns": [
+           "I am having Pain in the skin" , 
+           "Pain in skin",
+           "rashes on skin" , 
+           "redness on skin", 
+           "itching problem",
+           "itching on skin ",
+           "i am having itching on skin",
+           "I am having rashes on skin"
+          ],
+         "responses": [
+           "It seems like you are having Contact Dermatitis, Do not worry, have some most effective common home precautions (1. Use Moisturizer, 2. Apply barrier cream or gel, 3. Wear protective clothing or gloves, 4. Wash your skin regularly, 5. Avoid irritants and allergens) etc. Still if u do not feel better then you can consider these Medicines => , Steroid creams or ointments,Oral medications,Avoid the irritant or allergen, Apply an anti-itch cream or lotion to the affected area,Soak in a comfortably cool bath,etc.., You can meet Dr Rahul Mahajan (Dermatologist) C.No: 9272707070 Address: Near Shanivar Wada, Pune"
+        ]
+    },
+    {
+      "tag": "Cough",
+         "patterns": [
+           "I am having runny nose"," having sore throat" ," feeling Hoarseness " ," feeling shortness of breath " ," having soir taste in mouth "," Difficulty swallowing "," coughing when swallowing","i am having runny nose "," feeling Hoarseness "," feeling shortness of breath "," having soir taste in mouth "," Difficulty swallowing ", "i am having runny nose "," having sore throat "," feeling shortness of breath "," Difficulty swallowing "," coughing when swallowing" 
+          ],
+         "responses": [
+           "It seems like you are having COUGH. Do not worry, have some most effective common home precautions (1. consume Honey Tea, 2. Add Ginger to your diet, 3. Stay hydrated all the time, 4. Salt-water Gargle) etc. Still if u do not feel better then you can consider these Medicines => , Tussionex Pennkinetic , -Tessalon Perles, -Torrex, -Hydromet, -Acetaminophen / Hydrocodone, -Benylin Chesty Coughs, -Robitussin Chesty Cough, -Benylin Dry Coughs syrup, -Mucinex DM,You can meet Dr. Pritesh Lodha (Pulmonologists) C.No: 9076453256 Address: Near G.H. Raisoni, Pune"
+        ]
+    },
+    {
+      "tag": "Eye Allergies",
+         "patterns": [
+           "I am having Itching in my eyes",
+           "eye itching",
+           "My eyes are burning",
+           "Burning in eyes",
+           "I am having Red eyes",
+           "pain in eyes",
+           "i am having pain in eyes",
+           "Red eyes"
+           
+          ],
+         "responses": [
+           "It seems like you are having Eye Allergies, Do not worry, have some most effective common home precautions (1. Keep windows closed, 2. Wear glasses or sunglasses when outdoors to keep safe your eyes, 3. Use Decongestant / Lubricant eyedrops ) etc. Still if u do not feel better then you can consider these Medicines => Artificial tear drops, Decongestants (with or without antihistamines), Oral antihistamines etc or You can connect with Dr. Pratibha Patil (Ophthalmologist) C.No: 9275890356 Address: Shivajinagar, Pune"
+        ]
+    },
+    {
+      "tag": "COLD",
+         "patterns": [
+           "I am having cough",
+           "i am having shortness of breath",
+           "difficulty in breathing",
+           "Breathing problem",
+           "i am having runny nose",
+           "runny nose",
+           "low grade fever"
+          ],
+         "responses": [
+           "It seems like you are suffering from some common cold symptoms, Do not worry, have some most effective common home precautions ( 1. wash you hands regularly, 2. Cover your mouth 3. Eating well and Exercising regulary with good sleep will be helpfull, 4. Do not share your drinking glasses and eating utensils with other family members) etc. Still if u do not feel better then you can consider these Medicines => Nasal decongestants , -Crocin ,-Mucinex, -Tussionex , -Claritin-D 24 Hour  ,-Benadryl Allergy Plus Congestion. or You can connect with Dr. Pritamsingh Lohari (pediatricians) C.No : 9076453256 Address: Neri Naka, Jalgaon 423203"
+        ]
+    },
+    {
+      "responses": "stopping smoking is about will power and being steadfast. you can stop safely by having bupropion or nicotine patch cover initially in consult with a doctor. contact an addiction clinic near you. wishing you best of health thanks",
+      "patterns": "how do i stop smoking now",
+      "url": "http://ehealthforum.com/health/stop-smoking-question-t462882.html",
+      "tag": 
+      "smoking addiction"
+      
+    },
+    {
+      "responses": "extra caffeine can cause gastric discomfort the pain of which can be felt at one side of breast mostly left side but right also is possible and some times whole chest. get evaluated for any local pathology like mastitis. i hope it helps. stay in touch with your healthcare provider for further guidance as our answers are just for education and counselling purposes and cannot be an alternative to actual visit to a doctor. take care khan",
+      "patterns": "could extra caffeine consumption be a cause of mild unilateral breast tenderness?",
+      "url": "http://ehealthforum.com/health/caffeine-consumption-causing-breast-tenderness-t505151.html",
+      "tag": 
+        "breast cancer"
+      
+    },
+    {
+      "tag":  "pregnancy",
+        "patterns": ["abortion benefits"],
+        "responses": ["abortion the clinical way of stopping an unplanned/unprepared/unhealthy pregnancy."],
+        
+        "url": "http://ehealthforum.com/health/abortion-purpose-t351265.html"
+    },
+    {
+      "tag":  "weight loss",
+        "patterns": "how i loose my weight",
+        "responses": "obesity needs to be documented first by calculating the bmi i. e the body mass index if obesity is present a lipid profile should also be done along with crp/esr to prevent atherosclerosis progression. thyroid profile should also be done as part of the workup. limiting caloric intake division into small meals increasing dry fiber intake and regular exercise can be applied as part of daily routine to have a controlled reduction in weight. please consult a nutritionist regarding your daily diet so that he/she may alter it according to your preference as much as possible. wishing you best of health thanks",
+        
+        "url": "http://ehealthforum.com/health/how-i-loose-my-waight-t446368-a1.html"
+      
+    },
+    {
+      "tag": 
+        "cosmetic health",
+        "responses": "monolid or mono eyelid or epicanthic fold (technical term) is a single eyelid instead of double eyelids. this pattern of eyelids is usually a genetic inheritence (by birth) and there is no other way to acquire it naturally. epicanthic fold or monolid is believed to have evolved in order to provide defense from the extreme cold and extreme light that occur in eurasian arctic and northern regions. they also protect eyes against dust in areas of deserts such as of northern china and mongolia and some parts of africa. monolid is seen naturally in - - mongoloid asians - europeans (scandinavians poles germans the irish and british. ) and - africans you can consult a cosmetic surgeon and seek a opinion if you are interested in it. i hope this helps.",
+        "patterns": "is there a way to get monolids? (naturally)",
+        "url": "http://ehealthforum.com/health/is-there-a-way-to-get-monolids-t463184.html"
+      
+    }
+  ]
+}

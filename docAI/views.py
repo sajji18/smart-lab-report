@@ -15,50 +15,99 @@ import plotly.graph_objs as go
 
 # from django.urls import reverse
 
+from django.shortcuts import render
+from django_plotly_dash import DjangoDash
+from dash import dcc, html, Input, Output, clientside_callback, ClientsideFunction
+import dash_mantine_components as dmc
+from docAI.data import tradeData
 
-def scatter(test_id, applicant_id):
-        test = Test.objects.get(id=test_id)
-        applicant = User.objects.get(id=applicant_id)
-        test_model = None
-        if test.type == 'blood':
-            test_model = BloodTestReport
-        else:
-            test_model = DiabetesTestReport
+def dash_view():
+    # Initialize DjangoDash app
+    app = DjangoDash('dash_app', external_scripts=['https://cdn.jsdelivr.net/npm/apexcharts'])
+
+    # Define layout
+    app.layout = html.Div(
+        children=[
+            dcc.Store(id='ApexchartsSampleData', data=tradeData),
+            html.H1("Javascript Charts inside a Dash App"),
+            dmc.Center(
+                dmc.Paper(
+                    shadow="sm",
+                    style={'height':'600px', 'width':'800px', 'marginTop':'100px'},
+                    children=[
+                        html.Div(id='apexAreaChart'),
+                        dmc.Center(
+                            children=[
+                                dmc.SegmentedControl(
+                                    id="selectCountryChip",
+                                    value="Canada",
+                                    data=['Canada', 'USA', 'Australia'],
+                                )
+                            ]
+                        )
+                    ]
+                )
+            )
+        ]
+    )
+
+    # Define clientside callback
+    clientside_callback(
+        ClientsideFunction(
+            namespace='apexCharts',
+            function_name='areaChart'
+        ),
+        Output("apexAreaChart", "children"),
+        Input("ApexchartsSampleData", "data"),
+        Input("selectCountryChip", "value"),
+    )
+    return 
+
+
+
+# def scatter(test_id, applicant_id):
+#         test = Test.objects.get(id=test_id)
+#         applicant = User.objects.get(id=applicant_id)
+#         test_model = None
+#         if test.type == 'blood':
+#             test_model = BloodTestReport
+#         else:
+#             test_model = DiabetesTestReport
         
-        test_report = test_model.objects.get(test=test, applicant=applicant)
-        # print(test_report.blood_pressure_result)
-        x1, y1 = [], []
-        if test_model == BloodTestReport:
-            x1 = [1,2,3,4,5,6,7,8,9,10,11,12]
-            y1 = [test_report.RBC_result,
-                test_report.PCV_result,
-                test_report.WBC_result,
-                test_report.Neutrophils_result,
-                test_report.Lymphocytes_result,
-                test_report.Eosinophils_result,
-                test_report.Monocytes_result,
-                test_report.Basophils_result,
-                test_report.Platelet_count,
-                test_report.hemoglobin_result,
-                test_report.blood_pressure_result,
-                test_report.cholesterol_level_result
-                ]
-        else:
-            pass
+#         test_report = test_model.objects.get(test=test, applicant=applicant)
+#         # print(test_report.blood_pressure_result)
+#         x1, y1 = [], []
+#         if test_model == BloodTestReport:
+#             x1 = [1,2,3,4,5,6,7,8,9,10,11,12]
+#             y1 = [test_report.RBC_result,
+#                 test_report.PCV_result,
+#                 test_report.WBC_result,
+#                 test_report.Neutrophils_result,
+#                 test_report.Lymphocytes_result,
+#                 test_report.Eosinophils_result,
+#                 test_report.Monocytes_result,
+#                 test_report.Basophils_result,
+#                 test_report.Platelet_count,
+#                 test_report.hemoglobin_result,
+#                 test_report.blood_pressure_result,
+#                 test_report.cholesterol_level_result
+#                 ]
+#         else:
+#             pass
 
-        trace = go.Scatter(
-            x = x1,
-            y = y1
-        )
-        layout = dict(
-            title='Simple Graph',
-            xaxis=dict(range=[min(x1), max(x1)]),
-            yaxis = dict(range=[min(y1), max(y1)])
-        )
+#         trace = go.Scatter(
+#             x = x1,
+#             y = y1
+#         )
+#         layout = dict(
+#             title='Simple Graph',
+#             xaxis=dict(range=[min(x1), max(x1)]),
+#             yaxis = dict(range=[min(y1), max(y1)])
+#         )
 
-        fig = go.Figure(data=[trace], layout=layout)
-        plot_div = plot(fig, output_type='div', include_plotlyjs=False)
-        return plot_div
+#         fig = go.Figure(data=[trace], layout=layout)
+#         plot_div = plot(fig, output_type='div', include_plotlyjs=False)
+#         return plot_div
     
     
 
@@ -206,14 +255,15 @@ def doctor_applicant_report(request, test_id, test_type, receiver_id):
             return JsonResponse({'message': 'Report updated successfully'})
         else:
             return JsonResponse({'error': 'Report not found'}, status=404)
-        
+    plot1 = dash_view()  
     context = {
         'test': test,
         'user': user,
         'receiver': receiver,
         'messages': messages,
         'report': report,
-        'plot1': scatter(test_id, receiver_id)
+        # 'plot1': scatter(test_id, receiver_id)
+        'plot1': plot1
     }
     return render(request, 'docAI/doctor_applicant_report.html', context)
 
