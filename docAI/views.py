@@ -335,6 +335,11 @@ def send_message(request, receiver_id):
     else:
         return JsonResponse({'error': 'Invalid request'})
     
+
+@login_required
+def customer_chatbot_view (request):
+    return render(request, 'docAI/customer_chatbot.html')
+    
     
 @login_required
 def doctor_chat_applicants(request):
@@ -345,6 +350,7 @@ def doctor_chat_applicants(request):
         user = User.objects.get(id=user_id)
         applicants.append(user)
     return render(request, 'docAI/doctor_chat_applicants.html', {'applicants': applicants})
+
 
 # @login_required
 # def chat_view(request, test_id):

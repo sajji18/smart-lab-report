@@ -21,6 +21,7 @@ urlpatterns = [
     path('doctor-chat/applicants/chat/<int:customer_id>', views.doctor_chat_view, name='doctor_chat_view'),
     path('send_message/<int:test_id>/', views.send_message, name='send_message'),
     path('fetch_messages/<int:test_id>/', views.fetch_messages, name='fetch_messages'),
+    path('customer/chatbot_view', views.customer_chatbot_view, name='customer_chatbot_view'),
     
     # Utils
     path('back/', views.back_view, name='back'),
