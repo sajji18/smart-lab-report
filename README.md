@@ -11,9 +11,9 @@
 ## 💻 About DocAI
 
 ### Features
-ReportGen streamlines the report-making process by automating key tasks while ensuring the authenticity of medical information. Here's how our application addresses these challenges:
+DocAI streamlines the report-making process by automating key tasks while ensuring the authenticity of medical information. Here's how our application addresses these challenges:
 
-1. **Automated Report Generation**: ReportGen leverages machine learning and natural language processing (NLP) techniques to automate report creation. Doctors can focus on patient care while our system generates accurate and concise reports.
+1. **Automated Report Generation**: DocAI leverages machine learning and natural language processing (NLP) techniques to automate report creation. Doctors can focus on patient care while our system generates accurate and concise reports.
 
 2. **User-Friendly Interface**: Our intuitive web interface, built using Django and Ajax, provides a seamless experience for both doctors and patients. Users can easily input data, view reports, and access relevant information.
 
@@ -21,8 +21,7 @@ ReportGen streamlines the report-making process by automating key tasks while en
 
 4. **Secure Authentication**: Google OAuth3 integration ensures secure access for authorized users. Doctors can log in securely and manage patient data.
 
-5. **Virtual Assistant Bot**: ReportGen introduces an NLP-powered chatbot that educates users about minor symptoms, preventive measures, and general health awareness. This innovative feature enhances patient engagement and promotes well-being.
-
+5. **Virtual Assistant Bot**: DocAI introduces an NLP-powered chatbot that educates users about minor symptoms, preventive measures, and general health awareness. This innovative feature enhances patient engagement and promotes well-being.
 
 
 ## 📫 Run Locally
