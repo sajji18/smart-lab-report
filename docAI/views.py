@@ -111,7 +111,6 @@ def scatter(test_id, applicant_id):
 # def Plotter(request):
 
 
-
 @login_required
 def customer_dashboard(request):
     current_user = request.user
@@ -262,8 +261,8 @@ def doctor_applicant_report(request, test_id, test_type, receiver_id):
         'receiver': receiver,
         'messages': messages,
         'report': report,
-        # 'plot1': scatter(test_id, receiver_id)
-        'plot1': plot1
+        'plot1': scatter(test_id, receiver_id)
+        # 'plot1': plot1
     }
     return render(request, 'docAI/doctor_applicant_report.html', context)
 

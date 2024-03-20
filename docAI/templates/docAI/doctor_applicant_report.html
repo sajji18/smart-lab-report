@@ -280,6 +280,12 @@
                             </tbody>
                         </table>
                     </div>
+                    <div style="display: flex; justify-content: center; align-items: center; width: 100%; border-bottom: 1px solid black;">
+                        <h1>Remarks</h1>
+                    </div>
+                    <div style="padding: 20px;">
+                        <textarea id="remarksTextarea" name="remarks" rows="5" style="width: 100%; border: 1px solid #ccc; border-radius: 5px; padding: 10px; font-size: 16px;"></textarea>
+                    </div>
                     <div class="{% plotly_class name='dash_app' %} card" style="height: 100%; width: 100%">
                         {% plotly_app name='dash_app' ratio=0.45 %}
                         </div>
