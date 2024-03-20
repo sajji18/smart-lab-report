@@ -90,7 +90,17 @@ To use DocAI, follow these steps:
 | Bearable Value Visualisation | Unplanned     | Didnt Apply             |
 | Report Generation and export | Planned     | Didnt apply              |
 
+
+
 ## 📃 Future Strategic Objectives
+
+- Database and Chart Compatibility: Designing the database beforehand can often be found a good practice and we found it the hard way.
+- Chart Integration: Dash was the first time we used , hence the integration of the Chart utility could have been better if we had known its use better
+- Route Protection: We could have used React to enhance the UI but integration seemed a bit tiresome since we wanted to use django
+- Dark Mode theme: An Additional utility like this could be easily added using React
+- NLP Optimization: could be easier with the use of newer methods or by using llama 7b however , we wanted to work it out from scratch
+- Bearable Value Visualisation: Customisable Values to have a better showcase of limited or range of values that are normal for health could be added , customising this would be easier in react
+- Report generation : Due to loss of time , pdf was not generated from the HTML , this can be added later
 
 
 
