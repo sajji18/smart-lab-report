@@ -10,13 +10,6 @@
 
 
 
-<div align="center">
-  <a href="https://numfocus.org/project/pybamm">
-    <img height="60px"
-         src="https://raw.githubusercontent.com/numfocus/templates/master/images/numfocus-logo.png"
-         align="center">
-  </a>
-</div>
 <br>
 
 ## 💻 Using DocAI
