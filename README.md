@@ -66,7 +66,8 @@ Install
 
 ## 🛠️ Tech Stack
 
-**Client/FrontEnd:** Django, Ajax, Sqllite3 , Google Oauth3 , 
+**Client/FrontEnd:** Django, Ajax, Sqllite3 , Google Oauth3
+
 **ML/Data:** Dash , Django all-auth , Plotly , Plotly.express , torch , ntlk , 
 
 
@@ -78,5 +79,5 @@ Install
 ## 📃 Future Strategic Objectives
 
 ## ✨ Contributors-
-- [Siddhant Gupta , PnI 2nd year](https://github.com/SidWorks01)
- - [Sajal Chauhan , PnI 2nd year](https://github.com/sajji18)
+- [Siddhant Gupta](https://github.com/SidWorks01) , PnI 2nd year
+ - [Sajal Chauhan](https://github.com/sajji18) , PnI 2nd year
