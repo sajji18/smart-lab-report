@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+:root {
+    --color:white;
+    --line-border-empty:#7292af;
+    --text-empty:#34495e;
+    --line-border-fill:rgb(10, 10, 143);
+    --text-fill:#34495e;
+} 
+
+* {
+    box-sizing: border-box;
+}
+
+.progress-container {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 10px;
+    max-width: 100%;
+    width: 350px;
+}
+
+.progress-container::before {
+    content:'';
+    background-color: var(--line-border-empty);
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    transform: translateY(-50%);
+    height: 4px;
+    width: 80%;
+    z-index: -1;
+}
+
+.progress {
+    background-color: var(--line-border-fill);
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    transform: translateY(-50%);
+    height: 4px;
+    max-width: 80%;
+    width: 0%;
+    z-index: -1;
+    transition: 400ms ease;
+}
+
+.text-wrap {
+    display: inline-block;
+    text-align: center;
+    width: 75px;
+}
+
+.text-wrap p {
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--text-empty);
+}
+
+.text-wrap.active p {
+    font-weight: 500;
+    color: var(--text-fill);
+    transition: 400ms ease;
+}
+
+.circle {
+    background-color: var(--color);
+    border: 3px solid var(--line-border-empty);
+    color: var(--text-empty);
+    font-weight: 600;
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
+    position: relative; 
+    left: 20px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 400ms ease;
+}
+
+.text-wrap.active div.circle {
+    border-color: var(--line-border-fill);
+    color: var(--text-fill);
+}
+
+.btn {
+    background-color: var(--line-border-fill);
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 10px 30px;
+    margin: 5px;
+    font-size: 14px;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+
+.btn:focus {
+    outline: 0;
+}
+
+.btn:disabled {
+    background-color: var(--line-border-empty);
+    cursor:not-allowed;
+    color: var(--color);
+    transform: none;
+}

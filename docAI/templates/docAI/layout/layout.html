@@ -8,12 +8,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-        {% comment %} <link
+        <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
             rel="stylesheet"
             integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
             crossorigin="anonymous"
-        /> {% endcomment %}
+        /> 
         <link
             rel="stylesheet"
             type="text/css"
@@ -24,6 +24,8 @@
             type="text/css"
             href="{% static 'docAI/doctor-dashboard.css' %}"
         />
+        <link rel="stylesheet" type="text/css" href="{% static 'docAI/customer_dashboard.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'docAI/test_detail.css' %}" />
         {% comment %} <link
             rel="shortcut icon"
             href="{% static 'home/ui/chit.png' %}"
@@ -96,6 +98,9 @@
             integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
             crossorigin="anonymous"
         ></script> {% endcomment %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         {% block script %}{% endblock script %}
     </body>
 </html>

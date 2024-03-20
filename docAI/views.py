@@ -395,9 +395,22 @@ def doctor_chat_applicants(request):
 
 @login_required
 def test_detail(request, test_id):
-    test = Test.objects.filter(id=test_id)
+    test = Test.objects.get(id=test_id)
+    sender = request.user
+    receiver = test.assigned_to
+    messages = Message.objects.filter(Q(sender=sender, receiver=receiver) | Q(sender=receiver, receiver=sender)).order_by('timestamp')
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        try:
+            message = Message.objects.create(sender=sender, receiver=receiver, content=content)
+            return JsonResponse({'content': message.content})
+        except IntegrityError:
+            return JsonResponse({'error': 'Failed to create message'}, status=500)
     context = {
-        test: test
+        'test': test,
+        'user': sender,
+        'receiver': receiver,
+        'messages': messages
     }
     return render(request, 'docAI/test_detail.html', context)
 
