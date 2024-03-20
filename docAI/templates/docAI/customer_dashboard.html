@@ -6,10 +6,10 @@
     {% if user.user_type == 'customer' or user.user_type == 'Customer' %}
         {% comment %} -------------------CUSTOMER--------------------- {% endcomment %}
         <div class="message_test_div">
-            <div class="projects-section">
+            <div class="projects-section" style="box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);">
                 <div class="projects-section-header">
                     <p>Available Tests</p>
-                    <p class="time">Date</p>
+                    <p class="time" id="current-time">Date and Time</p>
                 </div>
                 
                 <div class="project-boxes jsGridView" style="flex: 1;">
@@ -49,7 +49,7 @@
                                     <div class="box-progress-bar">
                                         <span
                                             class="box-progress"
-                                            style="width: 60%; background-color: #ff942e"
+                                            style="width: 0%; background-color: #ff942e"
                                         ></span>
                                     </div>
                                     
@@ -90,7 +90,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="messages-section">
+            <div class="messages-section" style="box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);">
                 <button class="messages-close">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -161,6 +161,36 @@
 
 {% block script %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        function updateDateTime() {
+            // Create a new Date object
+            var now = new Date();
+            
+            // Get the individual components of the date and time
+            var year = now.getFullYear();
+            var month = now.getMonth() + 1; // Months are zero-based, so we add 1
+            var day = now.getDate();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+
+            // Format the date and time string
+            var formattedDateTime = year + '-' + addLeadingZero(month) + '-' + addLeadingZero(day) + ' ' + 
+                                    addLeadingZero(hours) + ':' + addLeadingZero(minutes) + ':' + addLeadingZero(seconds);
+
+            // Display the formatted date and time
+            document.getElementById('current-time').textContent = formattedDateTime;
+        }
+
+        // Function to add leading zero for single-digit numbers
+        function addLeadingZero(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+
+        // Update the date and time immediately and then refresh every second
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>
     {% comment %} <script>
         // Get the modal
         var modal = document.getElementById('applyModal');

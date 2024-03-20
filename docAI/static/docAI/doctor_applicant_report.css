@@ -29,7 +29,7 @@
     display: flex;
     justify-content: space-between;
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     max-width: 100%;
     width: 350px;
 }
@@ -85,7 +85,7 @@
     border-radius: 50%;
     height: 35px;
     width: 35px;
-    position: relative; /* Position the child element */
+    position: relative; 
     left: 20px; 
     display: flex;
     align-items: center;
@@ -102,6 +102,11 @@
     width: 100%;
     overflow-y: auto;
     border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+.report_data_table::-webkit-scrollbar {
+    display: none;
 }
 
 .report_data_table table {

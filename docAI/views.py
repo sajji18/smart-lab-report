@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Test, Message, TestApplication, BloodTestReport, DiabetesTestReport
@@ -9,6 +10,7 @@ from .forms import BloodTestReportForm, DiabetesTestReportForm
 from authentication.models import User
 from . import plotter
 from plotly.offline import plot
+from django.views.decorators.csrf import csrf_exempt
 import plotly.graph_objs as go
 
 # from django.urls import reverse
@@ -57,6 +59,9 @@ def scatter(test_id, applicant_id):
         fig = go.Figure(data=[trace], layout=layout)
         plot_div = plot(fig, output_type='div', include_plotlyjs=False)
         return plot_div
+    
+    
+
 
 
 @login_required
@@ -153,6 +158,27 @@ def report_submission(request, report_id):
 
 @login_required
 def doctor_applicant_report(request, test_id, test_type, receiver_id):
+    # PUT Request
+    if request.method == 'PUT':
+        raw_data = request.body
+        data_string = raw_data.decode('utf-8')
+        data = json.loads(data_string)
+        content = data.get('content')
+        test = get_object_or_404(Test, id=test_id)
+        applicant = get_object_or_404(User, id=receiver_id)
+        report = BloodTestReport.objects.get(test=test, applicant=applicant) if test_type == 'blood' else DiabetesTestReport.objects.get(test=test, applicant=applicant)
+        if report:
+            if report.status == 'submission':
+                report.status = 'evaluation'
+            elif report.status == 'evaluation':
+                report.status = 'completed'
+            report.content = content 
+            report.save()
+            return JsonResponse({'message': 'Report updated successfully'})
+        else:
+            return JsonResponse({'error': 'Report not found'}, status=404)
+        
+    # GET Request
     request.session['prev_url'] = request.META.get('HTTP_REFERER', '/')
     report_model = BloodTestReport if test_type == 'blood' else DiabetesTestReport
     report_exists = report_model.objects.filter(test_id=test_id, applicant=receiver_id).exists()
@@ -163,14 +189,24 @@ def doctor_applicant_report(request, test_id, test_type, receiver_id):
         return JsonResponse({'error': 'Unauthorized'}, status=403)
     receiver = get_object_or_404(User, id=receiver_id)
     messages = Message.objects.filter(Q(sender=user, receiver=receiver) | Q(sender=receiver, receiver=user)).order_by('timestamp')
+    
+    # POST Request
     if request.method == 'POST':
         content = request.POST.get('content')
-        sender = user
-        try:
-            message = Message.objects.create(sender=sender, receiver=receiver, content=content)
-            return JsonResponse({'content': message.content})
-        except IntegrityError:
-            return JsonResponse({'error': 'Failed to create message'}, status=500)
+        test = get_object_or_404(Test, id=test_id)
+        applicant = get_object_or_404(User, id=receiver_id)
+        report = BloodTestReport.objects.get(test=test, applicant=applicant) if test_type == 'blood' else DiabetesTestReport.objects.get(test=test, applicant=applicant)
+        if report:
+            if report.status == 'submission':
+                report.status = 'evaluation'
+            elif report.status == 'evaluation':
+                report.status = 'completed'
+            report.content = content 
+            report.save()
+            return JsonResponse({'message': 'Report updated successfully'})
+        else:
+            return JsonResponse({'error': 'Report not found'}, status=404)
+        
     context = {
         'test': test,
         'user': user,
@@ -180,6 +216,23 @@ def doctor_applicant_report(request, test_id, test_type, receiver_id):
         'plot1': scatter(test_id, receiver_id)
     }
     return render(request, 'docAI/doctor_applicant_report.html', context)
+
+
+@login_required
+def doctor_applicant_report_status_update (request, test_id, test_type, receiver_id):
+    if request.method == 'PUT':
+        test = get_object_or_404(Test, id=test_id)
+        applicant = get_object_or_404(User, id=receiver_id)
+        report = BloodTestReport.objects.get(test=test, applicant=applicant) if test_type == 'blood' else DiabetesTestReport.objects.get(test=test, applicant=applicant)
+        if report:
+            if report.status == 'evaluation':
+                report.status = 'submission'
+            elif report.status == 'completed':
+                report.status = 'submission'
+            report.save()
+            return JsonResponse({'message': 'Report updated successfully'})
+        else:
+            return JsonResponse({'error': 'Report not found'}, status=404)
 
 
 @login_required
