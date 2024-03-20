@@ -23,8 +23,8 @@ def signup(request):
         password = request.POST.get('password')
         email = request.POST.get('email')
         user = User.objects.create_user(username=username, password=password, email=email)
-        auth_login(request, user)
-        return redirect('dashboard')
+        auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+        return redirect('customer_dashboard')
     else:
         return render(request, 'authentication/signup.html')
 
@@ -35,8 +35,8 @@ def customer_login(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            auth_login(request, user)
-            return redirect('dashboard')
+            auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            return redirect('customer_dashboard')
         else:
             messages.error(request, 'Invalid username or password.')
             return redirect('customer-login')
@@ -51,7 +51,7 @@ def doctor_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             auth_login(request, user)
-            return redirect('dashboard')
+            return redirect('doctor_dashboard')
         else:
             messages.error(request, 'Invalid username or password.')
             return redirect('doctor-login')

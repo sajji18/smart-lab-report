@@ -2,11 +2,24 @@
 
 {% block title %}Home{% endblock title %}
 
+{% load static %} 
+
+{% block link %}
+    <link rel="stylesheet" type="text/css" href="{% static 'authentication/css/home.css' %}" />
+{% endblock link %}
+
 {% block body %}
-    <h1 style="color: white;">Welcome to the Home Page</h1>
-    <a href="signup">Signup</a>
-    <a href="login-customer">Customer Login</a>
-    <a href="login-doctor">Doctor Login</a>
-    {% if user.is_authenticated %}
-    <h1>Hello</h1>{% endif %}
+    <!-- Content container -->
+    <div class="content">
+        <h1>Welcome to Doc.AI</h1>
+        <p>Fucking Bitches, One at a Time</p>
+        <div class="buttons">
+            <a class="spacex-button" href="{% url 'customer-login' %}">Login As Customer</a>
+            <a class="spacex-button" href="{% url 'doctor-login' %}">Login As Doctor</a>
+        </div>
+    </div>
 {% endblock body %}
+
+{% block script %}
+    
+{% endblock script %}

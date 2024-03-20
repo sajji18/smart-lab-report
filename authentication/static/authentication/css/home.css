@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+}
+
+.content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #fff;
+  font-weight: 300;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+  color: #fff;
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  border-right: .10em solid white; /* The typwriter cursor */
+  white-space: nowrap; /* Keeps the content on a single line */
+  animation: 
+    typing 3.5s steps(30, end),
+    blink-caret .5s step-end infinite;
+}
+
+/* The typing effect */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 90% }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: white }
+}
+
+
+h1 {
+  font-size: 3rem;
+  margin: 0 0 10px 0;
+  padding: 0;
+}
+
+p {
+  font-size: 1.5rem;
+  margin: 0 0 5px 0;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin: 25px 10px;
+}
+
+
+/* SpaceX Brand Style Button */
+.spacex-button {
+  text-decoration: none;
+  background-color: #000;  /* Dark background */
+  color: #fff;  /* Light text */
+  border: 2px solid #fff;  /* Light border */
+  padding: 12px 24px;
+  border-radius: 8px;
+  margin: 0 10px;
+  font-family: 'Roboto', sans-serif;  /* Modern sans-serif font */
+  font-size: 16px;
+  font-weight: 500;  /* Medium weight for boldness */
+  text-transform: uppercase;  /* Uppercase text */
+  transition: all 0.3s ease;  /* Smooth transition for hover effects */
+  cursor: pointer;
+}
+
+/* Hover Effect */
+.spacex-button:hover {
+  background-color: #fff;  /* Light background */
+  color: #000;  /* Dark text */
+  border: 2px solid #000;  /* Dark border */
+}

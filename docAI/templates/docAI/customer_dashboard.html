@@ -1,0 +1,291 @@
+{% extends 'docAI/layout/layout.html' %} {% load static %} {% block link %}
+<link rel="stylesheet" type="text/css" href="{% static 'docAI/layout.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'docAI/customer_dashboard.css' %}" />
+{% endblock link %} {% block title %}Dashboard{% endblock title %} 
+
+{% block body %}
+    {% if user.user_type == 'customer' or user.user_type == 'Customer' %}
+        {% comment %} -------------------CUSTOMER--------------------- {% endcomment %}
+        <div class="message_test_div">
+            <div class="projects-section" style="box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);">
+                <div class="projects-section-header">
+                    <p>Available Tests</p>
+                    <p class="time" id="current-time">Date and Time</p>
+                </div>
+                
+                <div class="project-boxes jsGridView" style="flex: 1;">
+                    
+                    {% for test in unapplied_tests %}
+                        <div class="project-box-wrapper">
+                            <div class="project-box" style="background-color: #fee4cb">
+                                <div class="project-box-header">
+                                    <span>{{ test.created_at }}</span>
+                                    <div class="more-wrapper">
+                                        <button class="project-btn-more" onclick="toggleApplyModal()">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="24"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="feather feather-more-vertical"
+                                            >
+                                                <circle cx="12" cy="12" r="1" />
+                                                <circle cx="12" cy="5" r="1" />
+                                                <circle cx="12" cy="19" r="1" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="project-box-content-header">
+                                    <p class="box-content-header">{{ test.name }}</p>
+                                    <p class="box-content-subheader">{{ test.description }}</p>
+                                </div>
+                                <div class="box-progress-wrapper">
+                                    <p class="box-progress-header">Progress</p>
+                                    <div class="box-progress-bar">
+                                        <span
+                                            class="box-progress"
+                                            style="width: 0%; background-color: #ff942e"
+                                        ></span>
+                                    </div>
+                                    
+                                </div>
+                                <div class="project-box-footer">
+                                    <div class="participants">
+                                        <img
+                                            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80"
+                                            alt="participant"
+                                        />
+                                        <img
+                                            src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTB8fG1hbnxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60"
+                                            alt="participant"
+                                        />
+                                        <button class="add-participant" style="color: #ff942e" onclick="openModal('{{ test.id }}')">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="12"
+                                                height="12"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="3"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="feather feather-plus"
+                                            >
+                                                <path d="M12 5v14M5 12h14" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="days-left" style="color: #ff942e">
+                                        {{ test.assigned_to }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="messages-section" style="box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);">
+                <button class="messages-close">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="feather feather-x-circle"
+                    >
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="15" y1="9" x2="9" y2="15" />
+                        <line x1="9" y1="9" x2="15" y2="15" />
+                    </svg>
+                </button>
+                <div class="projects-section-header">
+                    <p>Applied Tests</p>
+                </div>
+                <div class="messages">
+                    
+                    {% for applied_test in applied_tests %}
+                        <div class="message-box">
+                            <img
+                                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80"
+                                alt="profile image"
+                            />
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <a class="name" href="{% url 'test_detail' applied_test.id %}" style="text-decoration: none;">{{ applied_test.name }}</a>
+                                    <div class="star-checkbox">
+                                        <input type="checkbox" id="star-1" />
+                                        <label for="star-1">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="feather feather-star"
+                                            >
+                                                <polygon
+                                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                                                />
+                                            </svg>
+                                        </label>
+                                    </div>
+                                </div>
+                                <p class="message-line">
+                                    Assigned to {{ applied_test.assigned_to }}
+                                </p>
+                                <p class="message-line time">{{ applied_test.created_at }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                        
+                </div>
+            </div>
+        </div>
+        <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div>
+                    <h2>Apply To </h2>
+                    <span class="close" onclick="closeModal()">&times;</span>
+                </div>
+                
+                
+            </div>
+          
+          </div>
+    {% endif %}
+{% endblock body %}
+
+{% block script %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.querySelector("button");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on the button, open the modal
+        btn.onclick = function() {
+        modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+        modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+        }
+
+        // Function to open the modal
+        function openModal() {
+        modal.style.display = "block";
+        }
+
+        // Function to close the modal
+        function closeModal() {
+        modal.style.display = "none";
+        }
+    </script>
+    <script>
+        function updateDateTime() {
+            // Create a new Date object
+            var now = new Date();
+            
+            // Get the individual components of the date and time
+            var year = now.getFullYear();
+            var month = now.getMonth() + 1; // Months are zero-based, so we add 1
+            var day = now.getDate();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+
+            // Format the date and time string
+            var formattedDateTime = year + '-' + addLeadingZero(month) + '-' + addLeadingZero(day) + ' ' + 
+                                    addLeadingZero(hours) + ':' + addLeadingZero(minutes) + ':' + addLeadingZero(seconds);
+
+            // Display the formatted date and time
+            document.getElementById('current-time').textContent = formattedDateTime;
+        }
+
+        // Function to add leading zero for single-digit numbers
+        function addLeadingZero(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+
+        // Update the date and time immediately and then refresh every second
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>
+    {% comment %} <script>
+        // Get the modal
+        var modal = document.getElementById('applyModal');
+        
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName('close')[0];
+        
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = 'none';
+        };
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        };
+        
+        // Function to open modal with test details
+        function openModal(name, description) {
+            document.getElementById('modal-title').innerHTML = name;
+            document.getElementById('modal-description').innerHTML = description;
+            modal.style.display = 'block';
+        }
+        
+        // Event listener for apply button
+        document.getElementById('applyButton').addEventListener('click', function() {
+            // Get the test ID from the data attribute of the apply button
+            var testId = this.dataset.testId;
+            
+            // Construct the URL for applying to the test
+            var applyUrl = '/apply-test/' + testId;
+            
+            // Send AJAX request to apply for the test
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', applyUrl, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Reload the page after applying for the test
+                    location.reload();
+                }
+            };
+            xhr.send();
+        });
+    </script> {% endcomment %}
+{% endblock script %}

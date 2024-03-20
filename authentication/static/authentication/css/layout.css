@@ -5,12 +5,21 @@
   box-sizing: border-box;
   font-family: "Quicksand", sans-serif;
 }
+
 body {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #111;
+  background-color: #060e1b;
   width: 100%;
   overflow: hidden;
+}
+
+#particles-canvas {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  z-index: -2;
 }
