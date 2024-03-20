@@ -73,12 +73,12 @@ To use DocAI, follow these steps:
 
 ## 🛠️ Challenges Faced
 
-## API Reference
+## Problem Solution and Approach
 
 
-| Parameter | Type     | Description                |
+| Problems  | Solution | Approach                   |
 | :-------- | :------- | :------------------------- |
-| `api_key` | `string` | **Required**. Your API key |
+| Database Design| `string` | **Required**. Your API key |
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | Parameter | Type     | Description                |
