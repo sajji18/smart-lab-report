@@ -33,8 +33,10 @@ To use DocAI, follow these steps:
 ```
 2. Install the required dependencies using `pip install -r requirements.txt`.
 3. Set up your Google OAuth credentials.
-4. Run the Django development server: `python manage.py runserver`.
-5. Access the application at
+4. To create an admin user run `python manage.py createsuperuser`.
+5. To create a doctor account run `python manage.py _user`.
+6. Run the Django development server: `python manage.py runserver`.
+7. Access the application at
 `http://localhost:8000`.
 
 ## 📖 Video Demonstration and Presentation
