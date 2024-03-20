@@ -12,39 +12,43 @@
 
 <br>
 
-## 💻 Using DocAI
+## 💻 About DocAI
 
 
-```python3
-import pybamm
+### Features
 
-model = pybamm.lithium_ion.DFN()  # Doyle-Fuller-Newman model
-sim = pybamm.Simulation(model)
-sim.solve([0, 3600])  # solve for 1 hour
-sim.plot()
+- Light/dark mode toggle
+- Live previews
+- Fullscreen mode
+- Cross platform
+
+
+
+## 📫 Run Locally
+
+Clone the project
+
+```bash
+  git clone https://link-to-project
 ```
 
-```python3
-import pybamm
+Go to the project directory
 
-experiment = pybamm.Experiment(
-    [
-        (
-            "Discharge at C/10 for 10 hours or until 3.3 V",
-            "Rest for 1 hour",
-            "Charge at 1 A until 4.1 V",
-            "Hold at 4.1 V until 50 mA",
-            "Rest for 1 hour",
-        )
-    ]
-    * 3,
-)
-model = pybamm.lithium_ion.DFN()
-sim = pybamm.Simulation(model, experiment=experiment, solver=pybamm.CasadiSolver())
-sim.solve()
-sim.plot()
+```bash
+  cd my-project
 ```
 
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run start
+```  
 ## 🚀 Installing 
 
 Install
@@ -53,18 +57,26 @@ Install
   npm install my-project
   cd my-project
 ```
-    
-
 ### Using pip
 
 
-## 📖 
+## 📖 Video Demonstration and Presentation
 
 
 
-## 🛠️
-## 📫 
+## 🛠️ Tech Stack
 
-## 📃 
+**Client/FrontEnd:** Django, Ajax, Sqllite3 , Google Oauth3 , 
+**ML/Data:** Dash , Django all-auth , Plotly , Plotly.express , torch , ntlk , 
 
-## ✨ 
+
+
+## 📃 Our Solution
+
+## 🛠️ Challenges Faced
+
+## 📃 Future Strategic Objectives
+
+## ✨ Contributors-
+- Siddhant Gupta ( PnI, 2nd year ) 
+- Sajal Chauhan ( PnI , 2nd year )
