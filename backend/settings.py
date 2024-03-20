@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'django_plotly_dash.apps.DjangoPlotlyDashConfig',
     'channels',
-    'channels_redis'
+    'channels_redis',
+    'docbot'
 ]
 
 CHANNEL_LAYERS = {
@@ -167,6 +168,7 @@ STATIC_URL = 'static/'
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 APP_DIR_1 = os.path.join(BASE_DIR, 'authentication')
 APP_DIR_2 = os.path.join(BASE_DIR, 'docAI')
+APP_DIR_3 = os.path.join(BASE_DIR, 'docbot')
 
 STATICFILES_FINDERS=[
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -180,7 +182,8 @@ STATIC_ROOT='static'
 
 STATICFILES_DIRS = [
     os.path.join(APP_DIR_1, 'static'),
-    os.path.join(APP_DIR_2, 'static')
+    os.path.join(APP_DIR_2, 'static'),
+    os.path.join(APP_DIR_3, 'static')
 ]
 
 # Default primary key field type

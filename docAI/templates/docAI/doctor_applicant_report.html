@@ -38,6 +38,10 @@
             display: none;
         }
 
+        .report_data_table{
+            min-height: 300px
+        }
+
         .report_submit_buttons {
             display: flex;
             justify-content: space-between;
@@ -276,6 +280,11 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="{% plotly_class name='dash_app' %} card" style="height: 100%; width: 100%">
+                        {% plotly_app name='dash_app' ratio=0.45 %}
+                        </div>
+                    <br>
+                        {{ plot1 | safe }}
                     <div class="report_submit_buttons">
                         <button class="btn" id="back" disabled>&larr; Back</button>
                         <button class="btn" id="next">Next &rarr;</button>
