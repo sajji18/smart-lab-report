@@ -48,6 +48,8 @@ class BloodTestReport(models.Model):
     )
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending') 
     
+    remarks = models.TextField(blank=True)
+    
     RBC_result=models.IntegerField(default=0)
     PCV_result=models.IntegerField(default=0)
     WBC_result=models.IntegerField(default=0)
@@ -60,6 +62,24 @@ class BloodTestReport(models.Model):
     hemoglobin_result=models.IntegerField(default=0)
     blood_pressure_result = models.IntegerField(default=0)
     cholesterol_level_result = models.IntegerField(default=0)
+    
+    include_applicant_name = models.BooleanField(default=True)
+    include_applicant_email = models.BooleanField(default=True)
+    include_my_name = models.BooleanField(default=True)
+    include_my_email = models.BooleanField(default=True)
+    
+    include_RBC_Result = models.BooleanField(default=True)
+    include_PCV_Result = models.BooleanField(default=True)
+    include_WBC_Result = models.BooleanField(default=True)
+    include_Neutrophils_Result = models.BooleanField(default=True)
+    include_Lymphocytes_Result = models.BooleanField(default=True)
+    include_Eosinophils_Result = models.BooleanField(default=True)
+    include_Monocytes_Result = models.BooleanField(default=True)
+    include_Basophils_Result = models.BooleanField(default=True)
+    include_Platelet_Count = models.BooleanField(default=True)
+    include_hemoglobin_Result = models.BooleanField(default=True)
+    include_blood_pressure_Result = models.BooleanField(default=True)
+    include_cholesterol_level_Result = models.BooleanField(default=True)
 
     def __str__(self):
         return f"Report for {self.test} by {self.applicant}"
@@ -83,8 +103,18 @@ class DiabetesTestReport(models.Model):
     )
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     
+    remarks = models.TextField(blank=True)
+    
+    include_applicant_name = models.BooleanField(default=True)
+    include_applicant_email = models.BooleanField(default=True)
+    include_my_name = models.BooleanField(default=True)
+    include_my_email = models.BooleanField(default=True)
+    
     blood_sugar_level_result = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     insulin_level_result = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    
+    include_blood_sugar_level_Result = models.BooleanField(default=True)
+    include_insulin_level_Result = models.BooleanField(default=True)
 
     def __str__(self):
         return f"Report for {self.test} by {self.applicant}"

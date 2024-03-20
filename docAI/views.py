@@ -2,7 +2,7 @@ import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Test, Message, TestApplication, BloodTestReport, DiabetesTestReport
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, QueryDict
 from django.db import IntegrityError
 from django.db.models import Q
 from django.contrib import messages
@@ -21,47 +21,46 @@ from dash import dcc, html, Input, Output, clientside_callback, ClientsideFuncti
 import dash_mantine_components as dmc
 from docAI.data import tradeData
 
-# def dash_view():
-#     # Initialize DjangoDash app
-#     app = DjangoDash('dash_app', external_scripts=['https://cdn.jsdelivr.net/npm/apexcharts'])
+def dash_view():
+    # Initialize DjangoDash app
+    app = DjangoDash('dash_app', external_scripts=['https://cdn.jsdelivr.net/npm/apexcharts'])
 
-#     # Define layout
-#     app.layout = html.Div(
-#         children=[
-#             dcc.Store(id='ApexchartsSampleData', data=tradeData),
-#             html.H1("Javascript Charts inside a Dash App"),
-#             dmc.Center(
-#                 dmc.Paper(
-#                     shadow="sm",
-#                     style={'height':'600px', 'width':'800px', 'marginTop':'100px'},
-#                     children=[
-#                         html.Div(id='apexAreaChart'),
-#                         dmc.Center(
-#                             children=[
-#                                 dmc.SegmentedControl(
-#                                     id="selectCountryChip",
-#                                     value="Canada",
-#                                     data=['Canada', 'USA', 'Australia'],
-#                                 )
-#                             ]
-#                         )
-#                     ]
-#                 )
-#             )
-#         ]
-#     )
+    # Define layout
+    app.layout = html.Div(
+        children=[
+            dcc.Store(id='ApexchartsSampleData', data=tradeData),
+            dmc.Center(
+                dmc.Paper(
+                    shadow="sm",
+                    style={'height':'600px', 'width':'800px', 'marginTop':'100px'},
+                    children=[
+                        html.Div(id='apexAreaChart'),
+                        dmc.Center(
+                            children=[
+                                dmc.SegmentedControl(
+                                    id="selectCountryChip",
+                                    value="Canada",
+                                    data=['Canada', 'USA', 'Australia'],
+                                )
+                            ]
+                        )
+                    ]
+                )
+            )
+        ]
+    )
 
-#     # Define clientside callback
-#     clientside_callback(
-#         ClientsideFunction(
-#             namespace='apexCharts',
-#             function_name='areaChart'
-#         ),
-#         Output("apexAreaChart", "children"),
-#         Input("ApexchartsSampleData", "data"),
-#         Input("selectCountryChip", "value"),
-#     )
-#     return 
+    # Define clientside callback
+    clientside_callback(
+        ClientsideFunction(
+            namespace='apexCharts',
+            function_name='areaChart'
+        ),
+        Output("apexAreaChart", "children"),
+        Input("ApexchartsSampleData", "data"),
+        Input("selectCountryChip", "value"),
+    )
+    return app.layout
 
 
 
@@ -206,13 +205,13 @@ def report_submission(request, report_id):
     return render(request, 'report_submission.html', {'form': form, 'report': report})
 
 
+@csrf_exempt
 @login_required
 def doctor_applicant_report(request, test_id, test_type, receiver_id):
     # PUT Request
     if request.method == 'PUT':
         raw_data = request.body
-        data_string = raw_data.decode('utf-8')
-        data = json.loads(data_string)
+        data = QueryDict(raw_data)  # Parse form-urlencoded data
         content = data.get('content')
         test = get_object_or_404(Test, id=test_id)
         applicant = get_object_or_404(User, id=receiver_id)
@@ -246,6 +245,7 @@ def doctor_applicant_report(request, test_id, test_type, receiver_id):
         test = get_object_or_404(Test, id=test_id)
         applicant = get_object_or_404(User, id=receiver_id)
         report = BloodTestReport.objects.get(test=test, applicant=applicant) if test_type == 'blood' else DiabetesTestReport.objects.get(test=test, applicant=applicant)
+        print(content)
         if report:
             if report.status == 'submission':
                 report.status = 'evaluation'
@@ -253,7 +253,7 @@ def doctor_applicant_report(request, test_id, test_type, receiver_id):
                 report.status = 'completed'
             report.content = content 
             report.save()
-            return JsonResponse({'message': 'Report updated successfully'})
+            return redirect('doctor_applicant_report', test_id=test_id, test_type=test_type, receiver_id=receiver_id)
         else:
             return JsonResponse({'error': 'Report not found'}, status=404)
     plot1 = dash_view()  
@@ -264,26 +264,30 @@ def doctor_applicant_report(request, test_id, test_type, receiver_id):
         'messages': messages,
         'report': report,
         # 'plot1': scatter(test_id, receiver_id)
-        'plot1': plot1
+        # 'plot1': plot1
     }
     return render(request, 'docAI/doctor_applicant_report.html', context)
 
 
+@csrf_exempt
 @login_required
-def doctor_applicant_report_status_update (request, test_id, test_type, receiver_id):
+def doctor_applicant_report_status_update(request, test_id, test_type, receiver_id):
     if request.method == 'PUT':
+        # Get the test, applicant, and report objects
         test = get_object_or_404(Test, id=test_id)
         applicant = get_object_or_404(User, id=receiver_id)
         report = BloodTestReport.objects.get(test=test, applicant=applicant) if test_type == 'blood' else DiabetesTestReport.objects.get(test=test, applicant=applicant)
+
         if report:
             if report.status == 'evaluation':
                 report.status = 'submission'
             elif report.status == 'completed':
                 report.status = 'submission'
             report.save()
-            return JsonResponse({'message': 'Report updated successfully'})
+            return JsonResponse({'message': 'Report status updated successfully'})
         else:
             return JsonResponse({'error': 'Report not found'}, status=404)
+
 
 
 @login_required
