@@ -21,47 +21,47 @@ from dash import dcc, html, Input, Output, clientside_callback, ClientsideFuncti
 import dash_mantine_components as dmc
 from docAI.data import tradeData
 
-def dash_view():
-    # Initialize DjangoDash app
-    app = DjangoDash('dash_app', external_scripts=['https://cdn.jsdelivr.net/npm/apexcharts'])
+# def dash_view():
+#     # Initialize DjangoDash app
+#     app = DjangoDash('dash_app', external_scripts=['https://cdn.jsdelivr.net/npm/apexcharts'])
 
-    # Define layout
-    app.layout = html.Div(
-        children=[
-            dcc.Store(id='ApexchartsSampleData', data=tradeData),
-            html.H1("Javascript Charts inside a Dash App"),
-            dmc.Center(
-                dmc.Paper(
-                    shadow="sm",
-                    style={'height':'600px', 'width':'800px', 'marginTop':'100px'},
-                    children=[
-                        html.Div(id='apexAreaChart'),
-                        dmc.Center(
-                            children=[
-                                dmc.SegmentedControl(
-                                    id="selectCountryChip",
-                                    value="Canada",
-                                    data=['Canada', 'USA', 'Australia'],
-                                )
-                            ]
-                        )
-                    ]
-                )
-            )
-        ]
-    )
+#     # Define layout
+#     app.layout = html.Div(
+#         children=[
+#             dcc.Store(id='ApexchartsSampleData', data=tradeData),
+#             html.H1("Javascript Charts inside a Dash App"),
+#             dmc.Center(
+#                 dmc.Paper(
+#                     shadow="sm",
+#                     style={'height':'600px', 'width':'800px', 'marginTop':'100px'},
+#                     children=[
+#                         html.Div(id='apexAreaChart'),
+#                         dmc.Center(
+#                             children=[
+#                                 dmc.SegmentedControl(
+#                                     id="selectCountryChip",
+#                                     value="Canada",
+#                                     data=['Canada', 'USA', 'Australia'],
+#                                 )
+#                             ]
+#                         )
+#                     ]
+#                 )
+#             )
+#         ]
+#     )
 
-    # Define clientside callback
-    clientside_callback(
-        ClientsideFunction(
-            namespace='apexCharts',
-            function_name='areaChart'
-        ),
-        Output("apexAreaChart", "children"),
-        Input("ApexchartsSampleData", "data"),
-        Input("selectCountryChip", "value"),
-    )
-    return 
+#     # Define clientside callback
+#     clientside_callback(
+#         ClientsideFunction(
+#             namespace='apexCharts',
+#             function_name='areaChart'
+#         ),
+#         Output("apexAreaChart", "children"),
+#         Input("ApexchartsSampleData", "data"),
+#         Input("selectCountryChip", "value"),
+#     )
+#     return 
 
 
 
@@ -108,8 +108,9 @@ def dash_view():
 #         fig = go.Figure(data=[trace], layout=layout)
 #         plot_div = plot(fig, output_type='div', include_plotlyjs=False)
 #         return plot_div
-    
-    
+
+
+
 
 
 
