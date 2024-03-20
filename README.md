@@ -1,4 +1,4 @@
-![PyBaMM_logo](https://user-images.githubusercontent.com/20817509/107091287-8ad46a80-67cf-11eb-86f5-7ebef7c72a1e.png)
+![logo](https://github.com/sajji18/TinkerQuest-24/blob/main/media/logo.jpeg)
 
 #
 
