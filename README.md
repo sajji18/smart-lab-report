@@ -4,14 +4,9 @@
 
 <div align="center">
 
-[![OAuth](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)]
-[![Django](https://img.shields.io/badge/all_contributors-77-orange.svg)]
-[![Dash](https://img.shields.io/badge/all_contributors-77-orange.svg)]
-[![NLP](https://img.shields.io/badge/all_contributors-77-orange.svg)]
-
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-77-orange.svg)](2)
+[![All Contributors](![Static Badge](https://img.shields.io/badge/Contributors-2))]
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 </div>
