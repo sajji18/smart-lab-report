@@ -1,4 +1,4 @@
-![logo](media/logo-hd.png.png)
+![logo]([media/logo-hd.png.png](https://github.com/sajji18/TinkerQuest-24/blob/main/media/logo.jpeg))
 
 <div align="center">
 
