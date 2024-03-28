@@ -1,4 +1,4 @@
-![logo](https://github.com/sajji18/TinkerQuest-24/blob/main/media/logo.jpeg)
+![logo](https://github.com/sajji18/TinkerQuest-24/blob/main/media/logo-hd.png)
 
 <div align="center">
 
@@ -41,8 +41,8 @@ To use DocAI, follow these steps:
 
 ## 📖 Video Demonstration and Presentation
 
--[Presentation](https://docs.google.com/presentation/d/17KsKaxRCzVPJdcxRNS669vafY8-4H6o8kgXtJ7Dvdbg/edit?usp=sharing)
--[Video Presentation](https://drive.google.com/drive/folders/1tt6ddJLIdU-V4CypO0hqysUdEBw2kHub?usp=drive_link)
+- [Presentation](https://docs.google.com/presentation/d/17KsKaxRCzVPJdcxRNS669vafY8-4H6o8kgXtJ7Dvdbg/edit?usp=sharing)
+- [Video Presentation](https://drive.google.com/drive/folders/1tt6ddJLIdU-V4CypO0hqysUdEBw2kHub?usp=drive_link)
 
 
 ## 🛠️ Tech Stack
