@@ -41,7 +41,7 @@ To use DocAI, follow these steps:
 
 ## 📖 Video Demonstration and Presentation
 
-- [Presentation](https://docs.google.com/presentation/d/17KsKaxRCzVPJdcxRNS669vafY8-4H6o8kgXtJ7Dvdbg/edit?usp=sharing)
+- [Presentation](https://docs.google.com/presentation/d/1nrtJG3l_0ww4Z69G-tgB3c0DvNjrUWXLFO4da1JiTXo/edit?usp=sharing)
 - [Video Presentation](https://drive.google.com/drive/folders/1tt6ddJLIdU-V4CypO0hqysUdEBw2kHub?usp=drive_link)
 
 
