@@ -55,7 +55,7 @@ To use DocAI, follow these steps:
 
 - Sqllite3: The lightweight database engine, suitable for development and testing purposes.
 
-- Google OAuth3: For secure authentication and authorization of users.
+- Google OAuth2: For secure authentication and authorization of users.
 
 
 **ML/Data:**
