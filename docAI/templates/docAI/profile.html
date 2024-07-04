@@ -1,0 +1,7 @@
+{% extends 'docAI/layout/layout.html' %} {% load static %} {% block link %}
+<link rel="stylesheet" type="text/css" href="{% static 'docAI/layout.css' %}" />
+{% endblock link %} {% block title %}Profile{% endblock title %} 
+
+{% block body %}
+    <h1>Profile of {{ user.user_type }}  {{ user.username }}</h1>
+{% endblock body %}

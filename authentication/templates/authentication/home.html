@@ -1,12 +1,25 @@
 {% extends 'authentication/layout/layout.html' %}
 
+{% block title %}Home{% endblock title %}
+
+{% load static %} 
+
+{% block link %}
+    <link rel="stylesheet" type="text/css" href="{% static 'authentication/css/home.css' %}" />
+{% endblock link %}
+
 {% block body %}
-    {% load socialaccount %}
-    <h2>Google Login</h2>
-    <a href="{% provider_login_url 'google' %}?next=/">Login With Google</a>
-    <br>
-    {% if user.is_authenticated %}
-        <p>Online h bro</p>
-        <a href="logout">Logout</a>
-    {% endif %}   
+    <!-- Content container -->
+    <div class="content">
+        <h1>Welcome to Doc.AI</h1>
+        <p>Snap, Click, Report! Your medical results delivered pronto!</p>
+        <div class="buttons">
+            <a class="spacex-button" href="{% url 'customer-login' %}">Login As Customer</a>
+            <a class="spacex-button" href="{% url 'doctor-login' %}">Login As Doctor</a>
+        </div>
+    </div>
 {% endblock body %}
+
+{% block script %}
+    
+{% endblock script %}

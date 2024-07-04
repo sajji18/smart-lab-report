@@ -1,0 +1,85 @@
+<!-- @format -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        {% comment %} <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
+        /> {% endcomment %}
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'docAI/doctorLayout.css' %}"
+        />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="{% static 'docAI/doctor_dashboard.css' %}" 
+        />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="{% static 'docAI/doctor_test_detail.css' %}" 
+        />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="{% static 'docAI/doctor_applicant_report.css' %}" 
+        />
+        {% comment %} <link
+            rel="shortcut icon"
+            href="{% static 'home/ui/chit.png' %}"
+            type="image/x-icon"
+        /> {% endcomment %}
+        {% block head %} {% endblock head %} {% block style %}{% endblock style%}
+
+        <title>{% block title %}{% endblock title %}</title>
+        <style>
+            ::placeholder {
+                color: #ffffff;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <div class="container">
+
+
+            {% comment %} Left {% endcomment %}
+            <div class="sidebar">
+                <div class="section">
+                    <a class="docai_heading" href="{% url 'doctor_dashboard' %}" style="text-decoration: none; font-weight: bold; font-size: 30px; color: white; margin-bottom: 10px;">Doc.AI</a>
+                    <a class="item" style="text-decoration: none; color: inherit;" href="{% url 'doctor_dashboard' %}">My Tests</a>
+                    <a class="item" style="text-decoration: none; color: inherit;" href="{% url 'doctor_chat_applicants' %}">Chats</a>
+                    <a class="item" style="text-decoration: none; color: inherit;" href="#">Search</a>
+                </div>
+                <div class="section">
+                    <div class="item">My Profile</div>
+                    <div class="item">Settings</div>
+                </div>
+            </div>
+
+
+            {% comment %} Right {% endcomment %}
+            <div class="right_container">
+                {% block body %}{% endblock body %}
+            </div>
+        </div>
+        {% comment %} {% block body %}{% endblock body %} {% endcomment %}
+        {% comment %} <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+            crossorigin="anonymous"
+        ></script> {% endcomment %}
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        {% block script %}{% endblock script %}
+    </body>
+</html>

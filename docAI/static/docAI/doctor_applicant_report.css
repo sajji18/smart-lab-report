@@ -1,0 +1,174 @@
+.parent_container_top_right a {
+    text-decoration: none;
+    font-size: 18px;
+    border: 1px solid #34495e;
+    padding: 9px 15px;
+    border-radius: 5px;
+}
+  
+.parent_container_top_right a:hover {
+    background: #ced0d3;
+    cursor: pointer;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+:root {
+    --color:white;
+    --line-border-empty:#7292af;
+    --text-empty:#34495e;
+    --line-border-fill:rgb(10, 10, 143);
+    --text-fill:#34495e;
+} 
+
+* {
+    box-sizing: border-box;
+}
+
+.progress-container {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 10px;
+    max-width: 100%;
+    width: 350px;
+}
+
+.progress-container::before {
+    content:'';
+    background-color: var(--line-border-empty);
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    transform: translateY(-50%);
+    height: 4px;
+    width: 80%;
+    z-index: -1;
+}
+
+.progress {
+    background-color: var(--line-border-fill);
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    transform: translateY(-50%);
+    height: 4px;
+    max-width: 80%;
+    width: 0%;
+    z-index: -1;
+    transition: 400ms ease;
+}
+
+.text-wrap {
+    display: inline-block;
+    text-align: center;
+    width: 75px;
+}
+
+.text-wrap p {
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--text-empty);
+}
+
+.text-wrap.active p {
+    font-weight: 500;
+    color: var(--text-fill);
+    transition: 400ms ease;
+}
+
+.circle {
+    background-color: var(--color);
+    border: 3px solid var(--line-border-empty);
+    color: var(--text-empty);
+    font-weight: 600;
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
+    position: relative; 
+    left: 20px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 400ms ease;
+}
+
+.text-wrap.active div.circle {
+    border-color: var(--line-border-fill);
+    color: var(--text-fill);
+}
+
+.report_data_table {
+    width: 100%;
+    overflow-y: auto;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+.report_data_table::-webkit-scrollbar {
+    display: none;
+}
+
+.report_data_table table {
+    width: 100%;
+}
+
+.report_data_table th,
+.report_data_table td {
+    padding: 10px;
+    border: 1px solid #ddd; /* Add borders to cells */
+}
+
+.report_data_table th {
+    background-color: #f2f2f2; /* Header background color */
+    font-weight: bold;
+    text-align: left;
+}
+
+.report_data_table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternate row background color */
+}
+
+.report_data_table input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 14px;
+}
+
+.report_data_table input[type="text"]:focus {
+    outline: none;
+    border-color: #719ece; /* Change border color on focus */
+    box-shadow: 0 0 5px #719ece; /* Add shadow on focus */
+}
+
+.btn {
+    background-color: var(--line-border-fill);
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 10px 30px;
+    margin: 5px;
+    font-size: 14px;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+
+.btn:focus {
+    outline: 0;
+}
+
+.btn:disabled {
+    background-color: var(--line-border-empty);
+    cursor:not-allowed;
+    color: var(--color);
+    transform: none;
+}

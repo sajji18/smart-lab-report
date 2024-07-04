@@ -1,0 +1,60 @@
+{% extends 'docAI/layout/doctorLayout.html' %}
+{% load static %} 
+
+{% block link %}
+    <link rel="stylesheet" type="text/css" href="{% static 'docAI/doctor_dashboard.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'docAI/doctor_test_detail.css' %}" />
+{% endblock link %} 
+
+{% block title %}Test-Detail{% endblock title %} 
+
+{% block body %}
+  <div class="right_container_top">
+    <div class="right_container_top_left">
+        <h1>{{ test.name }} Preview</h1>
+    </div>
+    <div class="right_container_top_right">
+        <a href="{% url 'back' %}?next={{ request.path }}" style="text-decoration: none; color: #34495e; border: 1px solid #34495e; margin: 0 10px;">Back</a>
+        <a href="{% url 'logout' %}" style="text-decoration: none; color: #34495e; border: 1px solid #34495e;">Logout</a>
+    </div>
+  </div>
+    <div class="right_container_test_detail_bottom">
+        <div class="right_container_test_detail_bottom_applicants">
+            <h1 style="text-decoration: underline;">Applications</h1>
+            <table class="applications_table">
+                <tr>
+                    <th class="applications_heading">S.No</th>
+                    <th class="applications_heading">Applicant</th>
+                    <th class="applications_heading">Report</th>
+                    <th class="applications_heading">Status</th>
+                    <th class="applications_heading">Action</th>
+                </tr>
+                {% for test_application in test_applications %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ test_application.user.username }}</td>
+                        <td><a href="{% url 'doctor_applicant_report' test.id test.type test_application.user.id %}">View</a></td>
+                        <td>{{ test_application.user.username }}</td>
+                        <td><a class="applicantion_delete" href="">Delete</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock body %}
+
+{% block script %}
+{% endblock script %}
+
+
+{% comment %} <div class="parent" style="display: flex; justify-content: space-between;">
+    <div class="left" style="width: 60%; background-color: red;">
+        <span>{{ test.name }}</span>
+        <span>{{ test.description }}</span>
+    </div>
+    <div class="right" style="width: 40%; background-color: grey;">
+        {% for test_applicantion in test_applications %}
+            <div style="background-color: grey; margin: 8px 0;">
+                <a href="{% url 'doctor_applicant_report' test.id test.type test_applicantion.user.id %}">{{ test_applicantion.user.username }}</a>
+            </div>
+        {% endfor %} {% endcomment %}
