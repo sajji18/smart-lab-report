@@ -43,7 +43,7 @@
 
     .message-container {
         overflow-y: auto;
-        height: 82.5%; /* Adjust as needed */
+        height: 82.5%;
     }
 
     .message-container::-webkit-scrollbar {
@@ -56,11 +56,11 @@
         border-radius: 8px;
     }
     .sent {
-        background-color: #DCF8C6; /* Light green */
+        background-color: #DCF8C6; 
         float: right;
     }
     .received {
-        background-color: #FFFFFF; /* White */
+        background-color: #FFFFFF;
         float: left;
     }
     .clear_chat_a {
@@ -110,17 +110,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         function parseInputString(inputString) {
-            // Split the input string by '&'
             var keyValuePairs = inputString.split('&');
             var content = '';
-        
-            // Iterate through key-value pairs to find the 'content' value
             keyValuePairs.forEach(function(pair) {
                 var keyValue = pair.split('=');
                 var key = keyValue[0];
                 var value = keyValue[1];
-        
-                // If the key is 'content', decode the URI and assign it to the content variable
                 if (key === 'content') {
                     content = decodeURIComponent(value.replace(/\+/g, ' '));
                 }
@@ -129,17 +124,13 @@
         }
 
         $(document).ready(function(){
-            // Retrieve messages from local storage
             var storedMessages = JSON.parse(localStorage.getItem('messages')) || [];
-        
-            // Display stored messages
             storedMessages.forEach(function(message) {
                 var newMessage = '<div class="message sent">' + message.user + '</div>';
                 $('.message-container').append(newMessage);
                 newMessage = '<div class="message received">' + message.bot + '</div>';
                 $('.message-container').append(newMessage);
             });
-        
             $('#message-form').submit(function(event){
                 event.preventDefault();
                 var formData = $(this).serialize();
@@ -154,7 +145,6 @@
                             $('.message-container').append(newMessage);
                             newMessage = '<div class="message received">' + response.result + '</div>';
                             $('.message-container').append(newMessage);
-                            // Store message in local storage
                             storedMessages.push({'user': parseInputString(formData), 'bot': response.result});
                             localStorage.setItem('messages', JSON.stringify(storedMessages));
                             $('#message-input').val(''); 
@@ -171,7 +161,6 @@
         });
 
         $(document).ready(function(){
-            // Function to handle click event for Clear Chat button
             $('#clear-chat-btn').click(function() {
                 $('.message-container').empty();
                 localStorage.removeItem('messages');
@@ -181,14 +170,11 @@
         const fetchMessages = () => {
             $.ajax({
                 type: 'GET',
-                url: '/get_messages/',  // Replace with your server endpoint to get messages
+                url: '/get_messages/', 
                 success: function(response) {
-                    // Assuming response is a JSON object containing messages
                     const messages = response.messages;
                     const $messageContainer = $('.message-container');
                     const currentMessages = $messageContainer.html();
-        
-                    // Compare the current messages with the received messages
                     if (currentMessages !== messages) {
                         $messageContainer.html(messages);
                         $messageContainer.scrollTop($messageContainer[0].scrollHeight);
@@ -199,6 +185,5 @@
                 }
             });
         };
-        
     </script>
 {% endblock script %}

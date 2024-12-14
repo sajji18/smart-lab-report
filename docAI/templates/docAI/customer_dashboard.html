@@ -5,7 +5,6 @@
 
 {% block body %}
     {% if user.user_type == 'customer' or user.user_type == 'Customer' %}
-        {% comment %} -------------------CUSTOMER--------------------- {% endcomment %}
         <div class="message_test_div">
             <div class="projects-section" style="box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);">
                 <div class="projects-section-header">
@@ -158,8 +157,6 @@
             </div>
         </div>
         <div id="myModal" class="modal">
-
-            <!-- Modal content -->
             <div class="modal-content">
                 <div>
                     <h2>Apply To </h2>
@@ -167,9 +164,8 @@
                 </div>
                 
                 
-            </div>
-          
-          </div>
+            </div>        '
+        </div>
     {% endif %}
 {% endblock body %}
 
@@ -177,115 +173,43 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         var modal = document.getElementById("myModal");
-
-        // Get the button that opens the modal
         var btn = document.querySelector("button");
-
-        // Get the <span> element that closes the modal
         var span = document.getElementsByClassName("close")[0];
-
-        // When the user clicks on the button, open the modal
         btn.onclick = function() {
-        modal.style.display = "block";
+            modal.style.display = "block";
         }
-
-        // When the user clicks on <span> (x), close the modal
         span.onclick = function() {
-        modal.style.display = "none";
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-        if (event.target == modal) {
             modal.style.display = "none";
         }
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
         }
-
-        // Function to open the modal
         function openModal() {
-        modal.style.display = "block";
+            modal.style.display = "block";
         }
-
-        // Function to close the modal
         function closeModal() {
-        modal.style.display = "none";
+            modal.style.display = "none";
         }
     </script>
     <script>
         function updateDateTime() {
-            // Create a new Date object
             var now = new Date();
-            
-            // Get the individual components of the date and time
             var year = now.getFullYear();
-            var month = now.getMonth() + 1; // Months are zero-based, so we add 1
+            var month = now.getMonth() + 1; 
             var day = now.getDate();
             var hours = now.getHours();
             var minutes = now.getMinutes();
             var seconds = now.getSeconds();
-
-            // Format the date and time string
             var formattedDateTime = year + '-' + addLeadingZero(month) + '-' + addLeadingZero(day) + ' ' + 
                                     addLeadingZero(hours) + ':' + addLeadingZero(minutes) + ':' + addLeadingZero(seconds);
-
-            // Display the formatted date and time
             document.getElementById('current-time').textContent = formattedDateTime;
         }
-
-        // Function to add leading zero for single-digit numbers
         function addLeadingZero(number) {
             return (number < 10 ? '0' : '') + number;
         }
-
-        // Update the date and time immediately and then refresh every second
         updateDateTime();
         setInterval(updateDateTime, 1000);
     </script>
-    {% comment %} <script>
-        // Get the modal
-        var modal = document.getElementById('applyModal');
-        
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName('close')[0];
-        
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            modal.style.display = 'none';
-        };
-        
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
-        };
-        
-        // Function to open modal with test details
-        function openModal(name, description) {
-            document.getElementById('modal-title').innerHTML = name;
-            document.getElementById('modal-description').innerHTML = description;
-            modal.style.display = 'block';
-        }
-        
-        // Event listener for apply button
-        document.getElementById('applyButton').addEventListener('click', function() {
-            // Get the test ID from the data attribute of the apply button
-            var testId = this.dataset.testId;
-            
-            // Construct the URL for applying to the test
-            var applyUrl = '/apply-test/' + testId;
-            
-            // Send AJAX request to apply for the test
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', applyUrl, true);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    // Reload the page after applying for the test
-                    location.reload();
-                }
-            };
-            xhr.send();
-        });
-    </script> {% endcomment %}
 {% endblock script %}

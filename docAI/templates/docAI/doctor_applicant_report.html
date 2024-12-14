@@ -84,7 +84,7 @@
                 </div>
             </div>
             {% if report.status == 'submission' or report.status == 'Submission' %}
-                <form id="reportForm" action="{% url 'doctor_applicant_report' test.id test.type receiver.id %}" method="POST" style="display: flex; width: 100%; flex-direction: column; overflow-y: auto;">
+                <form id="SubmissionReportForm" action="{% url 'doctor_applicant_report' test.id test.type receiver.id %}" method="POST" style="display: flex; width: 100%; flex-direction: column; overflow-y: auto;">
                     {% csrf_token %}
                     <div class="report_data_table">
                         <table>
@@ -146,14 +146,13 @@
                                     </tr>
                                 {% else %}
                                     <tr>
-                                        <td>RBC Result</td>
-                                        <td><input type="text" name="RBC_result" value="{{ report.RBC_result }}"></td>
+                                        <td>Blood Sugar Level Result</td>
+                                        <td><input type="text" name="blood_sugar_level_result" value="{{ report.blood_sugar_level_result }}"></td>
                                     </tr>
                                     <tr>
-                                        <td>PCV Result</td>
-                                        <td><input type="text" name="PCV_result" value="{{ report.PCV_result }}"></td>
+                                        <td>Insulin Level Result</td>
+                                        <td><input type="text" name="insulin_level_result" value="{{ report.insulin_level_result }}"></td>
                                     </tr>
-                                    <!-- Add more rows here as needed -->
                                 {% endif %}
                             </tbody>
                         </table>
@@ -164,7 +163,7 @@
                     </div>
                 </form>
                 {% elif report.status == 'evaluation' or report.status == 'Evaluation' %}
-                <form id="reportForm" action="#" method="POST" style="display: flex; width: 100%; flex-direction: column">
+                <form id="EvaluationReportForm" action="{% url 'doctor_applicant_report' test.id test.type receiver.id %}" method="POST" style="display: flex; width: 100%; flex-direction: column">
                     <div style="display: flex; justify-content: center; align-items: center; width: 100%; border-bottom: 1px solid black;">
                         <h1>Credentials</h1>
                     </div>
@@ -179,23 +178,23 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><input type="checkbox" id="credentials_checkbox1" name="credentials_checkbox1" value="true" onchange="updateCheckboxValue('credentials_checkbox1')"></td>
+                                    <td><input type="checkbox" id="credentials_checkbox1" name="credentials_checkbox1" value="true" onchange="updateActualCheckboxValue('credentials_checkbox1')"></td>
                                     <td>Customer Name</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="checkbox" id="credentials_checkbox2" name="credentials_checkbox2" value="true" onchange="updateCheckboxValue('credentials_checkbox2')"></td>
+                                    <td><input type="checkbox" id="credentials_checkbox2" name="credentials_checkbox2" value="true" onchange="updateActualCheckboxValue('credentials_checkbox2')"></td>
                                     <td>Customer Email</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="checkbox" id="credentials_checkbox3" name="credentials_checkbox3" value="true" onchange="updateCheckboxValue('credentials_checkbox3')"></td>
+                                    <td><input type="checkbox" id="credentials_checkbox3" name="credentials_checkbox3" value="true" onchange="updateActualCheckboxValue('credentials_checkbox3')"></td>
                                     <td>My Name</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="checkbox" id="credentials_checkbox4" name="credentials_checkbox4" value="true" onchange="updateCheckboxValue('credentials_checkbox4')"></td>
+                                    <td><input type="checkbox" id="credentials_checkbox4" name="credentials_checkbox4" value="true" onchange="updateActualCheckboxValue('credentials_checkbox4')"></td>
                                     <td>My Email</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="checkbox" id="credentials_checkbox5" name="credentials_checkbox5" value="true" onchange="updateCheckboxValue('credentials_checkbox5')"></td>
+                                    <td><input type="checkbox" id="credentials_checkbox5" name="credentials_checkbox5" value="true" onchange="updateActualCheckboxValue('credentials_checkbox5')"></td>
                                     <td>
                                         <span>
                                             Institution Image
@@ -220,61 +219,61 @@
                             <tbody>
                                 {% if test.type == 'blood' %}
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox1" name="report_checkbox1" value="true" onchange="updateCheckboxValue('report_checkbox1')"></td>
+                                        <td><input type="checkbox" id="report_checkbox1" name="include_RBC_Result" value="{{ report.include_RBC_Result }}" onchange="updateActualCheckboxValue('report_checkbox1')"></td>
                                         <td>RBC Result</td
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox2" name="report_checkbox2" value="true" onchange="updateCheckboxValue('report_checkbox2')"></td>
+                                        <td><input type="checkbox" id="report_checkbox2" name="include_PCV_Result" value="{{ report.include_PCV_Result }}" onchange="updateActualCheckboxValue('report_checkbox2')"></td>
                                         <td>PCV Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox3" name="report_checkbox3" value="true" onchange="updateCheckboxValue('report_checkbox3')"></td>
+                                        <td><input type="checkbox" id="report_checkbox3" name="include_WBC_Result" value="{{ report.include_RBC_Result }}" onchange="updateActualCheckboxValue('report_checkbox3')"></td>
                                         <td>WBC Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox4" name="report_checkbox4" value="true" onchange="updateCheckboxValue('report_checkbox4')"></td>
+                                        <td><input type="checkbox" id="report_checkbox4" name="include_Neutrophils_Result" value="{{ report.include_Neutrophils_Result }}" onchange="updateActualCheckboxValue('report_checkbox4')"></td>
                                         <td>Neutrophils Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox5" name="report_checkbox5" value="true" onchange="updateCheckboxValue('report_checkbox5')"></td>
+                                        <td><input type="checkbox" id="report_checkbox5" name="include_Lymphocytes_Result" value="{{ report.include_Lymphocytes_Result }}" onchange="updateActualCheckboxValue('report_checkbox5')"></td>
                                         <td>Lymphocytes Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox6" name="report_checkbox6" value="true" onchange="updateCheckboxValue('report_checkbox6')"></td>
+                                        <td><input type="checkbox" id="report_checkbox6" name="include_Eosinophils_Result" value="{{ report.include_Eosinophils_Result }}" onchange="updateActualCheckboxValue('report_checkbox6')"></td>
                                         <td>Eosinophils Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox7" name="report_checkbox7" value="true" onchange="updateCheckboxValue('report_checkbox7')"></td>
+                                        <td><input type="checkbox" id="report_checkbox7" name="include_Monocytes_Result" value="{{ report.include_Monocytes_Result }}" onchange="updateActualCheckboxValue('report_checkbox7')"></td>
                                         <td>Monocytes Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox8" name="report_checkbox8" value="true" onchange="updateCheckboxValue('report_checkbox8')"></td>
+                                        <td><input type="checkbox" id="report_checkbox8" name="include_Basophils_Result" value="{{ report.include_Basophils_Result }}" onchange="updateActualCheckboxValue('report_checkbox8')"></td>
                                         <td>Basophils Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox9" name="report_checkbox9" value="true" onchange="updateCheckboxValue('report_checkbox9')"></td>
+                                        <td><input type="checkbox" id="report_checkbox9" name="include_Platelet_Count" value="{{ report.include_Platelet_Count }}" onchange="updateActualCheckboxValue('report_checkbox9')"></td>
                                         <td>Platelet Count</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox10" name="report_checkbox10" value="true" onchange="updateCheckboxValue('report_checkbox10')"></td>
+                                        <td><input type="checkbox" id="report_checkbox10" name="include_hemoglobin_Result" value="{{ report.include_hemoglobin_Result }}" onchange="updateActualCheckboxValue('report_checkbox10')"></td>
                                         <td>Hemoglobin Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox11" name="report_checkbox11" value="true" onchange="updateCheckboxValue('report_checkbox11')"></td>
+                                        <td><input type="checkbox" id="report_checkbox11" name="include_blood_pressure_Result" value="{{ report.include_blood_pressure_Result }}" onchange="updateActualCheckboxValue('report_checkbox11')"></td>
                                         <td>Blood Pressure Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox12" name="report_checkbox12" value="true" onchange="updateCheckboxValue('report_checkbox12')"></td>
+                                        <td><input type="checkbox" id="report_checkbox12" name="include_cholesterol_level_Result" value="{{ report.include_cholesterol_level_Result }}" onchange="updateActualCheckboxValue('report_checkbox12')"></td>
                                         <td>Cholesterol Level Result</td>
                                     </tr>
                                 {% else %}
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox1" name="report_checkbox1" value="true" onchange="updateCheckboxValue('report_checkbox1')"></td>
-                                        <td>RBC Result</td>
+                                        <td><input type="checkbox" id="report_checkbox1" name="include_blood_sugar_level_Result" value="{{ report.include_blood_sugar_level_Result }}" onchange="updateActualCheckboxValue('report_checkbox1')"></td>
+                                        <td>Blood Sugar Level Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox2" name="report_checkbox2" value="true" onchange="updateCheckboxValue('report_checkbox2')"></td>
-                                        <td>PCV Result</td>
+                                        <td><input type="checkbox" id="report_checkbox2" name="include_insulin_level_Result" value="{{ report.include_insulin_level_Result }}" onchange="updateActualCheckboxValue('report_checkbox2')"></td>
+                                        <td>Insulin Level Result</td>
                                     </tr>
                                 {% endif %}
                             </tbody>
@@ -283,12 +282,11 @@
                     <div style="display: flex; justify-content: center; align-items: center; width: 100%; border-bottom: 1px solid black;">
                         <h1>Graph</h1>
                     </div>
-                    <div class="{% plotly_class name='SimpleExample' %} card" style="height: 100%; width: 100%">
+                    {% comment %} <div class="{% plotly_class name='SimpleExample' %} card" style="height: 100%; width: 100%">
                         {% plotly_app name='SimpleExample' ratio=0.45 %}
-                        </div>
+                    </div> {% endcomment %}
                     <br>
                         {{ plot1 | safe }}
-
                         {% autoescape off %}
                         {{ plot_div }}
                         {% endautoescape %}
@@ -300,17 +298,19 @@
                         <textarea id="remarksTextarea" name="remarks" rows="5" style="width: 100%; border: 1px solid #ccc; border-radius: 5px; padding: 10px; font-size: 16px;"></textarea>
                     </div>
                     <div class="report_submit_buttons">
-                        <button class="btn" id="back" disabled>&larr; Back</button>
+                        <button class="btn" id="back">&larr; Back</button>
                         <button class="btn" id="next">Next &rarr;</button>
                     </div>
                 </form>
             {% else %}
-            
+                <h1>Report Completed</h1>
                 <div>
-                    <!-- Content for other status goes here -->
+                    
+                </div>
+                <div class="report_submit_buttons">
+                    <button class="btn" id="preview_pdf">Preview</button>
                 </div>
             {% endif %}
-
                 {% comment %} <div class="report_submit_buttons">
                     <button class="btn" id="back" disabled>&larr; Back</button>
                     <button class="btn" id="next">Next &rarr;</button>
@@ -322,60 +322,57 @@
 {% block script %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
+        function updateActualCheckboxValue(checkboxId) {
+            var checkbox = document.getElementById(checkboxId);
+            checkbox.value = checkbox.checked;
+        }
         window.onload = function() {
             // Function to update checkbox based on include/exclude field value
-            function updateCheckboxValue(checkboxId, includeValue) {
-                var checkbox = document.getElementById(checkboxId);
-                checkbox.checked = includeValue;
-            }
-
-            updateCheckboxValue('credentials_checkbox1', {{ report.include_applicant_name|lower }});
-            updateCheckboxValue('credentials_checkbox2', {{ report.include_applicant_email|lower }});
-            updateCheckboxValue('credentials_checkbox3', {{ report.include_my_name|lower }});
-            updateCheckboxValue('credentials_checkbox4', {{ report.include_my_email|lower }});
-    
+            updateActualCheckboxValue('credentials_checkbox1');
+            updateActualCheckboxValue('credentials_checkbox2');
+            updateActualCheckboxValue('credentials_checkbox3');
+            updateActualCheckboxValue('credentials_checkbox4');
             // Update checkboxes based on include/exclude field values
             {% if test.type == 'blood' %}
-                updateCheckboxValue('report_checkbox1', {{ report.include_RBC_Result|lower }});
-                updateCheckboxValue('report_checkbox2', {{ report.include_PCV_Result|lower }});
-                updateCheckboxValue('report_checkbox3', {{ report.include_WBC_Result|lower }});
-                updateCheckboxValue('report_checkbox4', {{ report.include_Neutrophils_Result|lower }});
-                updateCheckboxValue('report_checkbox5', {{ report.include_Lymphocytes_Result|lower }});
-                updateCheckboxValue('report_checkbox6', {{ report.include_Eosinophils_Result|lower }});
-                updateCheckboxValue('report_checkbox7', {{ report.include_Monocytes_Result|lower }});
-                updateCheckboxValue('report_checkbox8', {{ report.include_Basophils_Result|lower }});
-                updateCheckboxValue('report_checkbox9', {{ report.include_Platelet_Count|lower }});
-                updateCheckboxValue('report_checkbox10', {{ report.include_hemoglobin_Result|lower }});
-                updateCheckboxValue('report_checkbox11', {{ report.include_blood_pressure_Result|lower }});
-                updateCheckboxValue('report_checkbox12', {{ report.include_cholesterol_level_Result|lower }});
+                updateActualCheckboxValue('report_checkbox1');
+                updateActualCheckboxValue('report_checkbox2');
+                updateActualCheckboxValue('report_checkbox3');
+                updateActualCheckboxValue('report_checkbox4');
+                updateActualCheckboxValue('report_checkbox5');
+                updateActualCheckboxValue('report_checkbox6');
+                updateActualCheckboxValue('report_checkbox7');
+                updateActualCheckboxValue('report_checkbox8');
+                updateActualCheckboxValue('report_checkbox9');
+                updateActualCheckboxValue('report_checkbox10');
+                updateActualCheckboxValue('report_checkbox11');
+                updateActualCheckboxValue('report_checkbox12');
             {% else %}
-                updateCheckboxValue('report_checkbox1', {{ report.include_RBC_Result|lower }});
-                updateCheckboxValue('report_checkbox2', {{ report.include_PCV_Result|lower }});
+                updateActualCheckboxValue('report_checkbox1');
+                updateActualCheckboxValue('report_checkbox2');
             {% endif %}
         }
-    </script>
-    
-    <script>
-        function updateCheckboxValue(checkboxId) {
-            var checkbox = document.getElementById(checkboxId);
-            if (!checkbox.checked) {
-                checkbox.value = "false";
-            } else {
-                checkbox.value = "true";
+
+        if (`{{ report.status }}` == 'completed') {
+            window.onload = function () {
+
             }
         }
     </script>
     <script>
         $('#next').click(function(event) {
-            const formData = $('#reportForm').serialize();
-        
+            let formData;
+            if (`{{ report.status }}` == 'submission') {
+                formData = $('#SubmissionReportForm').serialize()
+            } else formData = $('#EvaluationReportForm').serialize();
+            console.log(formData);
             $.ajax({
-                type: 'PUT',
+                type: 'POST',
                 url: window.location.href,
-                data: JSON.parse(formData), 
+                data: formData, 
                 contentType: 'application/json',
                 success: function(data) {
                     console.log('Form submitted successfully:', data);
+                    window.location.reload();
                 },
                 error: function(xhr, status, error) {
                     console.error('Error submitting form:', error);
@@ -383,12 +380,37 @@
             });
         });
 
+        /*
+        $('#next').click(function(event) {
+            console.log('Next button clicked');
+            const current_event = "next";
+            const test_id = {{ test.id }};  
+            const test_type = '{{ test.type }}';  
+            const receiver_id = {{ receiver.id }}; 
+            const url = `http://localhost:8000/doctor_applicant_report_status_update/event/${current_event}/test/${test_id}/type/${test_type}/applicant/${receiver_id}/`;
+            $.ajax({
+                type: 'PUT',
+                url: url,
+                data: {}, 
+                contentType: 'application/json',
+                success: function(data) {
+                    console.log('Form submitted successfully:', data);
+                    window.location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error submitting form:', error);
+                }
+            });
+        });
+        */
+
         $('#back').click(function(event) {
-            const formData = $('#reportForm').serialize();
-            const testId = {{ test.id }};  
-            const testType = '{{ test.type }}';  
-            const receiverId = {{ receiver.id }};  
-            const url = `/doctor_applicant_report_status_update/${testId}/type/${testType}/applicant/${receiverId}/`;
+            console.log('back button was clicked');
+            const current_event = "back";
+            const test_id = {{ test.id }};  
+            const test_type = '{{ test.type }}';  
+            const receiver_id = {{ receiver.id }}; 
+            const url = `http://localhost:8000/doctor_applicant_report_status_update/event/${current_event}/test/${test_id}/type/${test_type}/applicant/${receiver_id}/`;
             $.ajax({
                 type: 'PUT',
                 url: url,
@@ -403,6 +425,24 @@
             });
         });
         
+        $('#preview_pdf').click(function (event) {
+            console.log('Preview PDF Button was clicked');
+            const test_id = {{ test.id }};
+            const test_type = '{{ test.type }}';
+            const receiver_id = {{ receiver.id }};
+            const url = `http://localhost:8000/pdf_file_preview/test/${test_id}/type/${test_type}/applicant/${receiver_id}/`;
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function(data) {
+                    console.log('Form submitted successfully:', data);
+                    window.location.href = 'https://developer.chrome.com/';
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error submitting form:', error);
+                }
+            })
+        })
     </script>
 
     <script>
@@ -411,36 +451,28 @@
         const next = document.getElementById('next')
         const wraps = document.querySelectorAll('.text-wrap')
         let currentActive = 1
-
         const reportStatus = "{{ report.status }}";
-
         if (reportStatus === 'evaluation' || reportStatus === 'Evaluation') {
             currentActive = 2;
-        } else if (reportStatus === 'completion' || reportStatus === 'Completed') {
+        } 
+        else if (reportStatus === 'completion' || reportStatus === 'Completed') {
             currentActive = 3;
         }
-
         update();
-
-
         next.addEventListener('click', () => {
             currentActive++
             if(currentActive > wraps.length) {
                 currentActive = wraps.length
             }
-
             update()
         })
-
         back.addEventListener('click', () => {
             currentActive--
             if(currentActive < 1) {
                 currentActive = 1
             }
-
             update()
         })
-
         function update() {
             wraps.forEach((wrap, index) => {
                 if(index < currentActive) {
@@ -449,10 +481,8 @@
                     wrap.classList.remove('active')
                 }
             })
-
             const actives = document.querySelectorAll('.active')
             progress.style.width = (actives.length - 1) / (wraps.length - 1)* 80 + '%'
-
             if(currentActive === 1) {
                 back.disabled = true
             } else if(currentActive === wraps.length) {
@@ -463,56 +493,4 @@
             }
         }
     </script>
-    {% comment %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> {% endcomment %}
-    {% comment %} <script>
-        $(document).ready(function(){
-            $('#message-form').submit(function(event){
-                event.preventDefault();
-                var formData = $(this).serialize();
-                $.ajax({
-                    type: 'POST',
-                    url: window.location.href,
-                    data: formData,
-                    success: function(response){
-                        if (response && response.content) {
-                            var newMessage = '<div class="message sent">' + response.content + '</div>';
-                            $('.message-container').append(newMessage);
-                            $('#message-input').val(''); 
-                            $('.message-container').scrollTop($('.message-container')[0].scrollHeight);
-                        } else {
-                            console.log(response)
-                            console.log('Invalid response from server');
-                        }
-                    },
-                    error: function(xhr, errmsg, err){
-                        console.log(xhr.status + ": " + xhr.responseText);
-                    }
-                });
-            });
-        });
-
-        const fetchMessages = () => {
-            $.ajax({
-                type: 'GET',
-                url: window.location.href,
-                success: function(response) {
-                    const $responseContainer = $('<div>').html(response);
-                        const $messageContainer = $responseContainer.find('.message-container');
-                        const $currentMessageContainer = $('.message-container');
-                        
-                        const newMessagesAdded = $currentMessageContainer.html() !== $messageContainer.html();
-                        $currentMessageContainer.html($messageContainer.html());
-                        
-                        if (newMessagesAdded) {
-                            $currentMessageContainer.scrollTop($currentMessageContainer[0].scrollHeight);
-                        }
-                },
-                error: function(xhr, errmsg, err) {
-                    console.log(xhr.status + ": " + xhr.responseText);
-                }
-            });
-        };
-
-        setInterval(fetchMessages, 5000);
-    </script> {% endcomment %}
 {% endblock script %}

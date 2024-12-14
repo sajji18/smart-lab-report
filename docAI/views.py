@@ -14,6 +14,7 @@ from plotly.offline import plot
 from django.views.decorators.csrf import csrf_exempt
 import plotly.graph_objs as go
 import plotly.express as px
+import subprocess
 
 # from django.urls import reverse
 
@@ -26,7 +27,6 @@ from docAI.data import tradeData
 def dash_view():
     # Initialize DjangoDash app
     app = DjangoDash('dash_app', external_scripts=['https://cdn.jsdelivr.net/npm/apexcharts'])
-
     # Define layout
     app.layout = html.Div(
         children=[
@@ -51,7 +51,6 @@ def dash_view():
             )
         ]
     )
-
 #     # Define clientside callback
 #     clientside_callback(
 #         ClientsideFunction(
@@ -73,7 +72,6 @@ def scatter(test_id, applicant_id):
             test_model = BloodTestReport
         else:
             test_model = DiabetesTestReport
-        
         test_report = test_model.objects.get(test=test, applicant=applicant)
         # print(test_report.blood_pressure_result)
         x1, y1 = [], []
@@ -94,7 +92,6 @@ def scatter(test_id, applicant_id):
                 ]
         else:
             pass
-
         trace = go.Scatter(
             x = x1,
             y = y1
@@ -104,7 +101,6 @@ def scatter(test_id, applicant_id):
             xaxis=dict(range=[min(x1), max(x1)]),
             yaxis = dict(range=[min(y1), max(y1)])
         )
-
         fig = go.Figure(data=[trace], layout=layout)
         plot_div = plot(fig, output_type='div', include_plotlyjs=False)
         return plot_div
@@ -207,26 +203,62 @@ def report_submission(request, report_id):
 @csrf_exempt
 @login_required
 def doctor_applicant_report(request, test_id, test_type, receiver_id):
-    # PUT Request
-    if request.method == 'PUT':
-        raw_data = request.body
-        data = QueryDict(raw_data)  # Parse form-urlencoded data
-        content = data.get('content')
+    # POST Request
+    if request.method == 'POST':
+        # raw_data = request.body
+        # print(raw_data)
+        # data = QueryDict(raw_data) 
+        # content = data.get('content')
+        # print(f' This is the content {content}')
         test = get_object_or_404(Test, id=test_id)
         applicant = get_object_or_404(User, id=receiver_id)
         report = BloodTestReport.objects.get(test=test, applicant=applicant) if test_type == 'blood' else DiabetesTestReport.objects.get(test=test, applicant=applicant)
+        print(report)
         if report:
+            # Updating Test Results
             if report.status == 'submission':
                 report.status = 'evaluation'
+                if test_type == 'blood':
+                    report.RBC_result = request.POST.get('RBC_result')
+                    report.PCV_result = request.POST.get('PCV_result')
+                    report.WBC_result = request.POST.get('WBC_result')
+                    report.Neutrophils_result = request.POST.get('Neutrophils_result')
+                    report.Lymphocytes_result = request.POST.get('Lymphocytes_result')
+                    report.Eosinophils_result = request.POST.get('Eosinophils_result')
+                    report.Monocytes_result = request.POST.get('Monocytes_result')
+                    report.Basophils_result = request.POST.get('Basophils_result')
+                    report.Platelet_count = request.POST.get('Platelet_count')
+                    report.hemoglobin_result = request.POST.get('hemoglobin_result')
+                    report.blood_pressure_result = request.POST.get('blood_pressure_result')
+                    report.cholesterol_level_result = request.POST.get('cholesterol_level_result')
+                else:
+                    report.blood_sugar_level_result = request.POST.get('blood_sugar_level_result')
+                    report.insulin_level_result = request.POST.get('insulin_level_result')
             elif report.status == 'evaluation':
                 report.status = 'completed'
-            report.content = content 
+                if test_type == 'blood':
+                    report.include_RBC_Result = request.POST.get('include_RBC_Result')
+                    report.include_PCV_Result = request.POST.get('include_PCV_Result')
+                    report.include_WBC_Result = request.POST.get('include_WBC_Result')
+                    report.include_Neutrophils_Result = request.POST.get('include_Neutrophils_Result')
+                    report.include_Lymphocytes_Result = request.POST.get('include_Lymphocytes_Result')
+                    report.include_Eosinophils_Result = request.POST.get('include_Eosinophils_Result')
+                    report.include_Monocytes_Result = request.POST.get('include_Monocytes_Result')
+                    report.include_Basophils_Result = request.POST.get('include_Basophils_Result')
+                    report.include_Platelet_Count = request.POST.get('include_Platelet_Count')
+                    report.include_hemoglobin_Result = request.POST.get('include_hemoglobin_Result')
+                    report.include_blood_pressure_Result = request.POST.get('include_blood_pressure_Result')
+                    report.include_cholesterol_level_Result = request.POST.get('include_cholesterol_level_Result')
+                else:
+                    report.include_blood_sugar_level_Result = request.POST.get('include_blood_sugar_level_Result')
+                    report.include_insulin_level_Result = request.POST.get('include_insulin_level_Result')
             report.save()
             return JsonResponse({'message': 'Report updated successfully'})
         else:
             return JsonResponse({'error': 'Report not found'}, status=404)
         
     # GET Request
+    print(test_id, test_type, receiver_id)
     request.session['prev_url'] = request.META.get('HTTP_REFERER', '/')
     report_model = BloodTestReport if test_type == 'blood' else DiabetesTestReport
     report_exists = report_model.objects.filter(test_id=test_id, applicant=receiver_id).exists()
@@ -276,23 +308,23 @@ def doctor_applicant_report(request, test_id, test_type, receiver_id):
     receiver = get_object_or_404(User, id=receiver_id)
     messages = Message.objects.filter(Q(sender=user, receiver=receiver) | Q(sender=receiver, receiver=user)).order_by('timestamp')
     
-    # POST Request
-    if request.method == 'POST':
-        content = request.POST.get('content')
-        test = get_object_or_404(Test, id=test_id)
-        applicant = get_object_or_404(User, id=receiver_id)
-        report = BloodTestReport.objects.get(test=test, applicant=applicant) if test_type == 'blood' else DiabetesTestReport.objects.get(test=test, applicant=applicant)
-        print(content)
-        if report:
-            if report.status == 'submission':
-                report.status = 'evaluation'
-            elif report.status == 'evaluation':
-                report.status = 'completed'
-            report.content = content 
-            report.save()
-            return redirect('doctor_applicant_report', test_id=test_id, test_type=test_type, receiver_id=receiver_id)
-        else:
-            return JsonResponse({'error': 'Report not found'}, status=404)
+    # PUT Request
+    # if request.method == 'PUT':
+    #     content = request.PUT.get('content')
+    #     test = get_object_or_404(Test, id=test_id)
+    #     applicant = get_object_or_404(User, id=receiver_id)
+    #     report = BloodTestReport.objects.get(test=test, applicant=applicant) if test_type == 'blood' else DiabetesTestReport.objects.get(test=test, applicant=applicant)
+    #     print(content)
+    #     if report:
+    #         if report.status == 'submission':
+    #             report.status = 'evaluation'
+    #         elif report.status == 'evaluation':
+    #             report.status = 'completed'
+    #         report.content = content 
+    #         report.save()
+    #         return redirect('doctor_applicant_report', test_id=test_id, test_type=test_type, receiver_id=receiver_id)
+    #     else:
+    #         return JsonResponse({'error': 'Report not found'}, status=404)
     # plot1 = dash_view()
     context = {
         'test': test,
@@ -300,7 +332,7 @@ def doctor_applicant_report(request, test_id, test_type, receiver_id):
         'receiver': receiver,
         'messages': messages,
         'report': report,
-        'plot1': scatter(test_id, receiver_id),
+        # 'plot1': scatter(test_id, receiver_id),
         'plot_div': gantt_plot
         # 'plot1': plot1
     }
@@ -309,23 +341,36 @@ def doctor_applicant_report(request, test_id, test_type, receiver_id):
 
 @csrf_exempt
 @login_required
-def doctor_applicant_report_status_update(request, test_id, test_type, receiver_id):
+def doctor_applicant_report_status_update(request, event, test_id, test_type, receiver_id):
+    print('this is update method on next or back button')
+    print(request.method)
     if request.method == 'PUT':
         # Get the test, applicant, and report objects
         test = get_object_or_404(Test, id=test_id)
         applicant = get_object_or_404(User, id=receiver_id)
         report = BloodTestReport.objects.get(test=test, applicant=applicant) if test_type == 'blood' else DiabetesTestReport.objects.get(test=test, applicant=applicant)
-
         if report:
-            if report.status == 'evaluation':
-                report.status = 'submission'
-            elif report.status == 'completed':
-                report.status = 'submission'
+            if event == 'back':
+                if report.status == 'evaluation':
+                    report.status = 'submission'
+                elif report.status == 'completed':
+                    report.status = 'submission'
+            elif event == 'next':
+                if report.status == 'submission':
+                    report.status = 'evaluation'
+                elif report.status == 'evaluation':
+                    report.status = 'completed'
             report.save()
             return JsonResponse({'message': 'Report status updated successfully'})
         else:
             return JsonResponse({'error': 'Report not found'}, status=404)
 
+def pdf_file_preview(reques, test_id, test_type, receiver_id):
+    url = f'https://developer.chrome.com/'
+    # Running the puppeteer script for my pdf generation
+    subprocess.run(['node', 'puppeteer/index.js', url])
+    # Finally, Sending PDF to User
+    return JsonResponse({'message': 'PDF Generated Successfully'})
 
 
 @login_required
@@ -393,7 +438,6 @@ def doctor_chat_applicants(request):
         applicants.append(user)
     return render(request, 'docAI/doctor_chat_applicants.html', {'applicants': applicants})
 
-
 # @login_required
 # def chat_view(request, test_id):
 #     test = get_object_or_404(Test, id=test_id)
@@ -441,7 +485,6 @@ def doctor_chat_applicants(request):
 #     else:
 #         return JsonResponse({'error': 'Invalid request'})
 
-
 @login_required
 def test_detail(request, test_id):
     test = Test.objects.get(id=test_id)
@@ -463,7 +506,6 @@ def test_detail(request, test_id):
             return JsonResponse({'content': message.content})
         except IntegrityError:
             return JsonResponse({'error': 'Failed to create message'}, status=500)
-    
     context = {
         'test': test,
         'user': sender,
