@@ -61,13 +61,22 @@
                     <p>Test {{ test.id }}</p>
                     <p class="time" id="current-time">Date: </p>
                 </div>
-                <div style="display: flex; justify-content: center; width: 100%; column; align-items: center; height: 100%">
+                <div style="display: flex; justify-content: center; width: 100%; flex-direction: column; align-items: center; height: 100%">
                     {% if report.status == 'submission' or report.status == 'Submission' %}
                         <h2>Report is Yet to be Prepared</h2>
                     {% elif report.status == 'evaluation' or report.status == 'Evaluation' %}
                         <h2>Report is Under Evaluation</h2>
-                    {% elif report.status == 'completion' or report.status == 'Completion' %}
-                        <h2>Report is Completed</h2>
+                    {% elif report.status == 'completed' or report.status == 'Completed' %}
+                        <h1 style="padding-top: 40px;">Report ({{ test.type }} test) of {{ request.user.username }} is Complete</h1>
+                        <div style="padding: 20px; width: 60%; display: flex; flex-direction: column; align-items: center;">
+                            <span style="font-size: 20px; text-align: center;">
+                                Your Report is finalized by the concerned doctor
+                                Click the Preview button to view the Report
+                            </span>
+                        </div>
+                        <div>
+                            <button class="btn" style="background-color: #4681f4;" id="preview_pdf" type=submit>Preview</button>
+                        </div>
                     {% endif %}
                 </div>
             </div>
@@ -144,6 +153,26 @@
                 });
             });
         });
+        $('#preview_pdf').click(function (event) {
+            console.log('Preview PDF Button was clicked');
+            const test_id = {{ test.id }};
+            const test_type = '{{ test.type }}';
+            const receiver_id = {{ receiver.id }};
+            const url = `http://localhost:8000/doctor_pdf_preview_page/test/${test_id}/type/${test_type}/applicant/${receiver_id}/`;
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function(response) {
+                    console.log('Form submitted successfully:', response);
+                    if (response.redirect_url) {
+                        window.location.href = response.redirect_url;
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error submitting form:', error);
+                }
+            })
+        })
         const fetchMessages = (test_id) => {
             $.ajax({
                 type: 'GET',

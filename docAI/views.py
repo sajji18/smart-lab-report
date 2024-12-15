@@ -208,6 +208,7 @@ def report_submission(request, report_id):
 def doctor_applicant_report(request, test_id, test_type, receiver_id):
     # POST Request
     if request.method == 'POST':
+        print(request.POST)
         # raw_data = request.body
         # print(raw_data)
         # data = QueryDict(raw_data) 
@@ -222,39 +223,41 @@ def doctor_applicant_report(request, test_id, test_type, receiver_id):
             if report.status == 'submission':
                 report.status = 'evaluation'
                 if test_type == 'blood':
-                    report.RBC_result = request.POST.get('RBC_result')
-                    report.PCV_result = request.POST.get('PCV_result')
-                    report.WBC_result = request.POST.get('WBC_result')
-                    report.Neutrophils_result = request.POST.get('Neutrophils_result')
-                    report.Lymphocytes_result = request.POST.get('Lymphocytes_result')
-                    report.Eosinophils_result = request.POST.get('Eosinophils_result')
-                    report.Monocytes_result = request.POST.get('Monocytes_result')
-                    report.Basophils_result = request.POST.get('Basophils_result')
-                    report.Platelet_count = request.POST.get('Platelet_count')
-                    report.hemoglobin_result = request.POST.get('hemoglobin_result')
-                    report.blood_pressure_result = request.POST.get('blood_pressure_result')
-                    report.cholesterol_level_result = request.POST.get('cholesterol_level_result')
+                    report.RBC_result = request.POST.get('RBC_result') 
+                    report.PCV_result = request.POST.get('PCV_result') 
+                    report.WBC_result = request.POST.get('WBC_result') 
+                    report.Neutrophils_result = request.POST.get('Neutrophils_result') 
+                    report.Lymphocytes_result = request.POST.get('Lymphocytes_result') 
+                    report.Eosinophils_result = request.POST.get('Eosinophils_result') 
+                    report.Monocytes_result = request.POST.get('Monocytes_result') 
+                    report.Basophils_result = request.POST.get('Basophils_result') 
+                    report.Platelet_count = request.POST.get('Platelet_count') 
+                    report.hemoglobin_result = request.POST.get('hemoglobin_result') 
+                    report.blood_pressure_result = request.POST.get('blood_pressure_result') 
+                    report.cholesterol_level_result = request.POST.get('cholesterol_level_result') 
                 else:
-                    report.blood_sugar_level_result = request.POST.get('blood_sugar_level_result')
-                    report.insulin_level_result = request.POST.get('insulin_level_result')
+                    report.blood_sugar_level_result = request.POST.get('blood_sugar_level_result') 
+                    report.insulin_level_result = request.POST.get('insulin_level_result') 
             elif report.status == 'evaluation':
                 report.status = 'completed'
                 if test_type == 'blood':
-                    report.include_RBC_Result = request.POST.get('include_RBC_Result')
-                    report.include_PCV_Result = request.POST.get('include_PCV_Result')
-                    report.include_WBC_Result = request.POST.get('include_WBC_Result')
-                    report.include_Neutrophils_Result = request.POST.get('include_Neutrophils_Result')
-                    report.include_Lymphocytes_Result = request.POST.get('include_Lymphocytes_Result')
-                    report.include_Eosinophils_Result = request.POST.get('include_Eosinophils_Result')
-                    report.include_Monocytes_Result = request.POST.get('include_Monocytes_Result')
-                    report.include_Basophils_Result = request.POST.get('include_Basophils_Result')
-                    report.include_Platelet_Count = request.POST.get('include_Platelet_Count')
-                    report.include_hemoglobin_Result = request.POST.get('include_hemoglobin_Result')
-                    report.include_blood_pressure_Result = request.POST.get('include_blood_pressure_Result')
-                    report.include_cholesterol_level_Result = request.POST.get('include_cholesterol_level_Result')
+                    report.include_RBC_Result = request.POST.get('include_RBC_Result') == 'True'
+                    report.include_PCV_Result = request.POST.get('include_PCV_Result') == 'True'
+                    report.include_WBC_Result = request.POST.get('include_WBC_Result') == 'True'
+                    report.include_Neutrophils_Result = request.POST.get('include_Neutrophils_Result') == 'True'
+                    report.include_Lymphocytes_Result = request.POST.get('include_Lymphocytes_Result') == 'True'
+                    report.include_Eosinophils_Result = request.POST.get('include_Eosinophils_Result') == 'True'
+                    report.include_Monocytes_Result = request.POST.get('include_Monocytes_Result') == 'True'
+                    report.include_Basophils_Result = request.POST.get('include_Basophils_Result') == 'True'
+                    report.include_Platelet_Count = request.POST.get('include_Platelet_Count') == 'True'
+                    report.include_hemoglobin_Result = request.POST.get('include_hemoglobin_Result') == 'True'
+                    report.include_blood_pressure_Result = request.POST.get('include_blood_pressure_Result') == 'True'
+                    report.include_cholesterol_level_Result = request.POST.get('include_cholesterol_level_Result') == 'True'
                 else:
-                    report.include_blood_sugar_level_Result = request.POST.get('include_blood_sugar_level_Result')
-                    report.include_insulin_level_Result = request.POST.get('include_insulin_level_Result')
+                    print('typeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+                    print(type(request.POST.get('include_blood_sugar_level_Result')))
+                    report.include_blood_sugar_level_Result = request.POST.get('include_blood_sugar_level_Result') == 'True'
+                    report.include_insulin_level_Result = request.POST.get('include_insulin_level_Result') == 'True'
             report.save()
             return JsonResponse({'message': 'Report updated successfully'})
         else:
@@ -371,57 +374,106 @@ def doctor_applicant_report_status_update(request, event, test_id, test_type, re
 
 def doctor_pdf_preview_page (request, test_id, test_type, receiver_id):
     if request.method == 'GET':
-        test = get_object_or_404(Test, id=test_id)
-        receiver = get_object_or_404(User, id=receiver_id)
-        doctor = request.user
-        report_model = BloodTestReport if test_type == 'blood' else DiabetesTestReport
-        report_exists = report_model.objects.filter(test_id=test_id, applicant=receiver_id).exists()
-        report = None if not report_exists else report_model.objects.get(test_id=test_id)
-        objs = report_model.objects.all()
-        objs_data = []
-        if report_model == BloodTestReport:
-            objs_data = [
-                {
-                    'RBC_result': x.RBC_result,
-                    'PCV_result': x.PCV_result,
-                    'WBC_result': x.WBC_result,
-                    'Neutrophils_result': x.Neutrophils_result,
-                    'Lymphocytes_result': x.Lymphocytes_result,
-                    'Eosinophils_result': x.Eosinophils_result,
-                    'Monocytes_result': x.Monocytes_result,
-                    'Basophils_result': x.Basophils_result,
-                    'Platelet_count': x.Platelet_count,
-                    'hemoglobin_result': x.hemoglobin_result,
-                    'blood_pressure_result': x.blood_pressure_result,
-                    'cholesterol_level_result': x.cholesterol_level_result,
-                }  for x in objs
-            ]
+        if request.user.user_type not in ['customer', 'Customer']:
+            test = get_object_or_404(Test, id=test_id)
+            receiver = get_object_or_404(User, id=receiver_id)
+            doctor = request.user
+            report_model = BloodTestReport if test_type == 'blood' else DiabetesTestReport
+            report_exists = report_model.objects.filter(test_id=test_id, applicant=receiver_id).exists()
+            report = None if not report_exists else report_model.objects.get(test_id=test_id)
+            objs = report_model.objects.all()
+            objs_data = []
+            if report_model == BloodTestReport:
+                objs_data = [
+                    {
+                        'RBC_result': x.RBC_result,
+                        'PCV_result': x.PCV_result,
+                        'WBC_result': x.WBC_result,
+                        'Neutrophils_result': x.Neutrophils_result,
+                        'Lymphocytes_result': x.Lymphocytes_result,
+                        'Eosinophils_result': x.Eosinophils_result,
+                        'Monocytes_result': x.Monocytes_result,
+                        'Basophils_result': x.Basophils_result,
+                        'Platelet_count': x.Platelet_count,
+                        'hemoglobin_result': x.hemoglobin_result,
+                        'blood_pressure_result': x.blood_pressure_result,
+                        'cholesterol_level_result': x.cholesterol_level_result,
+                    }  for x in objs
+                ]
+            else:
+                objs_data = [
+                    {
+                        'blood_sugar_level_result': x.blood_sugar_level_result,
+                        'insulin_level_result': x.insulin_level_result,
+                    }  for x in objs
+                ]
+            df = pd.DataFrame(objs_data)
+            for index, row in df.iterrows():
+                fig = px.bar(
+                    row,  # Using the row as data
+                    x = row.index,  # Use index as x values
+                    y = row.values  # Use values as y values
+                )
+            fig.update_yaxes(autorange="reversed")
+            gantt_plot = plot(fig, output_type="div")
+            context = {
+                'doctor': doctor,
+                'test': test,
+                'receiver': receiver,
+                'report': report,
+                'plot_div': gantt_plot
+            }
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'redirect_url': reverse('doctor_pdf_preview_page', args=[test_id, test_type, receiver_id])})
+            return render(request, 'docAI/doctor_pdf_preview_page.html', context)
         else:
-            objs_data = [
-                {
-                    'blood_sugar_level_result': x.blood_sugar_level_result,
-                    'insulin_level_result': x.insulin_level_result,
-                }  for x in objs
-            ]
-        df = pd.DataFrame(objs_data)
-        for index, row in df.iterrows():
-            fig = px.bar(
-                row,  # Using the row as data
-                x = row.index,  # Use index as x values
-                y = row.values  # Use values as y values
-            )
-        fig.update_yaxes(autorange="reversed")
-        gantt_plot = plot(fig, output_type="div")
-        context = {
-            'doctor': doctor,
-            'test': test,
-            'receiver': receiver,
-            'report': report,
-            'plot_div': gantt_plot
-        }
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({'redirect_url': reverse('doctor_pdf_preview_page', args=[test_id, test_type, receiver_id])})
-        return render(request, 'docAI/doctor_pdf_preview_page.html', context)
+            test = get_object_or_404(Test, id=test_id)
+            report_model = BloodTestReport if test_type == 'blood' else DiabetesTestReport
+            report_exists = report_model.objects.filter(test_id=test_id, applicant=request.user).exists()
+            report = None if not report_exists else report_model.objects.get(test_id=test_id)
+            objs = report_model.objects.all()
+            objs_data = []
+            if report_model == BloodTestReport:
+                objs_data = [
+                    {
+                        'RBC_result': x.RBC_result,
+                        'PCV_result': x.PCV_result,
+                        'WBC_result': x.WBC_result,
+                        'Neutrophils_result': x.Neutrophils_result,
+                        'Lymphocytes_result': x.Lymphocytes_result,
+                        'Eosinophils_result': x.Eosinophils_result,
+                        'Monocytes_result': x.Monocytes_result,
+                        'Basophils_result': x.Basophils_result,
+                        'Platelet_count': x.Platelet_count,
+                        'hemoglobin_result': x.hemoglobin_result,
+                        'blood_pressure_result': x.blood_pressure_result,
+                        'cholesterol_level_result': x.cholesterol_level_result,
+                    }  for x in objs
+                ]
+            else:
+                objs_data = [
+                    {
+                        'blood_sugar_level_result': x.blood_sugar_level_result,
+                        'insulin_level_result': x.insulin_level_result,
+                    }  for x in objs
+                ]
+            df = pd.DataFrame(objs_data)
+            for index, row in df.iterrows():
+                fig = px.bar(
+                    row,  # Using the row as data
+                    x = row.index,  # Use index as x values
+                    y = row.values  # Use values as y values
+                )
+            fig.update_yaxes(autorange="reversed")
+            gantt_plot = plot(fig, output_type="div")
+            context = {
+                'test': test,
+                'report': report,
+                'plot_div': gantt_plot
+            }
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'redirect_url': reverse('doctor_pdf_preview_page', args=[test_id, test_type, receiver_id])})
+            return render(request, 'docAI/doctor_pdf_preview_page.html', context)
     return JsonResponse({'error': 'Invalid request'})
 
 

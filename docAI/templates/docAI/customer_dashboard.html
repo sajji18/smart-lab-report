@@ -13,81 +13,86 @@
                 </div>
                 
                 <div class="project-boxes jsGridView" style="flex: 1;">
-                    
-                    {% for test in unapplied_tests %}
-                        <div class="project-box-wrapper">
-                            <div class="project-box" style="background-color: #fee4cb">
-                                <div class="project-box-header">
-                                    <span>{{ test.created_at }}</span>
-                                    <div class="more-wrapper">
-                                        <button class="project-btn-more" onclick="toggleApplyModal()">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="24"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="2"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                class="feather feather-more-vertical"
-                                            >
-                                                <circle cx="12" cy="12" r="1" />
-                                                <circle cx="12" cy="5" r="1" />
-                                                <circle cx="12" cy="19" r="1" />
-                                            </svg>
-                                        </button>
+                    {% if unapplied_tests %}
+                        {% for test in unapplied_tests %}
+                            <div class="project-box-wrapper">
+                                <div class="project-box" style="background-color: #fee4cb">
+                                    <div class="project-box-header">
+                                        <span>{{ test.created_at }}</span>
+                                        <div class="more-wrapper">
+                                            <button class="project-btn-more" onclick="toggleApplyModal()">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="24"
+                                                    height="24"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    class="feather feather-more-vertical"
+                                                >
+                                                    <circle cx="12" cy="12" r="1" />
+                                                    <circle cx="12" cy="5" r="1" />
+                                                    <circle cx="12" cy="19" r="1" />
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="project-box-content-header">
-                                    <p class="box-content-header">{{ test.name }}</p>
-                                    <p class="box-content-subheader">{{ test.description }}</p>
-                                </div>
-                                <div class="box-progress-wrapper">
-                                    <p class="box-progress-header">Progress</p>
-                                    <div class="box-progress-bar">
-                                        <span
-                                            class="box-progress"
-                                            style="width: 0%; background-color: #ff942e"
-                                        ></span>
+                                    <div class="project-box-content-header">
+                                        <p class="box-content-header">{{ test.name }}</p>
+                                        <p class="box-content-subheader">{{ test.description }}</p>
                                     </div>
-                                    
-                                </div>
-                                <div class="project-box-footer">
-                                    <div class="participants">
-                                        <img
-                                            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80"
-                                            alt="participant"
-                                        />
-                                        <img
-                                            src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTB8fG1hbnxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60"
-                                            alt="participant"
-                                        />
-                                        <button class="add-participant" style="color: #ff942e" onclick="openModal('{{ test.id }}')">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="12"
-                                                height="12"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="3"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                class="feather feather-plus"
-                                            >
-                                                <path d="M12 5v14M5 12h14" />
-                                            </svg>
-                                        </button>
+                                    <div class="box-progress-wrapper">
+                                        <p class="box-progress-header">Progress</p>
+                                        <div class="box-progress-bar">
+                                            <span
+                                                class="box-progress"
+                                                style="width: 0%; background-color: #ff942e"
+                                            ></span>
+                                        </div>
+                                        
                                     </div>
-                                    <div class="days-left" style="color: #ff942e">
-                                        {{ test.assigned_to }}
+                                    <div class="project-box-footer">
+                                        <div class="participants">
+                                            <img
+                                                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80"
+                                                alt="participant"
+                                            />
+                                            <img
+                                                src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTB8fG1hbnxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60"
+                                                alt="participant"
+                                            />
+                                            <button class="add-participant" style="color: #ff942e" onclick="openModal('{{ test.id }}')">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="12"
+                                                    height="12"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="3"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    class="feather feather-plus"
+                                                >
+                                                    <path d="M12 5v14M5 12h14" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="days-left" style="color: #ff942e">
+                                            {{ test.assigned_to }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        {% endfor %}
+                    {% else %}
+                        <div style="display: flex; justify-content: center; align-items: center; height: 100%; width: 100%;">
+                            <span style="font-size: 20px; width: 100%; text-align: center;">No Tests are available for applying at present</span>
                         </div>
-                    {% endfor %}
+                    {% endif %}
                 </div>
             </div>
             <div class="messages-section" style="box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);">

@@ -178,29 +178,20 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><input type="checkbox" id="credentials_checkbox1" name="credentials_checkbox1" value="true" onchange="updateActualCheckboxValue('credentials_checkbox1')"></td>
+                                    <td><input type="checkbox" id="credentials_checkbox1" name="include_applicant_name" value={{report.include_applicant_name}} onchange="updateActualCheckboxValue('credentials_checkbox1')"></td>
                                     <td>Customer Name</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="checkbox" id="credentials_checkbox2" name="credentials_checkbox2" value="true" onchange="updateActualCheckboxValue('credentials_checkbox2')"></td>
+                                    <td><input type="checkbox" id="credentials_checkbox2" name="include_applicant_email" value={{report.include_applicant_email}} onchange="updateActualCheckboxValue('credentials_checkbox2')"></td>
                                     <td>Customer Email</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="checkbox" id="credentials_checkbox3" name="credentials_checkbox3" value="true" onchange="updateActualCheckboxValue('credentials_checkbox3')"></td>
+                                    <td><input type="checkbox" id="credentials_checkbox3" name="include_my_name" value={{report.include_my_name}} onchange="updateActualCheckboxValue('credentials_checkbox3')"></td>
                                     <td>My Name</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="checkbox" id="credentials_checkbox4" name="credentials_checkbox4" value="true" onchange="updateActualCheckboxValue('credentials_checkbox4')"></td>
+                                    <td><input type="checkbox" id="credentials_checkbox4" name="include_my_email" value={{report.include_my_email}} onchange="updateActualCheckboxValue('credentials_checkbox4')"></td>
                                     <td>My Email</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" id="credentials_checkbox5" name="credentials_checkbox5" value="true" onchange="updateActualCheckboxValue('credentials_checkbox5')"></td>
-                                    <td>
-                                        <span>
-                                            Institution Image
-                                        </span>
-                                        <input type="file">
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -219,60 +210,60 @@
                             <tbody>
                                 {% if test.type == 'blood' %}
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox1" name="include_RBC_Result" value="{{ report.include_RBC_Result }}" onchange="updateActualCheckboxValue('report_checkbox1')"></td>
+                                        <td><input type="checkbox" id="report_checkbox1" name="include_RBC_Result" value={{report.include_RBC_Result}} onchange="updateActualCheckboxValue('report_checkbox1')"></td>
                                         <td>RBC Result</td
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox2" name="include_PCV_Result" value="{{ report.include_PCV_Result }}" onchange="updateActualCheckboxValue('report_checkbox2')"></td>
+                                        <td><input type="checkbox" id="report_checkbox2" name="include_PCV_Result" value={{report.include_PCV_Result}} onchange="updateActualCheckboxValue('report_checkbox2')"></td>
                                         <td>PCV Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox3" name="include_WBC_Result" value="{{ report.include_RBC_Result }}" onchange="updateActualCheckboxValue('report_checkbox3')"></td>
+                                        <td><input type="checkbox" id="report_checkbox3" name="include_WBC_Result" value={{report.include_RBC_Result}} onchange="updateActualCheckboxValue('report_checkbox3')"></td>
                                         <td>WBC Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox4" name="include_Neutrophils_Result" value="{{ report.include_Neutrophils_Result }}" onchange="updateActualCheckboxValue('report_checkbox4')"></td>
+                                        <td><input type="checkbox" id="report_checkbox4" name="include_Neutrophils_Result" value={{report.include_Neutrophils_Result}} onchange="updateActualCheckboxValue('report_checkbox4')"></td>
                                         <td>Neutrophils Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox5" name="include_Lymphocytes_Result" value="{{ report.include_Lymphocytes_Result }}" onchange="updateActualCheckboxValue('report_checkbox5')"></td>
+                                        <td><input type="checkbox" id="report_checkbox5" name="include_Lymphocytes_Result" value={{report.include_Lymphocytes_Result}} onchange="updateActualCheckboxValue('report_checkbox5')"></td>
                                         <td>Lymphocytes Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox6" name="include_Eosinophils_Result" value="{{ report.include_Eosinophils_Result }}" onchange="updateActualCheckboxValue('report_checkbox6')"></td>
+                                        <td><input type="checkbox" id="report_checkbox6" name="include_Eosinophils_Result" value={{report.include_Eosinophils_Result}} onchange="updateActualCheckboxValue('report_checkbox6')"></td>
                                         <td>Eosinophils Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox7" name="include_Monocytes_Result" value="{{ report.include_Monocytes_Result }}" onchange="updateActualCheckboxValue('report_checkbox7')"></td>
+                                        <td><input type="checkbox" id="report_checkbox7" name="include_Monocytes_Result" value={{report.include_Monocytes_Result}} onchange="updateActualCheckboxValue('report_checkbox7')"></td>
                                         <td>Monocytes Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox8" name="include_Basophils_Result" value="{{ report.include_Basophils_Result }}" onchange="updateActualCheckboxValue('report_checkbox8')"></td>
+                                        <td><input type="checkbox" id="report_checkbox8" name="include_Basophils_Result" value={{report.include_Basophils_Result}} onchange="updateActualCheckboxValue('report_checkbox8')"></td>
                                         <td>Basophils Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox9" name="include_Platelet_Count" value="{{ report.include_Platelet_Count }}" onchange="updateActualCheckboxValue('report_checkbox9')"></td>
+                                        <td><input type="checkbox" id="report_checkbox9" name="include_Platelet_Count" value={{report.include_Platelet_Count}} onchange="updateActualCheckboxValue('report_checkbox9')"></td>
                                         <td>Platelet Count</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox10" name="include_hemoglobin_Result" value="{{ report.include_hemoglobin_Result }}" onchange="updateActualCheckboxValue('report_checkbox10')"></td>
+                                        <td><input type="checkbox" id="report_checkbox10" name="include_hemoglobin_Result" value={{report.include_hemoglobin_Result}} onchange="updateActualCheckboxValue('report_checkbox10')"></td>
                                         <td>Hemoglobin Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox11" name="include_blood_pressure_Result" value="{{ report.include_blood_pressure_Result }}" onchange="updateActualCheckboxValue('report_checkbox11')"></td>
+                                        <td><input type="checkbox" id="report_checkbox11" name="include_blood_pressure_Result" value={{report.include_blood_pressure_Result}} onchange="updateActualCheckboxValue('report_checkbox11')"></td>
                                         <td>Blood Pressure Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox12" name="include_cholesterol_level_Result" value="{{ report.include_cholesterol_level_Result }}" onchange="updateActualCheckboxValue('report_checkbox12')"></td>
+                                        <td><input type="checkbox" id="report_checkbox12" name="include_cholesterol_level_Result" value={{report.include_cholesterol_level_Result}} onchange="updateActualCheckboxValue('report_checkbox12')"></td>
                                         <td>Cholesterol Level Result</td>
                                     </tr>
                                 {% else %}
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox1" name="include_blood_sugar_level_Result" value="{{ report.include_blood_sugar_level_Result }}" onchange="updateActualCheckboxValue('report_checkbox1')"></td>
+                                        <td><input type="checkbox" id="report_checkbox1" name="include_blood_sugar_level_Result" value={{report.include_blood_sugar_level_Result}} onchange="updateActualCheckboxValue('report_checkbox1')"></td>
                                         <td>Blood Sugar Level Result</td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" id="report_checkbox2" name="include_insulin_level_Result" value="{{ report.include_insulin_level_Result }}" onchange="updateActualCheckboxValue('report_checkbox2')"></td>
+                                        <td><input type="checkbox" id="report_checkbox2" name="include_insulin_level_Result" value={{report.include_insulin_level_Result}} onchange="updateActualCheckboxValue('report_checkbox2')"></td>
                                         <td>Insulin Level Result</td>
                                     </tr>
                                 {% endif %}

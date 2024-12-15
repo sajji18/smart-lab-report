@@ -47,12 +47,9 @@
         window.addEventListener('DOMContentLoaded', (event) => {
             const canvas = document.getElementById('particles-canvas');
             const ctx = canvas.getContext('2d');
-
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-
             const particles = [];
-
             class Particle {
                 constructor() {
                     this.radius = Math.random() * 3;
@@ -62,46 +59,37 @@
                     this.speedY = (Math.random() - 0.5) * 2;
                     this.color = '#ffffff';
                 }
-
                 draw() {
                     ctx.beginPath();
                     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
                     ctx.fillStyle = this.color;
                     ctx.fill();
                 }
-
                 update() {
                     this.draw();
                     this.x += this.speedX;
                     this.y += this.speedY;
                     this.checkBoundaries();
                 }
-
                 checkBoundaries() {
                     if (this.x - this.radius <= 0 || this.x + this.radius >= canvas.width) {
                         this.speedX = -this.speedX;
                     }
-
                     if (this.y - this.radius <= 0 || this.y + this.radius >= canvas.height) {
                         this.speedY = -this.speedY;
                     }
                 }
             }
-
             function init() {
                 for (let i = 0; i < 100; i++) {
                     particles.push(new Particle());
                 }
             }
-
             function animate() {
                 requestAnimationFrame(animate);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-
                 particles.forEach((particle, index) => {
                     particle.update();
-
-                    // Remove particles that move out of the screen
                     if (particle.x + particle.radius < 0 || particle.x - particle.radius > canvas.width ||
                         particle.y + particle.radius < 0 || particle.y - particle.radius > canvas.height) {
                         particles.splice(index, 1);
@@ -109,7 +97,6 @@
                     }
                 });
             }
-
             init();
             animate();
         });
