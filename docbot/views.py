@@ -51,10 +51,8 @@ class customer_chatbot_view(TemplateView):
                     except sr.RequestError as e:
                         print("Could not request results from Google Speech Recognition service; {0}".format(e))
                     print("Recognised Speech:")
-
             result = get_response(user)
             print(result)
-            
             messages = request.session.get('messages', [])
             messages.append({'sender': 'user', 'content': user})
             messages.append({'sender': 'bot', 'content': result})

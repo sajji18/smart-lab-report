@@ -15,7 +15,9 @@ urlpatterns = [
     path('doctor_test/<int:test_id>', views.doctor_test_detail, name="doctor_test_detail"),
     path('doctor_test/<int:test_id>/type/<str:test_type>/applicant/<int:receiver_id>/', views.doctor_applicant_report, name='doctor_applicant_report'),
     path('doctor_applicant_report_status_update/event/<str:event>/test/<int:test_id>/type/<str:test_type>/applicant/<int:receiver_id>/', views.doctor_applicant_report_status_update, name='doctor_applicant_report_status_update'),
-    path('pdf_file_preview/test/<int:test_id>/type/<str:test_type>/applicant/<int:receiver_id>/', views.pdf_file_preview, name='pdf_file_preview'),
+    # path('pdf_file_preview/test/<int:test_id>/type/<str:test_type>/applicant/<int:receiver_id>/', views.pdf_file_preview, name='pdf_file_preview'),
+    path('doctor_pdf_preview_page/test/<int:test_id>/type/<str:test_type>/applicant/<int:receiver_id>/', views.doctor_pdf_preview_page, name='doctor_pdf_preview_page'),
+    path('pdf_download/test/<int:test_id>/type/<str:test_type>/applicant/<int:receiver_id>/', views.pdf_download, name='pdf_download'),
     
     # Profile
     path('profile/', views.profile, name="profile"),

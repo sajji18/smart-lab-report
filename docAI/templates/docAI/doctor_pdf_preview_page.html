@@ -1,0 +1,323 @@
+{% comment %} {% extends 'docAI/layout/doctorLayout.html' %} {% endcomment %}
+{% load static %}
+{% load plotly_dash %}
+
+{% block link %}
+    <link rel="stylesheet" type="text/css" href="{% static 'docAI/doctor_applicant_report.css' %}" />
+{% endblock link %}
+
+{% block style %}
+    <style>
+        .parent_container {
+            display: flex;
+            align-items: center; 
+            flex-direction: column;
+            margin-top: 10px;
+        }
+
+        .parent_container_top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; 
+            width: 90%;
+            transform: translateY(-40%);
+        }
+
+        .report_area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 30px 10px 30px;
+            width: 90%;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+
+        .report_card::-webkit-scrollbar {
+            display: none;
+        }
+
+        .report_data_table{
+            min-height: 300px
+        }
+
+        .report_submit_buttons {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+        }
+    </style>
+{% endblock style %}
+
+{% block body %}
+
+    {% comment %} <div class="right_container_top">
+        <div class="right_container_top_left">
+            <h1>Preview</h1>
+        </div>
+    </div> {% endcomment %}
+    <div class="parent_container">
+        <div class="report_area">
+                <h1>Report ({{ test.type }} test) </h1>
+                    <div class="report_data_table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="report_data_table_head">Parameter</th>
+                                    <th class="report_data_table_head">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if test.type == 'blood' %}
+                                    <tr>
+                                        <td>RBC Result</td>
+                                        <td>{{ report.RBC_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PCV Result</td>
+                                        <td>{{ report.PCV_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>WBC Result</td>
+                                        <td>{{ report.WBC_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Neutrophils Result</td>
+                                        <td>{{ report.Neutrophils_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lymphocytes Result</td>
+                                        <td>{{ report.Lymphocytes_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Eosinophils Result</td>
+                                        <td>{{ report.Eosinophils_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Monocytes Result</td>
+                                        <td>{{ report.Monocytes_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Basophils Result</td>
+                                        <td>{{ report.Basophils_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Platelet Count</td>
+                                        <td>{{ report.Platelet_count }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Hemoglobin Result</td>
+                                        <td>{{ report.hemoglobin_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Blood Pressure Result</td>
+                                        <td>{{ report.blood_pressure_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cholesterol Level Result</td>
+                                        <td>{{ report.cholesterol_level_result }}</td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td>Blood Sugar Level Result</td>
+                                        <td>{{ report.blood_sugar_level_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Insulin Level Result</td>
+                                        <td>{{ report.insulin_level_result }}</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; width: 100%; border-bottom: 1px solid black;">
+                        <h1>Credentials</h1>
+                    </div>
+                    {% csrf_token %}
+                    <div class="report_data_table">
+                        <table style="text-align: center; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th class="report_data_table_head" style="width: 50%; text-align: center;">Include/Exclude</th>
+                                    <th class="report_data_table_head" style="width: 50%; text-align: center;">Information</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                <tr>
+                                    {% comment %} <td><input type="checkbox" id="credentials_checkbox1" name="credentials_checkbox1" value="true" onchange="updateActualCheckboxValue('credentials_checkbox1')"></td> {% endcomment %}
+                                    <td>Customer Name</td>
+                                    <td>User</td>
+                                </tr>
+                                <tr>
+                                    {% comment %} <td><input type="checkbox" id="credentials_checkbox2" name="credentials_checkbox2" value="true" onchange="updateActualCheckboxValue('credentials_checkbox2')"></td> {% endcomment %}
+                                    <td>Customer Email</td>
+                                    <td>user@123</td>
+                                </tr>
+                                <tr>
+                                    {% comment %} <td><input type="checkbox" id="credentials_checkbox3" name="credentials_checkbox3" value="true" onchange="updateActualCheckboxValue('credentials_checkbox3')"></td> {% endcomment %}
+                                    <td>Doctor Name</td>
+                                    <td>{{ request.user.username }}</td>
+                                </tr>
+                                <tr>
+                                    {% comment %} <td><input type="checkbox" id="credentials_checkbox4" name="credentials_checkbox4" value="true" onchange="updateActualCheckboxValue('credentials_checkbox4')"></td> {% endcomment %}
+                                    <td>Doctor Email</td>
+                                    <td>{{ request.user.email }}</td>
+                                </tr>
+                                <tr>
+                                    {% comment %} <td><input type="checkbox" id="credentials_checkbox5" name="credentials_checkbox5" value="true" onchange="updateActualCheckboxValue('credentials_checkbox5')"></td> {% endcomment %}
+                                    <td>
+                                        <span>
+                                            Institution Image
+                                        </span>
+                                    </td>
+                                    <td>IIT Roorkee</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; width: 100%; border-bottom: 1px solid black;">
+                        <h1>Results</h1>
+                    </div>
+                    <div class="report_data_table">
+                        <table style="text-align: center; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th class="report_data_table_head" style="width: 50%; text-align: center;">Include/Exclude</th>
+                                    <th class="report_data_table_head" style="width: 50%; text-align: center;">Information</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if test.type == 'blood' %}
+                                    <tr>
+                                        {% comment %} <td><input type="checkbox" id="report_checkbox1" name="include_RBC_Result" value="{{ report.include_RBC_Result }}" onchange="updateActualCheckboxValue('report_checkbox1')"></td> {% endcomment %}
+                                        <td>RBC Result</td
+                                        <td>{{ report.RBC_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        {% comment %} <td><input type="checkbox" id="report_checkbox2" name="include_PCV_Result" value="{{ report.include_PCV_Result }}" onchange="updateActualCheckboxValue('report_checkbox2')"></td> {% endcomment %}
+                                        <td>PCV Result</td>
+                                        <td>{{ report.PCV_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        {% comment %} <td><input type="checkbox" id="report_checkbox3" name="include_WBC_Result" value="{{ report.include_RBC_Result }}" onchange="updateActualCheckboxValue('report_checkbox3')"></td> {% endcomment %}
+                                        <td>WBC Result</td>
+                                        <td>{{ report.WBC_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        {% comment %} <td><input type="checkbox" id="report_checkbox4" name="include_Neutrophils_Result" value="{{ report.include_Neutrophils_Result }}" onchange="updateActualCheckboxValue('report_checkbox4')"></td> {% endcomment %}
+                                        <td>Neutrophils Result</td>
+                                        <td>{{ report.Neutrophils_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        {% comment %} <td><input type="checkbox" id="report_checkbox5" name="include_Lymphocytes_Result" value="{{ report.include_Lymphocytes_Result }}" onchange="updateActualCheckboxValue('report_checkbox5')"></td> {% endcomment %}
+                                        <td>Lymphocytes Result</td>
+                                        <td>{{ report.Lymphocytes_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        {% comment %} <td><input type="checkbox" id="report_checkbox6" name="include_Eosinophils_Result" value="{{ report.include_Eosinophils_Result }}" onchange="updateActualCheckboxValue('report_checkbox6')"></td> {% endcomment %}
+                                        <td>Eosinophils Result</td>
+                                        <td>{{ report.Eosinophils_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        {% comment %} <td><input type="checkbox" id="report_checkbox7" name="include_Monocytes_Result" value="{{ report.include_Monocytes_Result }}" onchange="updateActualCheckboxValue('report_checkbox7')"></td> {% endcomment %}
+                                        <td>Monocytes Result</td>
+                                        <td>{{ report.Monocytes_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        {% comment %} <td><input type="checkbox" id="report_checkbox8" name="include_Basophils_Result" value="{{ report.include_Basophils_Result }}" onchange="updateActualCheckboxValue('report_checkbox8')"></td> {% endcomment %}
+                                        <td>Basophils Result</td>
+                                        <td>{{ report.Basophils_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        {% comment %} <td><input type="checkbox" id="report_checkbox9" name="include_Platelet_Count" value="{{ report.include_Platelet_Count }}" onchange="updateActualCheckboxValue('report_checkbox9')"></td> {% endcomment %}
+                                        <td>Platelet Count</td>
+                                        <td>{{ report.Platelet_count }}</td>
+                                    </tr>
+                                    <tr>
+                                        {% comment %} <td><input type="checkbox" id="report_checkbox10" name="include_hemoglobin_Result" value="{{ report.include_hemoglobin_Result }}" onchange="updateActualCheckboxValue('report_checkbox10')"></td> {% endcomment %}
+                                        <td>Hemoglobin Result</td>
+                                        <td>{{ report.hemoglobin_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        {% comment %} <td><input type="checkbox" id="report_checkbox11" name="include_blood_pressure_Result" value="{{ report.include_blood_pressure_Result }}" onchange="updateActualCheckboxValue('report_checkbox11')"></td> {% endcomment %}
+                                        <td>Blood Pressure Result</td>
+                                        <td>{{ report.blood_pressure_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        {% comment %} <td><input type="checkbox" id="report_checkbox12" name="include_cholesterol_level_Result" value="{{ report.include_cholesterol_level_Result }}" onchange="updateActualCheckboxValue('report_checkbox12')"></td> {% endcomment %}
+                                        <td>Cholesterol Level Result</td>
+                                        <td>{{ report.cholesterol_level_result }}</td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        {% comment %} <td><input type="checkbox" id="report_checkbox1" name="include_blood_sugar_level_Result" value="{{ report.include_blood_sugar_level_Result }}" onchange="updateActualCheckboxValue('report_checkbox1')"></td> {% endcomment %}
+                                        <td>Blood Sugar Level Result</td>
+                                        <td>{{ report.blood_sugar_level_result }}</td>
+                                    </tr>
+                                    <tr>
+                                        {% comment %} <td><input type="checkbox" id="report_checkbox2" name="include_insulin_level_Result" value="{{ report.include_insulin_level_Result }}" onchange="updateActualCheckboxValue('report_checkbox2')"></td> {% endcomment %}
+                                        <td>Insulin Level Result</td>
+                                        <td>{{ report.insulin_level_result }}</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; width: 100%; border-bottom: 1px solid black;">
+                        <h1>Graph</h1>
+                    </div>
+                    {% comment %} <div class="{% plotly_class name='SimpleExample' %} card" style="height: 100%; width: 100%">
+                        {% plotly_app name='SimpleExample' ratio=0.45 %}
+                    </div> {% endcomment %}
+                    <br>
+                        {% autoescape off %}
+                        {{ plot_div }}
+                        {% endautoescape %}
+                        
+                    <div style="display: flex; justify-content: center; align-items: center; width: 100%; border-bottom: 1px solid black;">
+                        <h1>Remarks</h1>
+                    </div>
+                    <div style="padding: 20px;">
+                        {% if report.remarks == '' %}
+                            <span>Remarks are not provided by the Doctor</span>
+                        {% else %}
+                            <span>{{ report.remarks }}</span>
+                        {% endif %}
+                    </div>
+                {% comment %} <div class="report_submit_buttons">
+                    <button class="btn" id="back" disabled>&larr; Back</button>
+                    <button class="btn" id="next">Next &rarr;</button>
+                </div> {% endcomment %}
+            </div>
+    </div>
+{% endblock body %}
+
+{% block script %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        window.onload = function () {
+            /*
+                Plan:
+                    When the user clicks the preview button on the completed report page,
+                    User will be redirected to the pdf preview page which on load sends ajax request to the server
+                    the server generated pdf of this pdf_preview page and gives it to the logged in user
+            */
+            const test_id = {{ test.id }};
+            const test_type = `{{ test.type }}`;
+            const receiver_id = {{ receiver.id }};
+            const url = `http://localhost:8000/pdf_download/test/${test_id}/type/${test_type}/applicant/${receiver_id}/`;
+            $.ajax({
+                method: 'GET',
+                url: url,
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
+        }
+    </script>
+{% endblock script %}

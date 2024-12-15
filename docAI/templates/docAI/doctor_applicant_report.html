@@ -303,12 +303,15 @@
                     </div>
                 </form>
             {% else %}
-                <h1>Report Completed</h1>
-                <div>
-                    
+                <h1 style="padding-top: 40px;">Report of {{ receiver.username }} is Completed</h1>
+                <div style="padding: 20px; width: 60%; display: flex; flex-direction: column; align-items: center;">
+                    <span style="font-size: 20px; text-align: center;">
+                        The report has been sent to the applicant for download
+                        You can preview and download the report by clicking the button below
+                    </span>
                 </div>
-                <div class="report_submit_buttons">
-                    <button class="btn" id="preview_pdf">Preview</button>
+                <div>
+                    <button class="btn" style="background-color: #4681f4;" id="preview_pdf" type=submit>Preview</button>
                 </div>
             {% endif %}
                 {% comment %} <div class="report_submit_buttons">
@@ -424,7 +427,7 @@
                 }
             });
         });
-        
+        /*
         $('#preview_pdf').click(function (event) {
             console.log('Preview PDF Button was clicked');
             const test_id = {{ test.id }};
@@ -437,6 +440,27 @@
                 success: function(data) {
                     console.log('Form submitted successfully:', data);
                     window.location.href = 'https://developer.chrome.com/';
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error submitting form:', error);
+                }
+            })
+        })
+        */
+        $('#preview_pdf').click(function (event) {
+            console.log('Preview PDF Button was clicked');
+            const test_id = {{ test.id }};
+            const test_type = '{{ test.type }}';
+            const receiver_id = {{ receiver.id }};
+            const url = `http://localhost:8000/doctor_pdf_preview_page/test/${test_id}/type/${test_type}/applicant/${receiver_id}/`;
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function(response) {
+                    console.log('Form submitted successfully:', response);
+                    if (response.redirect_url) {
+                        window.location.href = response.redirect_url;
+                    }
                 },
                 error: function(xhr, status, error) {
                     console.error('Error submitting form:', error);
@@ -483,9 +507,9 @@
             })
             const actives = document.querySelectorAll('.active')
             progress.style.width = (actives.length - 1) / (wraps.length - 1)* 80 + '%'
-            if(currentActive === 1) {
+            if (currentActive === 1) {
                 back.disabled = true
-            } else if(currentActive === wraps.length) {
+            } else if (currentActive === wraps.length) {
                 next.disabled = true
             } else {
                 back.disabled = false

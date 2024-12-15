@@ -1,6 +1,7 @@
 import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 import pandas as pd
 from .models import Test, Message, TestApplication, BloodTestReport, DiabetesTestReport
 from django.http import JsonResponse, HttpResponse, QueryDict
@@ -15,14 +16,14 @@ from django.views.decorators.csrf import csrf_exempt
 import plotly.graph_objs as go
 import plotly.express as px
 import subprocess
-
-# from django.urls import reverse
-
 from django.shortcuts import render
 from django_plotly_dash import DjangoDash
 from dash import dcc, html, Input, Output, clientside_callback, ClientsideFunction
 import dash_mantine_components as dmc
 from docAI.data import tradeData
+from django.template.loader import get_template
+from io import BytesIO
+from xhtml2pdf import pisa
 
 def dash_view():
     # Initialize DjangoDash app
@@ -296,11 +297,11 @@ def doctor_applicant_report(request, test_id, test_type, receiver_id):
     for index, row in df.iterrows():
         fig = px.bar(
             row,  # Using the row as data
-            x=row.index,  # Use index as x values
-            y=row.values  # Use values as y values
+            x = row.index,  # Use index as x values
+            y = row.values  # Use values as y values
         )
-        fig.update_yaxes(autorange="reversed")
-        gantt_plot = plot(fig, output_type="div")
+    fig.update_yaxes(autorange="reversed")
+    gantt_plot = plot(fig, output_type="div")
 
     user = request.user
     if user != test.assigned_to and user not in test.testapplication_set.values_list('user', flat=True):
@@ -365,12 +366,129 @@ def doctor_applicant_report_status_update(request, event, test_id, test_type, re
         else:
             return JsonResponse({'error': 'Report not found'}, status=404)
 
-def pdf_file_preview(reques, test_id, test_type, receiver_id):
-    url = f'https://developer.chrome.com/'
-    # Running the puppeteer script for my pdf generation
-    subprocess.run(['node', 'puppeteer/index.js', url])
-    # Finally, Sending PDF to User
-    return JsonResponse({'message': 'PDF Generated Successfully'})
+
+def doctor_pdf_preview_page (request, test_id, test_type, receiver_id):
+    if request.method == 'GET':
+        test = get_object_or_404(Test, id=test_id)
+        receiver = get_object_or_404(User, id=receiver_id)
+        doctor = request.user
+        report_model = BloodTestReport if test_type == 'blood' else DiabetesTestReport
+        report_exists = report_model.objects.filter(test_id=test_id, applicant=receiver_id).exists()
+        report = None if not report_exists else report_model.objects.get(test_id=test_id)
+        objs = report_model.objects.all()
+        objs_data = []
+        if report_model == BloodTestReport:
+            objs_data = [
+                {
+                    'RBC_result': x.RBC_result,
+                    'PCV_result': x.PCV_result,
+                    'WBC_result': x.WBC_result,
+                    'Neutrophils_result': x.Neutrophils_result,
+                    'Lymphocytes_result': x.Lymphocytes_result,
+                    'Eosinophils_result': x.Eosinophils_result,
+                    'Monocytes_result': x.Monocytes_result,
+                    'Basophils_result': x.Basophils_result,
+                    'Platelet_count': x.Platelet_count,
+                    'hemoglobin_result': x.hemoglobin_result,
+                    'blood_pressure_result': x.blood_pressure_result,
+                    'cholesterol_level_result': x.cholesterol_level_result,
+                }  for x in objs
+            ]
+        else:
+            objs_data = [
+                {
+                    'blood_sugar_level_result': x.blood_sugar_level_result,
+                    'insulin_level_result': x.insulin_level_result,
+                }  for x in objs
+            ]
+        df = pd.DataFrame(objs_data)
+        for index, row in df.iterrows():
+            fig = px.bar(
+                row,  # Using the row as data
+                x = row.index,  # Use index as x values
+                y = row.values  # Use values as y values
+            )
+        fig.update_yaxes(autorange="reversed")
+        gantt_plot = plot(fig, output_type="div")
+        context = {
+            'doctor': doctor,
+            'test': test,
+            'receiver': receiver,
+            'report': report,
+            'plot_div': gantt_plot
+        }
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'redirect_url': reverse('doctor_pdf_preview_page', args=[test_id, test_type, receiver_id])})
+        return render(request, 'docAI/doctor_pdf_preview_page.html', context)
+    return JsonResponse({'error': 'Invalid request'})
+
+
+def pdf_download (request, test_id, test_type, receiver_id):
+    test = get_object_or_404(Test, id=test_id)
+    applicant = get_object_or_404(User, id=receiver_id)
+    doctor = request.user
+    report_model = BloodTestReport if test_type == 'blood' else DiabetesTestReport
+    report_exists = report_model.objects.filter(test_id=test_id, applicant=receiver_id).exists()
+    report = None if not report_exists else report_model.objects.get(test_id=test_id)
+    objs = report_model.objects.all()
+    objs_data = []
+    if report_model == BloodTestReport:
+        objs_data = [
+            {
+                'RBC_result': x.RBC_result,
+                'PCV_result': x.PCV_result,
+                'WBC_result': x.WBC_result,
+                'Neutrophils_result': x.Neutrophils_result,
+                'Lymphocytes_result': x.Lymphocytes_result,
+                'Eosinophils_result': x.Eosinophils_result,
+                'Monocytes_result': x.Monocytes_result,
+                'Basophils_result': x.Basophils_result,
+                'Platelet_count': x.Platelet_count,
+                'hemoglobin_result': x.hemoglobin_result,
+                'blood_pressure_result': x.blood_pressure_result,
+                'cholesterol_level_result': x.cholesterol_level_result,
+            }  for x in objs
+        ]
+    else:
+        objs_data = [
+            {
+                'blood_sugar_level_result': x.blood_sugar_level_result,
+                'insulin_level_result': x.insulin_level_result,
+            }  for x in objs
+        ]
+    df = pd.DataFrame(objs_data)
+    for index, row in df.iterrows():
+        fig = px.bar(
+            row,  # Using the row as data
+            x = row.index,  # Use index as x values
+            y = row.values  # Use values as y values
+        )
+    fig.update_yaxes(autorange="reversed")
+    gantt_plot = plot(fig, output_type="div")
+    context = {
+        'doctor': doctor,
+        'test': test,
+        'applicant': applicant,
+        'report': report,
+        'plot_div': gantt_plot
+    }
+    
+    # Using xhtml2pdf
+    template = get_template('docAI/doctor_pdf_preview_page.html')
+    html = template.render(context)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("utf-8")), result)
+    if not pisa.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
+
+
+# def pdf_file_preview(request, test_id, test_type, receiver_id):
+#     url = f'http://localhost:8000'
+#     # Running the puppeteer script for my pdf generation
+#     subprocess.run(['node', 'puppeteer/index.js', url, str(test_id), str(test_type), str(receiver_id)])
+#     # Finally, Sending PDF to User
+#     return JsonResponse({'message': 'PDF Generated Successfully'})
 
 
 @login_required
