@@ -475,13 +475,6 @@
         const next = document.getElementById('next')
         const wraps = document.querySelectorAll('.text-wrap')
         let currentActive = 1
-        const reportStatus = "{{ report.status }}";
-        if (reportStatus === 'evaluation' || reportStatus === 'Evaluation') {
-            currentActive = 2;
-        } 
-        else if (reportStatus === 'completion' || reportStatus === 'Completed') {
-            currentActive = 3;
-        }
         update();
         next.addEventListener('click', () => {
             currentActive++
@@ -498,6 +491,19 @@
             update()
         })
         function update() {
+            const reportStatus = "{{ report.status }}";
+            if (reportStatus === 'evaluation' || reportStatus === 'Evaluation') {
+                currentActive = 2;
+            } 
+            else if (reportStatus === 'completion' || reportStatus === 'Completed') {
+                currentActive = 3;
+            }
+            if (reportStatus === 'evaluation' || reportStatus === 'Evaluation') {
+                currentActive = 2;
+            } 
+            else if (reportStatus === 'completion' || reportStatus === 'Completed') {
+                currentActive = 3;
+            }
             wraps.forEach((wrap, index) => {
                 if(index < currentActive) {
                     wrap.classList.add('active')

@@ -14,7 +14,6 @@
             flex-direction: column;
             margin-top: 10px;
         }
-
         .parent_container_top {
             display: flex;
             justify-content: space-between;
@@ -22,7 +21,6 @@
             width: 90%;
             transform: translateY(-40%);
         }
-
         .report_area {
             display: flex;
             flex-direction: column;
@@ -32,15 +30,12 @@
             box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
             overflow-y: auto;
         }
-
         .report_card::-webkit-scrollbar {
             display: none;
         }
-
         .report_data_table{
             min-height: 300px
         }
-
         .report_submit_buttons {
             display: flex;
             justify-content: space-between;
@@ -272,10 +267,12 @@
                         {% plotly_app name='SimpleExample' ratio=0.45 %}
                     </div> {% endcomment %}
                     <br>
+                    {% comment %} 
                         {% autoescape off %}
-                        {{ plot_div }}
+                            {{ plot_div }}
                         {% endautoescape %}
-                        
+                    {% endcomment %}
+                    <img src="{{ plot_img_url }}" alt="Gantt Plot" />
                     <div style="display: flex; justify-content: center; align-items: center; width: 100%; border-bottom: 1px solid black;">
                         <h1>Remarks</h1>
                     </div>

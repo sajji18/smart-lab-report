@@ -1,4 +1,6 @@
 import json
+import os
+from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
@@ -425,7 +427,7 @@ def doctor_pdf_preview_page (request, test_id, test_type, receiver_id):
 
 def pdf_download (request, test_id, test_type, receiver_id):
     test = get_object_or_404(Test, id=test_id)
-    applicant = get_object_or_404(User, id=receiver_id)
+    receiver = get_object_or_404(User, id=receiver_id)
     doctor = request.user
     report_model = BloodTestReport if test_type == 'blood' else DiabetesTestReport
     report_exists = report_model.objects.filter(test_id=test_id, applicant=receiver_id).exists()
@@ -464,15 +466,20 @@ def pdf_download (request, test_id, test_type, receiver_id):
             y = row.values  # Use values as y values
         )
     fig.update_yaxes(autorange="reversed")
-    gantt_plot = plot(fig, output_type="div")
+    # gantt_plot = plot(fig, output_type="div")
+    print('Image generation is about to start')
+    img_path = os.path.join(settings.MEDIA_ROOT, 'gantt_plot.jpeg')
+    print(img_path)
+    fig.write_image(img_path)
+    img_url = os.path.join(settings.MEDIA_URL, 'gantt_plot.jpeg')
+    print(img_url)
     context = {
         'doctor': doctor,
         'test': test,
-        'applicant': applicant,
+        'receiver': receiver,
         'report': report,
-        'plot_div': gantt_plot
+        'plot_img_url': img_url
     }
-    
     # Using xhtml2pdf
     template = get_template('docAI/doctor_pdf_preview_page.html')
     html = template.render(context)

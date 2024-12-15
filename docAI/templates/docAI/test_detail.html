@@ -13,7 +13,6 @@
         height: 100%;
         width: 95%;
     }
-
     .message_area_top {
         display: flex;
         justify-content: space-between;
@@ -22,14 +21,12 @@
         margin-bottom: 10px;
         border-bottom: 1px solid #ccc;
     }
-
     .message-container {
         overflow-y: auto;
         height: 82.5%;
         padding-bottom: 30px;
         border-bottom: 1px solid #ccc;
     }
-
     .message-container::-webkit-scrollbar {
         display: none;
     }
@@ -62,24 +59,9 @@
             <div class="projects-section" style="display: flex; justify-content: space-between; flex-direction: column; align-items: center; height: 85vh; padding: 20px;">
                 <div class="projects-section-header" style="display: flex; justify-content: space-between; width: 100%; column; align-items: center;">
                     <p>Test {{ test.id }}</p>
-                    <p class="time">Date</p>
+                    <p class="time" id="current-time">Date: </p>
                 </div>
-                <div class="progress-container">
-                    <div class="progress" id="progress"></div>
-                    <div class="text-wrap active">
-                        <div class="circle">1</div>
-                        <p class="text">Submission</p>
-                    </div>
-                    <div class="text-wrap">
-                        <div class="circle">2</div>
-                        <p class="text">Evaluation</p>
-                    </div>
-                    <div class="text-wrap">
-                        <div class="circle">3</div>
-                        <p class="text">Completion</p>
-                    </div>
-                </div>
-                <div style="display: flex; justify-content: center; width: 100%; column; align-items: center; transform: translateY(-50px)">
+                <div style="display: flex; justify-content: center; width: 100%; column; align-items: center; height: 100%">
                     {% if report.status == 'submission' or report.status == 'Submission' %}
                         <h2>Report is Yet to be Prepared</h2>
                     {% elif report.status == 'evaluation' or report.status == 'Evaluation' %}
@@ -87,15 +69,8 @@
                     {% elif report.status == 'completion' or report.status == 'Completion' %}
                         <h2>Report is Completed</h2>
                     {% endif %}
-
-                </div>
-                <div style="display: flex; justify-content: space-between; width: 100%; column; align-items: center;">
-                    <button class="btn" id="back" disabled>&larr; Back</button>
-                    <button class="btn" id="next">Next &rarr;</button>
                 </div>
             </div>
-
-
             <div class="messages-section" style="padding: 15px 0 15px 0">
                 <button class="messages-close">
                     <svg
@@ -140,99 +115,8 @@
     {% endif %}
 {% endblock body %}
 
-
 {% block script %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-        $('#next').click(function(event) {
-            const formData = $('#reportForm').serialize();
-            $.ajax({
-                type: 'PUT',
-                url: window.location.href,
-                data: formData,
-                success: function(data) {
-                    console.log('Form submitted successfully:', data);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error submitting form:', error);
-                }
-            });
-        });
-
-        $('#back').click(function(event) {
-            const formData = $('#reportForm').serialize();
-            $.ajax({
-                type: 'PUT',
-                url: window.location.href,
-                data: formData,
-                success: function(data) {
-                    console.log('Form submitted successfully:', data);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error submitting form:', error);
-                }
-            });
-        });
-    </script>
-
-    <script>
-        const progress = document.getElementById('progress')
-        const back = document.getElementById('back')
-        const next = document.getElementById('next')
-        const wraps = document.querySelectorAll('.text-wrap')
-        let currentActive = 1
-
-        const reportStatus = "{{ report.status }}";
-
-        if (reportStatus === 'evaluation' || reportStatus === 'Evaluation') {
-            currentActive = 2;
-        } else if (reportStatus === 'completion' || reportStatus === 'Completed') {
-            currentActive = 3;
-        }
-
-        update();
-
-
-        next.addEventListener('click', () => {
-            currentActive++
-            if(currentActive > wraps.length) {
-                currentActive = wraps.length
-            }
-
-            update()
-        })
-
-        back.addEventListener('click', () => {
-            currentActive--
-            if(currentActive < 1) {
-                currentActive = 1
-            }
-
-            update()
-        })
-
-        function update() {
-            wraps.forEach((wrap, index) => {
-                if(index < currentActive) {
-                    wrap.classList.add('active')
-                } else {
-                    wrap.classList.remove('active')
-                }
-            })
-
-            const actives = document.querySelectorAll('.active')
-            progress.style.width = (actives.length - 1) / (wraps.length - 1)* 80 + '%'
-
-            if(currentActive === 1) {
-                back.disabled = true
-            } else if(currentActive === wraps.length) {
-                next.disabled = true
-            } else {
-                back.disabled = false
-                next.disabled = false
-            }
-        }
-    </script>
     <script>
         $(document).ready(function(){
             $('#message-form').submit(function(event){
@@ -260,7 +144,6 @@
                 });
             });
         });
-
         const fetchMessages = (test_id) => {
             $.ajax({
                 type: 'GET',
@@ -282,7 +165,25 @@
                 }
             });
         };
-
         setInterval(fetchMessages, 5000);
+    </script>
+    <script>
+        function updateDateTime() {
+            var now = new Date();
+            var year = now.getFullYear();
+            var month = now.getMonth() + 1; 
+            var day = now.getDate();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            var formattedDateTime = year + '-' + addLeadingZero(month) + '-' + addLeadingZero(day) + ' ' + 
+                                    addLeadingZero(hours) + ':' + addLeadingZero(minutes) + ':' + addLeadingZero(seconds);
+            document.getElementById('current-time').textContent = formattedDateTime;
+        }
+        function addLeadingZero(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
     </script>
 {% endblock script %}
