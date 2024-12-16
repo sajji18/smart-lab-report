@@ -22,13 +22,11 @@ def get_messages(request):
     messages = request.session.get('messages', [])
     return JsonResponse({'messages': messages})
 
-
 class customer_chatbot_view(TemplateView):
     template_name = 'docbot/customer_chatbot.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Add or override context data here
         context['english'] = True
         return context
 
@@ -62,32 +60,3 @@ class customer_chatbot_view(TemplateView):
             messages = request.session.get('messages', [])
             context = {'messages': messages}
             return render(request, 'docbot/customer_chatbot.html', context)
-
-
-    # def get(self, request):
-    #     return render(request, self.Template_view)
-
-    # def post(self, request):
-    #     if request.method == 'POST':
-    #         user = request.POST.get('input', False)
-    #         context = {"user": user, "bot": get_response(user)}
-    #     return render(request, self.Template_view, context)
-
-# @login_required(login_url='customerlogin')
-# def customer_dashboard_view(request):
-#     data = User.objects.get(user = request.user)
-#     dict = {
-#         'customer': User.objects.get(user_id=request.user.id),
-#         'dashboard' : True,
-#         'data' : data,
-
-#     }
-
-#     return render(request, 'docAI/customer_dashboard.html', context=dict)
-
-
-# @login_required
-# def customer_chatbot_view (request):
-#     return render(request, 'docAI/customer_chatbot.html')
-
-

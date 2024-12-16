@@ -2,7 +2,6 @@ from django.db import models
 from authentication.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
-# Create your models here.
 class Test(models.Model):
     BLOOD_TEST = 'blood'
     DIABETES_TEST = 'diabetes'

@@ -37,11 +37,11 @@
         border-radius: 8px;
     }
     .sent {
-        background-color: #DCF8C6; /* Light green */
+        background-color: #DCF8C6;
         float: right;
     }
     .received {
-        background-color: #FFFFFF; /* White */
+        background-color: #FFFFFF; 
         float: left;
     }
     .messages-section {
@@ -54,7 +54,6 @@
 
 {% block body %}
     {% if user.user_type == 'customer' or user.user_type == 'Customer' %}
-        {% comment %} -------------------CUSTOMER--------------------- {% endcomment %}
         <div class="message_test_div">
             <div class="projects-section" style="display: flex; justify-content: space-between; flex-direction: column; align-items: center; height: 85vh; padding: 20px;">
                 <div class="projects-section-header" style="display: flex; justify-content: space-between; width: 100%; column; align-items: center;">
@@ -139,8 +138,7 @@
                         if (response && response.content) {
                             var newMessage = '<div class="message sent">' + response.content + '</div>';
                             $('.message-container').append(newMessage);
-                            $('#message-input').val(''); // Clear input field
-                            // Scroll to the bottom of the message area
+                            $('#message-input').val('');
                             $('.message-container').scrollTop($('.message-container')[0].scrollHeight);
                         } else {
                             console.log(response)

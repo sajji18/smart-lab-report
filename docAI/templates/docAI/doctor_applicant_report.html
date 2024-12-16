@@ -305,10 +305,6 @@
                     <button class="btn" style="background-color: #4681f4;" id="preview_pdf" type=submit>Preview</button>
                 </div>
             {% endif %}
-                {% comment %} <div class="report_submit_buttons">
-                    <button class="btn" id="back" disabled>&larr; Back</button>
-                    <button class="btn" id="next">Next &rarr;</button>
-                </div> {% endcomment %}
             </div>
     </div>
 {% endblock body %}
@@ -373,31 +369,6 @@
                 }
             });
         });
-
-        /*
-        $('#next').click(function(event) {
-            console.log('Next button clicked');
-            const current_event = "next";
-            const test_id = {{ test.id }};  
-            const test_type = '{{ test.type }}';  
-            const receiver_id = {{ receiver.id }}; 
-            const url = `http://localhost:8000/doctor_applicant_report_status_update/event/${current_event}/test/${test_id}/type/${test_type}/applicant/${receiver_id}/`;
-            $.ajax({
-                type: 'PUT',
-                url: url,
-                data: {}, 
-                contentType: 'application/json',
-                success: function(data) {
-                    console.log('Form submitted successfully:', data);
-                    window.location.reload();
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error submitting form:', error);
-                }
-            });
-        });
-        */
-
         $('#back').click(function(event) {
             console.log('back button was clicked');
             const current_event = "back";
@@ -418,31 +389,12 @@
                 }
             });
         });
-        /*
         $('#preview_pdf').click(function (event) {
             console.log('Preview PDF Button was clicked');
             const test_id = {{ test.id }};
             const test_type = '{{ test.type }}';
             const receiver_id = {{ receiver.id }};
-            const url = `http://localhost:8000/pdf_file_preview/test/${test_id}/type/${test_type}/applicant/${receiver_id}/`;
-            $.ajax({
-                type: 'GET',
-                url: url,
-                success: function(data) {
-                    console.log('Form submitted successfully:', data);
-                    window.location.href = 'https://developer.chrome.com/';
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error submitting form:', error);
-                }
-            })
-        })
-        */
-        $('#preview_pdf').click(function (event) {
-            console.log('Preview PDF Button was clicked');
-            const test_id = {{ test.id }};
-            const test_type = '{{ test.type }}';
-            const receiver_id = {{ receiver.id }};
+            // const url = `http://localhost:8000/pdf_file_preview/test/${test_id}/type/${test_type}/applicant/${receiver_id}/`;
             const url = `http://localhost:8000/doctor_pdf_preview_page/test/${test_id}/type/${test_type}/applicant/${receiver_id}/`;
             $.ajax({
                 type: 'GET',
@@ -459,7 +411,6 @@
             })
         })
     </script>
-
     <script>
         const progress = document.getElementById('progress')
         const back = document.getElementById('back')

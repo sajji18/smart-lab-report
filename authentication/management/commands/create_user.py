@@ -3,7 +3,12 @@ from authentication.models import User
 
 class Command(BaseCommand):
     help = 'Create a user with a hashed password'
-
+    '''
+        Fuction: handle
+        Parameters: self, *args, **options
+        Return: None
+        Description: Creates a doctor account with the given credentials
+    '''
     def handle(self, *args, **options):
         username = input('Enter username: ')
         email = input('Enter email address: ')

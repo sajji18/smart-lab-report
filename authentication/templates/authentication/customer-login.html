@@ -30,18 +30,12 @@
                     <input type="submit" value="Sign in">
                 </div>
             </form>
-            {% comment %} <form id="google-oauth-form" class="google_oauth_form">
-                {% csrf_token %}
-                <button id="google-login-button" type="button">Login with Google</button>
-            </form> {% endcomment %}
             {% get_providers as socialaccount_providers %}
-
             {% if socialaccount_providers %}
                 <div class="socialaccount_providers">
                     {% include "socialaccount/snippets/provider_list.html" with process="login" %}
                 </div>
             {% endif %} 
-
             <div class="links">
                 <a href="#">Forgot Password</a>
                 <a href="{% url 'signup' %}">Sign up</a>
@@ -49,42 +43,3 @@
         </div>
     </div>
 {% endblock body %}
-
-{% comment %} {% block script %}
-    <script src="https://apis.google.com/js/platform.js?onload=initializeGoogleAPI" async defer></script>
-    <script>
-        function initializeGoogleAPI() {
-            gapi.load('auth2', function () {
-                gapi.auth2.init({
-                    client_id: '397515462402-8mbk8510pc5mk8pdrlfv1vie7r0esst1.apps.googleusercontent.com',
-                    redirect_uri: 'http://127.0.0.1:8000/accounts/google/login/callback/',
-                    scope: 'email'
-                });
-            });
-        }
-
-        function signInWithGoogle() {
-            var auth2 = gapi.auth2.getAuthInstance();
-            auth2.signIn().then(function (googleUser) {
-                var id_token = googleUser.getAuthResponse().id_token;
-                sendIdTokenToBackend(id_token);
-            });
-        }
-
-        document.getElementById('google-login-button').addEventListener('click', signInWithGoogle);
-
-        function sendIdTokenToBackend(id_token) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/google/callback/', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    window.location.href = '/dashboard/';
-                } else {
-                    window.location.href = '/login/';
-                }
-            };
-            xhr.send('id_token=' + encodeURIComponent(id_token));
-        }
-    </script>
-{% endblock script %} {% endcomment %}

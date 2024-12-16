@@ -11,11 +11,17 @@ from google.oauth2 import id_token
 from google.auth.transport import requests
 # from backend.settings import GOOGLE_CLIENT_ID
 
-# Create your views here.
 @unauthenticated_user
 def home(request):
     return render(request, 'authentication/home.html')
 
+'''
+    Fuction: signup
+    Parameters: request
+    Request Body: {username, password, email}
+    Return: render
+    Description: Creates an account (Only for Customer) with the given credentials and logs the user in
+'''
 @unauthenticated_user
 def signup(request):
     if request.method == 'POST':
@@ -28,6 +34,13 @@ def signup(request):
     else:
         return render(request, 'authentication/signup.html')
 
+'''
+    Function: customer_login
+    Parameters: request
+    Request Body: {username, password}
+    Return: render
+    Description: Logs in the customer with the given credentials
+'''
 @unauthenticated_user
 def customer_login(request):
     if request.method == 'POST':
@@ -43,6 +56,13 @@ def customer_login(request):
     else:
         return render(request, 'authentication/customer-login.html')
 
+'''
+    Function: doctor_login
+    Parameters: request
+    Request Body: {username, password}
+    Return: render
+    Description: Logs in the doctor with the given credentials
+'''
 @unauthenticated_user
 def doctor_login(request):
     if request.method == 'POST':
@@ -58,25 +78,6 @@ def doctor_login(request):
     else:
         return render(request, 'authentication/doctor-login.html')    
 
-# def google_callback(request):
-#     tkn = request.POST['id_token']
-#     print(tkn)
-#     if 'id_token' not in request.POST:
-#         return redirect('login')
-    
-#     token = request.POST['id_token']
-#     try:
-#         id_info = id_token.verify_oauth2_token(token, requests.Request(), GOOGLE_CLIENT_ID)
-#         email = id_info['email']
-#         user = User.objects.filter(email=email).first()
-#         if not user:
-#             user = User.objects.create_user(email=email)
-#         login(request, user)
-#         return redirect('dashboard')
-
-#     except Exception as e:
-#         print(e)
-#         return redirect('login')
 
 @login_required
 def logout_view(request):
