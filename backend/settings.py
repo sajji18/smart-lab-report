@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
+import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -203,8 +204,14 @@ LOGOUT_REDIRECT_URL = "home"
 
 AUTH_USER_MODEL = 'authentication.User'
 
-GOOGLE_CLIENT_ID = '397515462402-8mbk8510pc5mk8pdrlfv1vie7r0esst1.apps.googleusercontent.com'
-GOOGLE_REDIRECT_URL = 'http://localhost:8000/accounts/google/login/callback/'
+
+SECRETS_JSON = os.path.join(BASE_DIR, 'secrets.json')
+
+with open(SECRETS_JSON) as file:
+    SECRET = json.load(file)
+
+GOOGLE_CLIENT_ID = SECRET['web']['client_id']
+GOOGLE_REDIRECT_URL = SECRET['web']['redirect_uris'][0]
 
 # Media URL
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
