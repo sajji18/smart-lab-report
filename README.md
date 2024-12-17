@@ -29,15 +29,21 @@ DocAI streamlines the report-making process by automating key tasks while ensuri
 To use DocAI, follow these steps:
 1. Clone this repository.
 ```bash
-  git clone https://github.com/sajji18/TinkerQuest-24.git
+  git clone https://github.com/sajji18/smart-lab-report.git
 ```
-2. Install the required dependencies using `pip install -r requirements.txt`.
-3. Set up your Google OAuth credentials.
-4. To create an admin user run `python manage.py createsuperuser`.
-5. To create a doctor account run `python manage.py create_user`.
-6. Run the Django development server: `python manage.py runserver`.
-7. Access the application at
-`http://localhost:8000`.
+2. Setup virtual enviroment with: `python -m venv <env_name>` and activate it using `source <env_name>/Scripts/activate` on bash. Now, Install the required dependencies using `pip install -r requirements.txt`.
+3. Set up your Google OAuth credentials from the Google API Console and download the required secrets.json. Create your own `secrets.json` in the base directory and exactly follow the .example.secret.json for format.
+4. Create an admin superuser account from terminal with `python manage.py createsuperuser`.
+5. Go to `http://localhost:8000/admin`, and log in using the superuser credentials.
+6. From the sites option in the left sidebar, create a new site with:  `domain name: localhost:8000` and `display name: localhost`.
+7. Now from social applications option in the left sidebar, create a new application: Set `Provider: Google`, `name` as you wish, YOUR `client_id`, `client_secret` and add the previously create site from `available sites` to `chosen sites`.
+8. Create a doctor account from terminal with `python manage.py create_user`.
+9. Now from Test option in the left sidebar, create a new test: (Either Blood Test or Diabetes Test) using the previously created doctor account of your choice.
+10. Run the Django development server from the terminal: `python manage.py runserver`.
+11. Access the application at: `http://localhost:8000`.
+12. Create and log into a new customer account.
+13. Now again in the admin dashboard, `http://localhost:8000/admin`, create a Test Application from left sidebar (Means User Applied for a Test), for the previously created customer account with the tests created by the doctor.
+14. Now you can operate from the web app only.
 
 ## 📖 Video Demonstration and Presentation
 
@@ -49,11 +55,11 @@ To use DocAI, follow these steps:
 
 **Client/FrontEnd:**
 
-- Django: Our web application framework of choice for building the frontend.
+- Django: Our web application framework of choice for building the backend.
 
 - Ajax: Used for asynchronous communication between the client and server, enhancing the user experience.
 
-- Sqllite3: The lightweight database engine, suitable for development and testing purposes.
+- Sqlite3: The lightweight database engine, suitable for development and testing purposes.
 
 - Google OAuth2: For secure authentication and authorization of users.
 
@@ -90,7 +96,7 @@ To use DocAI, follow these steps:
 | Dark Mode Theme | Unplanned     | Could be Better               |
 | NLP/bot optimization | Research     | Could be Better               |
 | Bearable Value Visualisation | Unplanned     | Didnt Apply             |
-| Report Generation and export | Planned     | Didnt apply              |
+| Report Generation and export | Planned     | Decent             |
 
 
 
@@ -98,14 +104,13 @@ To use DocAI, follow these steps:
 
 - Database and Chart Compatibility: Designing the database beforehand can often be found a good practice and we found it the hard way.
 - Chart Integration: Dash was the first time we used , hence the integration of the Chart utility could have been better if we had known its use better
-- Route Protection: We could have used React to enhance the UI but integration seemed a bit tiresome since we wanted to use django
+- Visual Appeal: We could have used React to enhance the UI but integration seemed a bit tiresome since we wanted to use django
 - Dark Mode theme: An Additional utility like this could be easily added using React
 - NLP Optimization: could be easier with the use of newer methods or by using llama 7b however , we wanted to work it out from scratch
 - Bearable Value Visualisation: Customisable Values to have a better showcase of limited or range of values that are normal for health could be added , customising this would be easier in react
-- Report generation : Due to loss of time , pdf was not generated from the HTML , this can be added later
 
 
 
 ## ✨ Contributors-
-- [Siddhant Gupta](https://github.com/SidWorks01) , PnI 2nd year
- - [Sajal Chauhan](https://github.com/sajji18) , PnI 2nd year
+- [Siddhant Gupta](https://github.com/SidWorks01)
+- [Sajal Chauhan](https://github.com/sajji18)

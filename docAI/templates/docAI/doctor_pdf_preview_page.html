@@ -53,7 +53,7 @@
 
 {% block body %}
     <div class="parent_container">
-        <div class="report_area">
+        <div class="report_area" style="overflow-y: hidden; overflow-x: hidden;">
             <div style="padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; width: 100%; background-color: #f2f2f2; border-radius: 8px;">
                 <span style="text-decoration: underline; font-size: 30px; align: center; font-weight: 700;">DocAI Report ({{ test.type }} test) </span>
                 <div style="height: 80px; width: 80px;">
@@ -67,7 +67,7 @@
                 <table style="text-align: center; width: 100%;">
                     <thead>
                         <tr>
-                            <th class="report_data_table_head" style="width: 50%; text-align: center;">Include/Exclude</th>
+                            <th class="report_data_table_head" style="width: 50%; text-align: center;">Field</th>
                             <th class="report_data_table_head" style="width: 50%; text-align: center;">Information</th>
                         </tr>
                     </thead>
@@ -125,7 +125,7 @@
                 <table style="text-align: center; width: 100%;">
                     <thead>
                         <tr>
-                            <th class="report_data_table_head" style="width: 50%; text-align: center;">Include/Exclude</th>
+                            <th class="report_data_table_head" style="width: 50%; text-align: center;">Field</th>
                             <th class="report_data_table_head" style="width: 50%; text-align: center;">Information</th>
                         </tr>
                     </thead>
@@ -203,7 +203,7 @@
             <div style="display: flex; justify-content: center; align-items: center; width: 100%; border-bottom: 1px solid black;">
                 <h1>Remarks</h1>
             </div>
-            <div style="padding: 20px;">
+            <div style="padding: 20px 0 100px 0;">
                 {% if report.remarks == '' %}
                     <span>Remarks are not provided by the Doctor</span>
                 {% else %}
